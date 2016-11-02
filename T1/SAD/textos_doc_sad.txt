@@ -1,0 +1,171 @@
+##### Functional View #####
+
+***** View Description *****
+
+O diagrama "Functional View" ilustra o conjunto de interações possíveis entre o sistema e o utilizador. 
+
+***** Primary Representation *****
+
+<imagem T1 > Diagramas > Functional View > Astah > functional_view.jpg>
+
+***** Element Catalog *****
+
+- Elements
+	- User : O utilizador do sistema
+
+- Relations
+	- Não existem
+
+- Interfaces
+	- Não existem
+
+***** Context Diagram *****
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+##### Context Diagram View #####
+
+***** View Description *****
+
+O diagrama "Context View" representa uma vista de alto nível do sistema, ilustrando as relações do mesmo com entidades externas.
+
+***** Primary Representation *****
+
+<imagem T1 > Diagramas > Context Diagram > Astah > context_diagram.jpg>
+
+***** Element Catalog *****
+
+- Elements
+	- User : O utilizador do sistema
+	- iStat : O sistema e o servidor
+	- Utilities : Graph API (?)
+
+- Relations
+	- Não existem
+
+- Interfaces
+	- Não existem
+
+***** Context Diagram *****
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+##### High-level Module Decomposition & Uses View #####
+
+***** View Description *****
+
+A nossa aplicação troca dados com servidor através de pedidos http, e este, por sua vez, comunica com a base de dados por uma Entity Framework. 
+
+***** Primary Representation *****
+
+<imagem T1 > Diagramas > High-level Module Decomposition & Uses View  > Astah > use_decomposition_view.jpg>
+
+***** Element Catalog *****
+
+- Elements
+	- iStat.com : A nossa aplicação, que vai correr num browser
+	- iStat.com/api : O nosso servidor
+	- iStatDB : A nossa base de dados
+	- UtilsGraph : Biblioteca externa para a geração de gráficos
+	- UtilsInOut : Biblioteca externa para a importação e exportação de diversos tipos de ficheiros de dados
+
+- Relations
+	- iStat.com > UtilsGraph : A nossa aplicação interage com uma biblioteca externa para a criação de gráficos
+	- iStat.com > iStat.com/api : A nossa aplicação interage com o servidor via browser, usando pedidos http
+	- iStat.com/api > UtilsInOut : O nosso servidor interage com uma biblioteca externa para a importação e exportação de ficheiros de dados
+	- iStat.com/api > iStatDB : O nosso servidor interage com a base de dados para tratamento de dados
+
+- Interfaces
+	- Não existem
+
+***** Context Diagram *****
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+##### High-level C&C View #####
+
+***** View Description *****
+
+***** Primary Representation *****
+
+<imagem T1 > Diagramas > C&C > Astah > c&c.jpg>
+
+***** Element Catalog *****
+
+- Elements
+	- iStat.com : A nossa aplicação, que vai correr num browser
+	- iStat.com/api : O nosso servidor
+	- iStatDB : A nossa base de dados
+
+- Relations
+	- iStat.com > iStat.com/api : A nossa aplicação interage com o servidor, usando pedidos http
+	- iStat.com > ? : A nossa aplicação interage com uma biblioteca externa para a criação de gráficos
+	- iStat.com/api > iStatDB : O nosso servidor interage com a base de dados para tratamento de dados, usando pedidos jdbc
+	- iStat.com/api > ? : O nosso servidor interage com uma biblioteca externa para a importação e exportação de ficheiros de dados
+
+- Interfaces
+	- CalcService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
+	- TransformService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
+	- DataSetService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
+	- ImportService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
+	- ExportService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
+	- GraphService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
+	- IOService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
+
+***** Context Diagram *****
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+##### Module Layered #####
+
+***** View Description *****
+
+***** Primary Representation *****
+
+<imagem T1 > Diagramas > Module Layer > Astah > module_layer_diagram.jpg>
+
+***** Element Catalog *****
+
+- Elements
+	- iStat.com : 
+	- iStatDB :
+	- iStat.com/api:
+		- iServices :
+		- iBLL :
+		- iDAL :
+
+- Relations
+	- iStat.com > iStat.com/api :
+	- iServices > iBLL :
+	- iBLL > iDAL :
+	- iDAL > iStatDB :
+
+- Interfaces
+	- Não existem
+
+***** Context Diagram *****
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+##### Deployment View #####
+
+***** View Description *****
+
+***** Primary Representation *****
+
+<imagem T1 > Diagramas > Deployment View > Astah > deployment_view.jpg>
+
+***** Element Catalog *****
+
+- Elements
+	- iStat.com :
+	- iStat/api :
+	- iStatDB :
+
+- Relations
+	- browser > linux (?)
+
+- Interfaces
+	- Não existem
+
+***** Context Diagram *****

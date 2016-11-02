@@ -18,6 +18,10 @@
 
 - Naturalmente não apaguei nenhum dos diagramas da Carolina porque até podemos conseguir arranjar alguma resolução para os problemas que referi antes. Para não atrasar, os diagramas que ela tinha feito foram igualmente criados com o Astah.
 
+- Relativamente ao documento SAD, optei por criar um ficheiro de texto com a mesma estrutura do documento, onde fui colocando lá alguns textos para ficarmos com uma visão geral da coisa. Assim, no final, apenas um de nós mexer no documento. Os textos que escrevi precisam claramente de uma revisão!!
+
+(Usem o SublimeText para ficar tudo formatado)
+
 -- Autor : Manuel Correia --
 
 ***** <dia da semana>, <dia> de <mês> de <ano> *****
