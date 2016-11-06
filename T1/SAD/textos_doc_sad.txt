@@ -2,7 +2,7 @@
 
 ***** View Description *****
 
-O diagrama "Functional View" ilustra o conjunto de interações possíveis entre o sistema e o utilizador. 
+EN: The functional view is the easiest view for stakeholders to understand. This view defines the architectural elements that deliver the system's functionality. The goal is to specifie what is really architectural relevant, or in other words, what has a visible impact on stakeholders. As the rules says, our focus was to select, from the use cases given, the ones that were relevant for the system architectural and we agree that was important to refer the transformations, the calculations and finally, the import/export of a dataset to different type of files.
 
 ***** Primary Representation *****
 
@@ -11,7 +11,7 @@ O diagrama "Functional View" ilustra o conjunto de interações possíveis entre
 ***** Element Catalog *****
 
 - Elements
-	- User : O utilizador do sistema
+	- User : Our application user
 
 - Relations
 	- Não existem
@@ -27,7 +27,8 @@ O diagrama "Functional View" ilustra o conjunto de interações possíveis entre
 
 ***** View Description *****
 
-O diagrama "Context View" representa uma vista de alto nível do sistema, ilustrando as relações do mesmo com entidades externas.
+EN: A context diagram view is a high level view of a system and defines the boundary between the system, or part of it, and its environment, showing the 	 entities that interact with it. 
+	In our diagram the user of the application is represented and it interacts with the "iStat", which means the application and the server. In turn, the server communicates with external libraries, agregated in the component named "Utilities". 
 
 ***** Primary Representation *****
 
@@ -36,9 +37,9 @@ O diagrama "Context View" representa uma vista de alto nível do sistema, ilustr
 ***** Element Catalog *****
 
 - Elements
-	- User : O utilizador do sistema
-	- iStat : O sistema e o servidor
-	- Utilities : Graph API (?)
+	- User : Our application user
+	- iStat : Our application and server
+	- Utilities : Our Graph API external library
 
 - Relations
 	- Não existem
@@ -54,10 +55,9 @@ O diagrama "Context View" representa uma vista de alto nível do sistema, ilustr
 
 ***** View Description *****
 
-EN: A high-level module decomposition & uses view it's about partitionating the system into parts that are easier to conceive, understand, program and maintain.
-	
-
-A nossa aplicação troca dados com servidor através de pedidos http, e este, por sua vez, comunica com a base de dados por jdbc. 
+EN: A high-level module decomposition & uses view its about partitionating the system into parts that are easier to conceive, understand, program and 
+	maintain. Giving independence to the components, they can be simply replaced by others, keeping the system working.
+	Our web application communicates with the server through http requests, and this one interacts with the dabase by jdbc requests. Finally, both application and server uses external API's to create graphs and import/export data files, respectively.
 
 ***** Primary Representation *****
 
@@ -69,13 +69,13 @@ A nossa aplicação troca dados com servidor através de pedidos http, e este, p
 	- iStat.com : Our application, that is going to run in a browser 
 	- iStat.com/api : Our server
 	- iStatDB : Our database
-	- UtilsGraph : External librarie to create graphs Biblioteca externa para a geração de gráficos
-	- UtilsInOut : External librarie to import and export different types of data files
+	- UtilsGraph : External library to draw graphs 
+	- UtilsInOut : External library to import and export different types of data files
 
 - Relations
-	- iStat.com > UtilsGraph : Our application interacts with an external librarie to create graphs
+	- iStat.com > UtilsGraph : Our application interacts with an external library to create graphs
 	- iStat.com > iStat.com/api : Our application interacts with the server from a browser, using http requests
-	- iStat.com/api > UtilsInOut : Our server interacts with an external librarie to import and export data files
+	- iStat.com/api > UtilsInOut : Our server interacts with an external library to import and export data files
 	- iStat.com/api > iStatDB : Our server interacts with the database for data persistence
 
 - Interfaces
@@ -91,7 +91,7 @@ A nossa aplicação troca dados com servidor através de pedidos http, e este, p
 
 EN: A high-level C&C view enable us to see the system as a collection of runtime entities called components. During execution, the components need to 
 	interact with others to support the system services. This interaction is provided by connectors.
-	Our view is mainly composed by three components: the application "iStat.com", the server "iStat.com/api" and the database "iStatDB". The application interacts with the server by five different connectors, each one of them using a unique interface, but they all comunicate using http requests. Finally, the server comunicates with the dabase using jdbc requests. 
+	Our view is mainly composed by three components: the application "iStat.com", the server "iStat.com/api" and the database "iStatDB". The application interacts with the server by five different connectors, each one of them using a unique interface, but they all comunicate using http requests. Finally, the server communicates with the database using jdbc requests. 
 
 ***** Primary Representation *****
 
@@ -128,7 +128,7 @@ EN: A high-level C&C view enable us to see the system as a collection of runtime
 ***** View Description *****
 
 EN: A module layered diagram describes the architecture of the code, giving to us an overview of the components and also the relations and dependencies 	between them.
-	Our sistem is mainly composed by three layers. The "iStat.com" layer knows the "iStat.com/api" layer, which agregates three segments. The first, nomenated "iServices" contains the interfaces consumed by the services and he knows the "iBLL" segment. This one is responsible for the business logic and it knows the "iDAL" segment, where the data is going to be manipulated. Finally, this last one is connected to the "iStatDB" layer, responsible for the data persistence.  
+	Our sistem is mainly composed by three layers. The "iStat.com" layer knows the "iStat.com/api" layer, which agregates three segments. The first, named "iServices" contains the interfaces consumed by the services and he knows the "iBLL" segment. This one is responsible for the business logic and it knows the "iDAL" segment, where the data is going to be manipulated. Finally, this last one is connected to the "iStatDB" layer, responsible for the data persistence.  
 
 ***** Primary Representation *****
 
