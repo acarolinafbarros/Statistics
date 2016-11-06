@@ -54,7 +54,10 @@ O diagrama "Context View" representa uma vista de alto nível do sistema, ilustr
 
 ***** View Description *****
 
-A nossa aplicação troca dados com servidor através de pedidos http, e este, por sua vez, comunica com a base de dados por uma Entity Framework. 
+EN: A high-level module decomposition & uses view it's about partitionating the system into parts that are easier to conceive, understand, program and maintain.
+	
+
+A nossa aplicação troca dados com servidor através de pedidos http, e este, por sua vez, comunica com a base de dados por jdbc. 
 
 ***** Primary Representation *****
 
@@ -63,17 +66,17 @@ A nossa aplicação troca dados com servidor através de pedidos http, e este, p
 ***** Element Catalog *****
 
 - Elements
-	- iStat.com : A nossa aplicação, que vai correr num browser
-	- iStat.com/api : O nosso servidor
-	- iStatDB : A nossa base de dados
-	- UtilsGraph : Biblioteca externa para a geração de gráficos
-	- UtilsInOut : Biblioteca externa para a importação e exportação de diversos tipos de ficheiros de dados
+	- iStat.com : Our application, that is going to run in a browser 
+	- iStat.com/api : Our server
+	- iStatDB : Our database
+	- UtilsGraph : External librarie to create graphs Biblioteca externa para a geração de gráficos
+	- UtilsInOut : External librarie to import and export different types of data files
 
 - Relations
-	- iStat.com > UtilsGraph : A nossa aplicação interage com uma biblioteca externa para a criação de gráficos
-	- iStat.com > iStat.com/api : A nossa aplicação interage com o servidor via browser, usando pedidos http
-	- iStat.com/api > UtilsInOut : O nosso servidor interage com uma biblioteca externa para a importação e exportação de ficheiros de dados
-	- iStat.com/api > iStatDB : O nosso servidor interage com a base de dados para tratamento de dados
+	- iStat.com > UtilsGraph : Our application interacts with an external librarie to create graphs
+	- iStat.com > iStat.com/api : Our application interacts with the server from a browser, using http requests
+	- iStat.com/api > UtilsInOut : Our server interacts with an external librarie to import and export data files
+	- iStat.com/api > iStatDB : Our server interacts with the database for data persistence
 
 - Interfaces
 	- Não existem
@@ -86,6 +89,10 @@ A nossa aplicação troca dados com servidor através de pedidos http, e este, p
 
 ***** View Description *****
 
+EN: A high-level C&C view enable us to see the system as a collection of runtime entities called components. During execution, the components need to 
+	interact with others to support the system services. This interaction is provided by connectors.
+	Our view is mainly composed by three components: the application "iStat.com", the server "iStat.com/api" and the database "iStatDB". The application interacts with the server by five different connectors, each one of them using a unique interface, but they all comunicate using http requests. Finally, the server comunicates with the dabase using jdbc requests. 
+
 ***** Primary Representation *****
 
 <imagem T1 > Diagramas > C&C > Astah > c&c.jpg>
@@ -93,24 +100,24 @@ A nossa aplicação troca dados com servidor através de pedidos http, e este, p
 ***** Element Catalog *****
 
 - Elements
-	- iStat.com : A nossa aplicação, que vai correr num browser
-	- iStat.com/api : O nosso servidor
-	- iStatDB : A nossa base de dados
+	- iStat.com : Our application, that is going to run in a browser 
+	- iStat.com/api : Our server
+	- iStatDB : Our database
 
 - Relations
-	- iStat.com > iStat.com/api : A nossa aplicação interage com o servidor, usando pedidos http
-	- iStat.com > ? : A nossa aplicação interage com uma biblioteca externa para a criação de gráficos
-	- iStat.com/api > iStatDB : O nosso servidor interage com a base de dados para tratamento de dados, usando pedidos jdbc
-	- iStat.com/api > ? : O nosso servidor interage com uma biblioteca externa para a importação e exportação de ficheiros de dados
+	- iStat.com > iStat.com/api : Our application interacts with the server, using http requests
+	- iStat.com > ? : Our application interacts with an extern librarie to create graphs
+	- iStat.com/api > iStatDB : Our server interacts with de databse for data persistence, using jdbc requests
+	- iStat.com/api > ? : Our server interacts with an extern librarie to import and export data files
 
 - Interfaces
-	- CalcService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
-	- TransformService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
-	- DataSetService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
-	- ImportService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
-	- ExportService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
-	- GraphService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
-	- IOService : Fornece uma interface para a comunicação entre a aplicação e o servidor, por via de pedidos http
+	- CalcService : Gives an interface for the application comunicate with the server, using http requests 
+	- TransformService : Gives an interface for the application comunicate with the server, using http requests
+	- DataSetService : Gives an interface for the application comunicate with the server, using http requests
+	- ImportService : Gives an interface for the application comunicate with the server, using http requests
+	- ExportService : Gives an interface for the application comunicate with the server, using http requests
+	- GraphService : Gives an interface for the application comunicate with the server, using http requests
+	- IOService : Gives an interface for the application comunicate with the server, using http requests
 
 ***** Context Diagram *****
 
@@ -120,6 +127,9 @@ A nossa aplicação troca dados com servidor através de pedidos http, e este, p
 
 ***** View Description *****
 
+EN: A module layered diagram describes the architecture of the code, giving to us an overview of the components and also the relations and dependencies 	between them.
+	Our sistem is mainly composed by three layers. The "iStat.com" layer knows the "iStat.com/api" layer, which agregates three segments. The first, nomenated "iServices" contains the interfaces consumed by the services and he knows the "iBLL" segment. This one is responsible for the business logic and it knows the "iDAL" segment, where the data is going to be manipulated. Finally, this last one is connected to the "iStatDB" layer, responsible for the data persistence.  
+
 ***** Primary Representation *****
 
 <imagem T1 > Diagramas > Module Layer > Astah > module_layer_diagram.jpg>
@@ -128,14 +138,14 @@ A nossa aplicação troca dados com servidor através de pedidos http, e este, p
 
 - Elements
 	- iStat.com : 
-	- iStatDB :
-	- iStat.com/api:
-		- iServices :
-		- iBLL :
-		- iDAL :
+	- iStatDB : Responsible for data persistence
+	- iStat.com/api
+		- iServices : Contains the interfaces consumed by the services
+		- iBLL : Responsible for the business logic
+		- iDAL : Responsible for the data manipulation
 
 - Relations
-	- iStat.com > iStat.com/api :
+	- iStat.com > iStat.com/api : 
 	- iServices > iBLL :
 	- iBLL > iDAL :
 	- iDAL > iStatDB :
@@ -150,6 +160,11 @@ A nossa aplicação troca dados com servidor através de pedidos http, e este, p
 ##### Deployment View #####
 
 ***** View Description *****
+
+EN: A deployment diagram describes the system architecture in terms of hardware and its relationship with the different components (software).
+	We have two main nodes, one of them is the user client application and the other is our Linux server. 
+	The application runs in a browser, which can be any browser, and it communicates with our Linux server by http requests.
+	Finally, our Linux server contains two components, an API based on Java and a MongoDB database. 
 
 ***** Primary Representation *****
 

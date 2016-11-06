@@ -27,3 +27,16 @@
 ***** <dia da semana>, <dia> de <mês> de <ano> *****
 
 -- Autor(a) : <nome> --
+
+
+
+- SAD não tem mal estar em português, mas prof disse "não vos faz mal nenhum treinar o inglês"
+
+- Single Page Aplication (Slide Connecting the dots)
+
+(Cliente)
+browser 		-------> 	web server
+Model			  DTO 		Resource
+View			JSON/XML
+Controller
+
