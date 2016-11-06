@@ -9,14 +9,16 @@
 - Usei então o Astah, com a licença de estudante. Não é tão intuitivo como o StarUML mas tem todas as funcionalidades que precisamos.
 
 - No diagrama C&C:
- 	- Não consegui mudar o root de <<cmp>> para <<iStat>> (e ainda tive uns bons minutos nisto). Se depois algum de vocês descobrir é só alterar no ficheiro ou então alterar no paint xD Também existe a possibilidade de não colocar aquela moldura que representa o sistema.
+ 	- Não consegui mudar o root de <<cmp>> para <<iStat>> (e ainda tive uns bons minutos nisto). Se depois algum de vocês descobrir é só alterar no ficheiro ou então alterar no paint xD Também existe a possibilidade de não colocar aquela moldura que representa o sistema. [SOLVED] -> É necessário criar subsystems para colocar os diagramas, depois explico isto, o melhor teria sido criar todos os diagramas no mesmo project. Mas agora não vale a pena mudar ;)
 
 - No diagrama de deployment:
-	- Não assume aqueles dois traços na box (que torna as coisas componentes)
-	- Obriga a dar um nome ao componente <<linux>> (temporariamente chamei-lhe servidor)
-	- Falta definir que base de dados vamos usar para atualizar o diagrama
+	- Não assume aqueles dois traços na box (que torna as coisas componentes) - [SOLVED] - Isso acho que esta correto, porque são nodes em UML, não tem que ser components, não fazem parte de components da nossa arquitetura.
+		- Podem ver aqui: https://en.wikipedia.org/wiki/Node_(UML)
+		
+	- Obriga a dar um nome ao componente <<linux>> (temporariamente chamei-lhe servidor) - [SOLVED] - Só podes aplicar um namespace a cada component, como colocaste " " consegues com isto "  ".
+	- Falta definir que base de dados vamos usar para atualizar o diagrama - [SOLVED] - Este já não esta definido como MongoDB?
 
-- Naturalmente não apaguei nenhum dos diagramas da Carolina porque até podemos conseguir arranjar alguma resolução para os problemas que referi antes. Para não atrasar, os diagramas que ela tinha feito foram igualmente criados com o Astah.
+- Naturalmente não apaguei nenhum dos diagramas da Carolina porque até podemos conseguir arranjar alguma resolução para os problemas que referi antes. Para não atrasar, os diagramas que ela tinha feito foram igualmente criados com o Astah. [SOLVED]
 
 - Relativamente ao documento SAD, optei por criar um ficheiro de texto com a mesma estrutura do documento, onde fui colocando lá alguns textos para ficarmos com uma visão geral da coisa. Assim, no final, apenas um de nós mexer no documento. Os textos que escrevi precisam claramente de uma revisão!!
 
