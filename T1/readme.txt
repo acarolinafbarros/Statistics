@@ -22,15 +22,7 @@
 
 - Relativamente ao documento SAD, optei por criar um ficheiro de texto com a mesma estrutura do documento, onde fui colocando lá alguns textos para ficarmos com uma visão geral da coisa. Assim, no final, apenas um de nós mexer no documento. Os textos que escrevi precisam claramente de uma revisão!!
 
-(Usem o SublimeText para ficar tudo formatado)
-
--- Autor : Manuel Correia --
-
-***** <dia da semana>, <dia> de <mês> de <ano> *****
-
--- Autor(a) : <nome> --
-
-
+(Anotações aula teórica)
 
 - SAD não tem mal estar em português, mas prof disse "não vos faz mal nenhum treinar o inglês"
 
@@ -41,4 +33,46 @@ browser 		-------> 	web server
 Model			  DTO 		Resource
 View			JSON/XML
 Controller
+
+(Usem o SublimeText para ficar tudo formatado)
+
+-- Autor : Manuel Correia --
+
+***** Quarta-feira, 9 de Novembro de 2016 *****
+
+- Package "client" :
+
+	- Diagrama de Sequência "iStat.com" :
+		- Não dá para adicionar o "cell" do "CalcController" para "iStatView"
+
+	- Diagrama de Classes "client_class_diagram" :
+		- Classe "CalcController" :
+			- Não dá para adicionar o "input" e o "request" sem adicionar o tipo de dados
+		- Classe "Cell" :
+			- O mesmo problema para "value". Escrevi javascript só para verem que obriga a ter algo lá, como é óbvio não pode ficar lá escrito isto
+
+- Package "backend" :
+
+	- Diagrama de Sequência "iStat.com/api" :
+		- Não dá para adicionar o "response" do "IStatCalc" para "iStat : iStat.com"
+		- É para escrever "IStatCalc" ou "iStatCalc" ? (Porque no diagrama de seq do client escrevemos "iStatView")
+
+	- Diagrama de Classes "backend_class_diagram" :
+		- Classe "IStatCalc" :
+			- Não dá para adicionar o "request"
+			- Se o nome se alterar, aqui também tem de mudar
+	- Classe "CalcService" :
+			- Não dá para adicionar o "list <int> input"
+
+- Adicionei as imagens de ontem com os mesmos nomes e a mesma estrutra de pastas, para ser mais fácil ver os problemas que estou a relatar
+
+- Mal possam façam a revisão, para a Carolina poder colocar tudo no documento SAD. E pf não se esqueçam de rever o documento SAD, pode ser preciso melhorar o inglês ou detalhar mais as coisas
+
+-- Autor : Manuel Correia --
+
+***** <dia da semana>, <dia> de <mês> de <ano> *****
+
+-- Autor(a) : <nome> --
+
+
 
