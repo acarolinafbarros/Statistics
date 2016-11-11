@@ -184,3 +184,68 @@ EN: A deployment diagram describes the system architecture in terms of hardware 
 	- Não existem
 
 ***** Context Diagram *****
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+2.1.3 - Descrição sumaria dos casos de usos escolhidos com impacto na arquitectura
+
+PT:
+
+Na avaliação dos casos de uso fornecidos, para esta fase do trabalho tomámos em consideração os que teriam um maior impacto do ponto de vista da arquitetura do sistema. Assim sendo, optamos por descrever três casos de usos: o cálculo do dataset, que engloba todas as operações possíveis de realizar,
+desde o cálculo da média até ao standard deviation; o save do dataset, que simboliza o processo de guardar um dataset (localmente ou para a base de dados ?); por fim, considerámos relevante descrever o processo de import/export do dataset uma vez que recorremos a uma biblioteca externa para conversão, exportação e importação de diferentes tipos de ficheiros.
+
+EN:
+
+During the evaluation of the use cases provided, for this phase of the work we took into account those that would have a greater impact from the point of view of the architecture of the system. Thus, we chose to describe three use cases: the calculation of the dataset, which includes all possible operations, from median to standard deviation calculation; the save of the dataset, which symbolizes the process of saving a dataset (locally or for the database?); finally, we considered relevant to describe the import/export process of the dataset since we used an external library for conversion, export and import of different types of files.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+4.1 Use Case 1: Calculate Median
+4.1.1 View Description
+
+PT:
+
+Ao longo desta subsecção vamos descrever o caso de uso "Calculate dataset", especificamente para o cálculo da média, que pode ser aplicado tanto a uma coluna, como a uma linha ou mesmo a um entire dataset. Optamos por fazer três diagramas de sequência: o primeiro mostra a interação da aplicação cliente com o backend; o segundo apenas a interação na parte da aplicação cliente; e o último a interação na parte do backend. Por cada diagrama de sequência retratado foi criado o respetivo diagrama de classes. Neste caso, os diagramas de classes já contemplam as operações relativas a outros tipos de cálculos possíveis de realizar.
+
+EN:
+
+Throughout this subsection we will describe the use case "Calculate dataset", specifically for the median calculation, which can be applied to either a column, a row or even a complete dataset. We chose to do three sequence diagrams: the first shows the interaction of the client application with the backend; the second only describes the interaction in the client application part; and the last one the interaction in the backend part. For each sequence diagram portrayed, a class diagram was created. In this case, the class diagrams already contemplate the operations relative to other types of calculations possible to realize.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+4.2 Use Case 2: Save Data Set
+4.2.1 View Description
+
+PT:
+
+Ao longo desta subsecção vamos descrever o caso de uso "Save dataset", que simboliza o processo de guardar um dataset (localmente ou para a base de dados ?). Optamos por fazer três diagramas de sequência: o primeiro mostra a interação da aplicação cliente com a parte servidor; o segundo a interação sob o ponto de vista da aplicação cliente; e o último a interação apenas na parte servidor. Foram criados dois diagramas de classes, o primeiro representativo do diagrama de sequeência referente à aplicação cliente e o segundo referente à parte servidor.
+
+EN:
+
+During this subsection we will describe the use case "Save dataset", which symbolizes the process of saving a dataset (locally or to the database?). We chose to do three sequence diagrams: the first shows the interaction of the client application with the server part; the second the interaction from the point of view of the client application; and the last one, the interaction on the server side.Two class diagrams were created, the first representative of the sequence diagram for the client application and the second for the server part.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+4.3 Use Case 3: Export Data
+4.3.1 View Description
+
+PT:
+
+Ao longo desta subsecção vamos descrever o caso de uso "Export dataset", que simboliza o processo de exportar um dataset em diferentes tipos de ficheiros.Considerámos relevante descrever este caso de uso uma vez que recorria a uma biblioteca externa para converter diferentes tipos de ficheiros e exportar os mesmos. Optamos então por fazer dois diagramas de sequência: o primeiro mostra a interação da aplicação cliente enquanto que o segundo representa a interação na parte do backend. Por cada diagrama de sequência retratado foi criado o respetivo diagrama de classes. De realçar que o processo de exportação de um ficheiro de dados é bastante semelhante ao processo de importação, descrito no ponto 4.4 Use Case 4: Import Data deste documento.
+
+EN:
+
+Throughout this subsection we will describe the "Export dataset" use case, which symbolizes the process of exporting a dataset into different file types. We considered relevant to describe this use case since it used an external library to convert different file types and export them. We then chose to do two sequence diagrams: the first shows the interaction of the client application while the second one represents the interaction in the backend part. For each sequence diagram portrayed, a class diagram was created. It should be noted that the process of exporting a data file is very similar to the import process described in 4.4 Use Case 4: Import Data of this document.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+4.4 Use Case 4: Import Data
+4.4.1 View Description
+
+PT:
+
+Ao longo desta subsecção vamos descrever o caso de uso "Import dataset", que simboliza o processo de importar um dataset de diferentes tipos de ficheiros.Considerámos relevante descrever este caso de uso uma vez que recorria a uma biblioteca externa para converter diferentes tipos de ficheiros e importar os mesmos. Optamos então por fazer dois diagramas de sequência: o primeiro demostra a interação da aplicação cliente enquanto que o segundo representa a interação na parte servidor. Por cada diagrama de sequência retratado foi criado o respetivo diagrama de classes. Como já foi reperido na subsecção anterior, o processo de importação de um ficheiro de dados é bastante semelhante ao processo de exportação, descrito no ponto 4.3 Use Case 3: Export Data deste documento.
+
+EN:
+
+Throughout this subsection we will describe the use case "Import dataset", which describes the process of importing a dataset of different types of files.We considered relevant to describe this use case since it calls an external library to convert different types of files and import them. We then chose to make two sequence diagrams: the first one demonstrates the interaction of the client application while the second represents the interaction on the server side. For each sequence diagram portrayed, a class diagram was created. As already mentioned in the previous subsection, the process of importing a data file is very similar to the export process, described in section 4.3 Use Case 3: Export Data of this document.
