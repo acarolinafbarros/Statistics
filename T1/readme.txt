@@ -1,4 +1,4 @@
-############## Informações ##############
+﻿############## Informações ##############
 
 ***** Quarta-feira, 2 de Novembro de 2016 *****
 
@@ -69,6 +69,38 @@ Controller
 - Mal possam façam a revisão, para a Carolina poder colocar tudo no documento SAD. E pf não se esqueçam de rever o documento SAD, pode ser preciso melhorar o inglês ou detalhar mais as coisas
 
 -- Autor : Manuel Correia --
+
+***** Sábado, 12 de Novembro de 2016 *****
+
+- Modificado :
+
+	- Table 1
+	- Cap. 2.1.1 (Correções inglês só)
+	- Cap. 2.1.2
+	- Cap. 2.1.3
+	- Cap. 3.1.1
+	- Cap. 3.2.1, 3.2.3.1
+	- Cap. 3.3.1, 3.3.3.1, 3.3.3.2
+	- Cap. 3.4.1, 3.4.3.1, 3.4.3.2, 3.4.3.3
+	- Cap. 3.5.3.1, 3.5.3.2
+	- Cap. 3.6.1, 3.6.3.1, 3.6.3.2
+	- Cap. 4.1.1
+	- Cap. 4.2.1
+	- Cap. 4.3.1
+	- Cap. 4.4.1
+	- Diagram Context
+	- Diagram C&C
+
+- Em falta :
+
+	- Decidir biblioteca para Importação/Exportação. 
+	- Mudar diagrama de contexto no relatório.
+	- Mudar diagrama C&C no relatório (após decisão de biblioteca I/O também é preciso atualizar mesmo o diagrama).
+	- Perceber pattern presente no use case Importar ou Exportar.
+	- Corrigir legendas das figuras (Ilustrações em português).
+	- Reler tudo!!!!
+
+-- Autor : Mafalda Landeiro --
 
 ***** <dia da semana>, <dia> de <mês> de <ano> *****
 
