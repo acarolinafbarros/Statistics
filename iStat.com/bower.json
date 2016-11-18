@@ -1,0 +1,30 @@
+{
+  "name": "iStat.com",
+  "version": "1.0.0",
+  "homepage": "http://iStat.com",
+  "authors": [
+    "Mafalda Landeiro",
+    "Nuno Bento",
+    "Ana Barros",
+    "Manuel Correia"
+  ],
+  "description": "",
+  "keywords": [
+    "iStat"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "pages",
+    "less"
+  ],
+  "main": [],
+  "dependencies": {
+    "bootstrap": "v3.3.7",
+    "angular": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "chart.js": "Chart.js#^2.4.0"
+  },
+  "private": true
+}
