@@ -46,5 +46,26 @@ public class IStatCalc {
         }
         return calcResponse;
     }
+    
+    /**
+     * WebService responsible for calculate the geometric mean of list of floats.
+     * 
+     * URL example:
+     * http://localhost:8080/iStatCalc/calculateGeometricMean?valuesToCalc=4;2;1.0
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/calculateGeometricMean", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public @ResponseBody CalcResponse calculateGeometricMean(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
+        CalcResponse calcResponse = null;
+        if (!ObjectUtils.isEmpty(valuesToCalc)) {
+            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
+            Float result = calcService.calculateGeometricMean(input);
+            calcResponse = new CalcResponse(StatusEnum.Success, result);
+        }
+        return calcResponse;
+    }
 
 }

@@ -22,5 +22,20 @@ public class CalcStatistical {
 
         return result;
     }
+    
+    public Float calculateGeometricMean(List<Float> input) {
+        Float result = null;
+        if (!ObjectUtils.isEmpty(input)) {
+            Integer length = input.size();
+            if (length > 0) {
+               Float mult= (float) input.stream().mapToDouble(i -> i.floatValue()).reduce(1, (a,b)-> a*b);
+               double geoMean = Math.pow(mult, 1.0 / length);
+               result = (float) geoMean;               
+            }
+        }
+       
+        return result;
+    }
 
 }
+

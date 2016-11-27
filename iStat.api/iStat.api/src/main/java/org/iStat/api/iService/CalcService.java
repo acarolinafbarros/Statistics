@@ -16,5 +16,10 @@ public class CalcService {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateMedian(input);
     }
+    
+    public Float calculateGeometricMean(List<Float> input) {
+        CalcStatistical calcStatistical = new CalcStatistical();
+        return calcStatistical.calculateGeometricMean(input);
+    }
 
 }
