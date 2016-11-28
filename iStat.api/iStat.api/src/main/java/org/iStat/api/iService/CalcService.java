@@ -22,6 +22,10 @@ public class CalcService {
         return calcStatistical.calculateGeometricMean(input);
     }
     
+    public Float calculateMode(List<Float> input) {
+        CalcStatistical calcStatistical = new CalcStatistical();
+        return calcStatistical.calculateMode(input);
+    }
     
     public Float calculateMidrange(List<Float> input) {
         CalcStatistical calcStatistical = new CalcStatistical();

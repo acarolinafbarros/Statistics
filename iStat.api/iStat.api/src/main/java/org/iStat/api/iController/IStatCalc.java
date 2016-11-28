@@ -68,6 +68,26 @@ public class IStatCalc {
         return calcResponse;
     }
     
+    /**
+     * WebService responsible for calculate the mode of list of floats.
+     * 
+     * URL example:
+     * http://localhost:8080/iStatCalc/calculateMode?valuesToCalc=3;4;11;11;11;10
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/calculateMode", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public @ResponseBody CalcResponse calculateMode(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
+        CalcResponse calcResponse = null;
+        if (!ObjectUtils.isEmpty(valuesToCalc)) {
+            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
+            Float result = calcService.calculateMode(input);
+            calcResponse = new CalcResponse(StatusEnum.Success, result);
+        }
+        return calcResponse;
+    }
     
     /**
      * WebService responsible for calculate the midrange of list of floats.

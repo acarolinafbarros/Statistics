@@ -38,8 +38,30 @@ public class CalcStatistical {
         return result;
     }
     
+    public Float calculateMode(List<Float> input) {
+        Float result = null;
+        if (!ObjectUtils.isEmpty(input)) {
+            Integer length = input.size();
+            if (length > 0) { 
+                float keyValue = 0;
+                float maxCounts = 0;
+                float [] counts = new float [length];
+                
+                for (int i = 0; i < length; ++i) {
+                    float value = input.get(i); 
+                    counts[(int) value]++;
+                    
+                    if (maxCounts < counts[(int) value]) {
+                        maxCounts = counts[(int) value];
+                        keyValue = input.get(i);
+                    }
+                }
+                result = keyValue;
+            }
+        } 
+        return result;
+    }
 
-    
     public Float calculateMidrange(List<Float> input) {
         Float result = null;
         if (!ObjectUtils.isEmpty(input)) {
