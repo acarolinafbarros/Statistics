@@ -67,5 +67,69 @@ public class IStatCalc {
         }
         return calcResponse;
     }
+    
+    
+    /**
+     * WebService responsible for calculate the midrange of list of floats.
+     * 
+     * URL example:
+     * http://localhost:8080/iStatCalc/calculateMidrange?valuesToCalc=3;4;11;10
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/calculateMidrange", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public @ResponseBody CalcResponse calculateMidrange(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
+        CalcResponse calcResponse = null;
+        if (!ObjectUtils.isEmpty(valuesToCalc)) {
+            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
+            Float result = calcService.calculateMidrange(input);
+            calcResponse = new CalcResponse(StatusEnum.Success, result);
+        }
+        return calcResponse;
+    }
+    
+    /**
+     * WebService responsible for calculate the variance of list of floats.
+     * 
+     * URL example:
+     * http://localhost:8080/iStatCalc/calculateVariance?valuesToCalc=17;15;23;7;9;13
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/calculateVariance", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public @ResponseBody CalcResponse calculateVariance(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
+        CalcResponse calcResponse = null;
+        if (!ObjectUtils.isEmpty(valuesToCalc)) {
+            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
+            Float result = calcService.calculateVariance(input);
+            calcResponse = new CalcResponse(StatusEnum.Success, result);
+        }
+        return calcResponse;
+    }
+    
+    /**
+     * WebService responsible for calculate the standard deviation of list of floats.
+     * 
+     * URL example:
+     * http://localhost:8080/iStatCalc/calculateStandardDeviation?valuesToCalc=17;15;23;7;9;13
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/calculateStandardDeviation", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public @ResponseBody CalcResponse calculateStandardDeviation(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
+        CalcResponse calcResponse = null;
+        if (!ObjectUtils.isEmpty(valuesToCalc)) {
+            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
+            Float result = calcService.calculateStandardDeviation(input);
+            calcResponse = new CalcResponse(StatusEnum.Success, result);
+        }
+        return calcResponse;
+    }
 
 }

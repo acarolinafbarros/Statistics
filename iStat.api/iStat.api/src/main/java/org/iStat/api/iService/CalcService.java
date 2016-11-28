@@ -21,5 +21,20 @@ public class CalcService {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateGeometricMean(input);
     }
+    
+    
+    public Float calculateMidrange(List<Float> input) {
+        CalcStatistical calcStatistical = new CalcStatistical();
+        return calcStatistical.calculateMidrange(input);
+    }
+    
+    public Float calculateVariance(List<Float> input) {
+        CalcStatistical calcStatistical = new CalcStatistical();
+        return calcStatistical.calculateVariance(input);
+    }
 
+    public Float calculateStandardDeviation(List<Float> input) {
+        CalcStatistical calcStatistical = new CalcStatistical();
+        return calcStatistical.calculateStandardDeviation(input);
+    }
 }
