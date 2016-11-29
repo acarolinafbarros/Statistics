@@ -22,7 +22,7 @@ public class ConverterTest {
 
     @Test
     public void shouldConvertStringToInteger() {
-
+        
         when(converter.convert(anyString())).thenReturn(10);
 
         Integer result = converter.convert("10");

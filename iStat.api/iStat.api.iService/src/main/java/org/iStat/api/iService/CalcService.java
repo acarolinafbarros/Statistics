@@ -2,7 +2,7 @@ package org.iStat.api.iService;
 
 import java.util.List;
 
-import org.iStat.api.iBLL.CalcStatistical;
+import org.iStat.api.iLogic.CalcStatistical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,22 +16,22 @@ public class CalcService {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateMedian(input);
     }
-    
+
     public Float calculateGeometricMean(List<Float> input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateGeometricMean(input);
     }
-    
+
     public Float calculateMode(List<Float> input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateMode(input);
     }
-    
+
     public Float calculateMidrange(List<Float> input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateMidrange(input);
     }
-    
+
     public Float calculateVariance(List<Float> input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateVariance(input);

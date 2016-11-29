@@ -10,7 +10,6 @@ dependencies {
 
 	testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
 	
-	//compile group: 'org.iStat', name: 'iStat.api.iBll', version: '1.0-SNAPSHOT'
-	//testCompile 'org.iStat:iStat.api.iBll:1.0.0-SNAPSHOT:tests'
+	testCompile 'org.iStat:iStat.api.iBll:1.0-SNAPSHOT'
 	
 }

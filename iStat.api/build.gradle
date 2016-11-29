@@ -9,6 +9,7 @@ subprojects {
 	
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
+	apply plugin: 'maven'
 	
 	group = 'org.iStat'
 	
