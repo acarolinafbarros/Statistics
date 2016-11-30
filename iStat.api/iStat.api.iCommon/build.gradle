@@ -8,10 +8,10 @@ project(':iStat.api.iCommon') {
 	
 	dependencies {
 	
-		compile project(':iStat.api.iBll')
+		compile project(':iStat.api.iBLL')
 		compile project(':iStat.api.iService')
 		
-		testCompile project(':iStat.api.iBll')
+		testCompile project(':iStat.api.iBLL')
 		testCompile project(':iStat.api.iService')
 	
 		testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'

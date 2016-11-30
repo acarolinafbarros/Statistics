@@ -1,8 +1,8 @@
-project(':iStat.api.iBLL') { 
+project(':iStat.api.iDAL') { 
 	version = '1.0-SNAPSHOT'
 	
 	jar {
-	    baseName = 'iStat.api.iBLL'
+	    baseName = 'iStat.api.iDAL'
 	    version =  '1.0-SNAPSHOT'
 	}
 	
