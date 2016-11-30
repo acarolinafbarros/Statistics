@@ -1,13 +1,24 @@
 package org.iStat.api.iResponse;
 
+import java.math.BigDecimal;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CalcResponse {
 
     private StatusEnum status;
 
-    private Object result;
+    @JsonProperty(value = "value")
+    private final BigDecimal result;
 
-    public CalcResponse(StatusEnum status, Object result) {
-        super();
+    public CalcResponse(BigDecimal result) {
+        this.status = StatusEnum.Success;
+        this.result = result;
+    }
+
+    public CalcResponse(StatusEnum status, BigDecimal result) {
         this.status = status;
         this.result = result;
     }
@@ -16,21 +27,13 @@ public class CalcResponse {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
-        this.status = status;
-    }
-
-    public Object getResult() {
+    public BigDecimal getResult() {
         return result;
-    }
-
-    public void setResult(Object result) {
-        this.result = result;
     }
 
     @Override
     public String toString() {
-        return "CalcResponse [status=" + status + ", result=" + result + "]";
+        return new ToStringBuilder(this).append("status", status).append("result", result).build();
     }
 
 }

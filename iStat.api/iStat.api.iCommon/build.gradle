@@ -1,15 +1,20 @@
-
-version = '1.0-SNAPSHOT'
-
-jar {
-    baseName = 'iStat.api.iCommon'
-    version =  '1.0-SNAPSHOT'
-}
-
-dependencies {
-
-	testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+project(':iStat.api.iCommon') { 
+	version = '1.0-SNAPSHOT'
 	
-	testCompile 'org.iStat:iStat.api.iBll:1.0-SNAPSHOT'
+	jar {
+	    baseName = 'iStat.api.iCommon'
+	    version =  '1.0-SNAPSHOT'
+	}
 	
+	dependencies {
+	
+		compile project(':iStat.api.iBll')
+		compile project(':iStat.api.iService')
+		
+		testCompile project(':iStat.api.iBll')
+		testCompile project(':iStat.api.iService')
+	
+		testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+		
+	}
 }

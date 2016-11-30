@@ -1,5 +1,6 @@
 package org.iStat.api.iController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.iStat.api.iResponse.CalcResponse;
@@ -42,7 +43,7 @@ public class IStatCalc {
         if (!ObjectUtils.isEmpty(valuesToCalc)) {
             List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
             Float result = calcService.calculateMedian(input);
-            calcResponse = new CalcResponse(StatusEnum.Success, result);
+            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
         }
         return calcResponse;
     }
@@ -63,7 +64,7 @@ public class IStatCalc {
         if (!ObjectUtils.isEmpty(valuesToCalc)) {
             List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
             Float result = calcService.calculateGeometricMean(input);
-            calcResponse = new CalcResponse(StatusEnum.Success, result);
+            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
         }
         return calcResponse;
     }
@@ -84,7 +85,7 @@ public class IStatCalc {
         if (!ObjectUtils.isEmpty(valuesToCalc)) {
             List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
             Float result = calcService.calculateMode(input);
-            calcResponse = new CalcResponse(StatusEnum.Success, result);
+            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
         }
         return calcResponse;
     }
@@ -105,7 +106,7 @@ public class IStatCalc {
         if (!ObjectUtils.isEmpty(valuesToCalc)) {
             List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
             Float result = calcService.calculateMidrange(input);
-            calcResponse = new CalcResponse(StatusEnum.Success, result);
+            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
         }
         return calcResponse;
     }
@@ -126,7 +127,7 @@ public class IStatCalc {
         if (!ObjectUtils.isEmpty(valuesToCalc)) {
             List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
             Float result = calcService.calculateVariance(input);
-            calcResponse = new CalcResponse(StatusEnum.Success, result);
+            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
         }
         return calcResponse;
     }
@@ -147,7 +148,7 @@ public class IStatCalc {
         if (!ObjectUtils.isEmpty(valuesToCalc)) {
             List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
             Float result = calcService.calculateStandardDeviation(input);
-            calcResponse = new CalcResponse(StatusEnum.Success, result);
+            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
         }
         return calcResponse;
     }
