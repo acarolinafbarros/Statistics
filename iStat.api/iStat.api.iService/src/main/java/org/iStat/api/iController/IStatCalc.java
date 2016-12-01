@@ -152,5 +152,26 @@ public class IStatCalc {
         }
         return calcResponse;
     }
+    
+    /**
+     * WebService responsible for calculate row's and column's total .
+     * 
+     * URL example:
+     * http://localhost:8080/iStatCalc/calculateRowColumnTotal?valuesToCalc=2;10;5;1.0;4.0
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/calculateRowColumnTotal", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public @ResponseBody CalcResponse calculateRowColumnTotal(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
+        CalcResponse calcResponse = null;
+        if (!ObjectUtils.isEmpty(valuesToCalc)) {
+            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
+            Float result = calcService.calculateRowColumnTotal(input);
+            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
+        }
+        return calcResponse;
+    }
 
 }

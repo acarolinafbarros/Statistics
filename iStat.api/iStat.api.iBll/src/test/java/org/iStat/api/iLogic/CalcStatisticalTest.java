@@ -199,4 +199,43 @@ public class CalcStatisticalTest {
         Float expected = new Float("5.76");
         assertEquals(expected, received);
     }
+    
+    /* ----------------------------------------------------------------------
+     * EN - Total Rows/Columns
+     * ----------------------------------------------------------------------
+    */
+    
+    @Test
+    public void calculateRowColumnTotalInputNull() {
+        Float received = calcStatisical.calculateMedian(null);
+        assertNull(received);
+    }
+    
+    @Test
+    public void calculateRowColumnTotalInputEmpty() {
+        Float received = calcStatisical.calculateMedian(new ArrayList<>());
+        assertNull(received);
+    }
+    
+    @Test
+    public void calculateRowColumnTotalInputValid() {
+        List<Float> input = new ArrayList<>();
+        input.add(new Float("2.5"));
+        input.add(new Float("2.5"));
+        input.add(new Float("1.7"));
+        Float received = calcStatisical.calculateRowColumnTotal(input);
+        Float expected = new Float("6.7");
+        assertEquals(expected, received);
+    }
+    
+    @Test
+    public void calculateRowColumnTotalInputWithNegatives() {
+        List<Float> input = new ArrayList<>();
+        input.add(new Float("-2.5"));
+        input.add(new Float("2.5"));
+        input.add(new Float("1.5"));
+        Float received = calcStatisical.calculateRowColumnTotal(input);
+        Float expected = new Float("1.5");
+        assertEquals(expected, received);
+    }
 }

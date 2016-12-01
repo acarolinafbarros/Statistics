@@ -105,5 +105,17 @@ public class CalcStatistical {
         }
         return result;
     }
+    
+    public Float calculateRowColumnTotal(List<Float> input) {
+        Float result = null;
+        if (!CollectionUtils.isEmpty(input)) {
+            Integer length = input.size();
+            if (length > 0) {
+                result = (float) input.stream().mapToDouble(i -> i.floatValue()).sum();
+            }
+        }
+        LOG.info("teste");
+        return result;
+    }
 
 }
