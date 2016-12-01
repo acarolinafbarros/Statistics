@@ -11,14 +11,14 @@ public class TransformResponse {
 	private StatusEnum status;
 
     @JsonProperty(value = "value")
-    private final BigDecimal result;
-
-    public TransformResponse(BigDecimal result) {
+    private final Float result [];
+    
+    public TransformResponse(Float result []) {
         this.status = StatusEnum.Success;
         this.result = result;
     }
-
-    public TransformResponse(StatusEnum status, BigDecimal result) {
+    
+    public TransformResponse(StatusEnum status, Float result []) {
         this.status = status;
         this.result = result;
     }
@@ -27,7 +27,7 @@ public class TransformResponse {
         return status;
     }
 
-    public BigDecimal getResult() {
+    public Float [] getResult() {
         return result;
     }
 

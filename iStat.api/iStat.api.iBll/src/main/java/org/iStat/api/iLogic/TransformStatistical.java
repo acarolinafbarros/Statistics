@@ -12,13 +12,15 @@ public class TransformStatistical {
 
 	private final Logger LOG = LoggerFactory.getLogger(TransformStatistical.class);
 
-    public Float transformTranspose(List<Float> input) {
-        Float result = null;
+    public Float [] transformScale(List<Float> input, float scaleFactor) {
+    	Float result [] = null;
         if (!CollectionUtils.isEmpty(input)) {
             Integer length = input.size();
             if (length > 0) {
-                Float sum = (float) input.stream().mapToDouble(i -> i.floatValue()).sum();
-                result = sum / length;
+            	result = new Float [length];
+            	for (int i = 0; i < length; ++i) {
+            		result[i] = result[i] * scaleFactor;
+            	}           
             }
         }
         LOG.info("teste");

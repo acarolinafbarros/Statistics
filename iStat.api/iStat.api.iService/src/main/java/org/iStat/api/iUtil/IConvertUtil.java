@@ -34,5 +34,14 @@ public class IConvertUtil {
         }
         return output;
     }
+    
+    public static Float convertStringIntoFloat(String value) {
+        Float output = null;
+        if (!ObjectUtils.isEmpty(value)) {
+            output = Float.parseFloat(value);
+        }
+        return output;
+    }
 
+    
 }

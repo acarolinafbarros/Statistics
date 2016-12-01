@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 public class TransformService {
 
 	private final Logger LOG = LoggerFactory.getLogger(TransformService.class);
-
-    public Float transformTranspose(List<Float> input) {
-    	TransformStatistical transformStatistical = new TransformStatistical();
-        return transformStatistical.transformTranspose(input);
-    }
 	
+	/*
+    public Float transformScale(List<Float> input, float value) {
+    	TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformScale(input, value);
+    }
+	*/
 }

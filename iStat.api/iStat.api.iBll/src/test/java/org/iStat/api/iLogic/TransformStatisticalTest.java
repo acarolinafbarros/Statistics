@@ -18,21 +18,21 @@ public class TransformStatisticalTest {
      * ----------------------------------------------------------------------
     */
     
-    @Test
-    public void transformTransposeInputNull() {
-        Float received = transformStatisical.transformTranspose(null);
-        assertNull(received);
-    }
-    
-    @Test
-    public void transformTransposeInputEmpty() {
-        Float received = transformStatisical.transformTranspose(new ArrayList<>());
-        assertNull(received);
-    }
-    
     /*
     @Test
-    public void transformTransposeInputValid() {
+    public void transformScaleInputNull() {
+        Float received = transformStatisical.transformScale(null);
+        assertNull(received);
+    }
+    
+    @Test
+    public void transformScaleInputEmpty() {
+        Float received = transformStatisical.transformScale(new ArrayList<>());
+        assertNull(received);
+    }
+    
+    @Test
+    public void transformScaleInputValid() {
         List<Float> input = new ArrayList<>();
         input.add(new Float("1.1"));
         input.add(new Float("1.3"));
@@ -42,7 +42,7 @@ public class TransformStatisticalTest {
     }
     
     @Test
-    public void transformTransposeInputWithNegatives() {
+    public void transformScaleInputWithNegatives() {
         List<Float> input = new ArrayList<>();
         input.add(new Float("-1.0"));
         input.add(new Float("1.0"));

@@ -31,22 +31,24 @@ public class IStatTransform {
      * WebService responsible for transpose the dataset.
      * 
      * URL example:
-     * http://localhost:8080/iStatTransform/transformTranspose?valuesToCalc=1;3.0
+     * http://localhost:8080/iStatTransform/transformScale?valuesToCalc=1;3.0
      * 
      * @param valuesToCalc
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
     
-	@RequestMapping(value = "/transformTranspose", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public @ResponseBody TransformResponse transformTranspose(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
+    /*
+	@RequestMapping(value = "/transformScale", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public @ResponseBody TransformResponse transformScale(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
 		TransformResponse transformResponse = null;
         if (!ObjectUtils.isEmpty(valuesToCalc)) {
             List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
-            Float result = transformService.transformTranspose(input);
+            Float value = IConvertUtil.convertStringIntoFloat(valuesToCalc);
+            Float result = transformService.transformScale(input, value);
             transformResponse = new TransformResponse(BigDecimal.valueOf(result));
         }
         return transformResponse;
     }
-	
+	*/
 }
