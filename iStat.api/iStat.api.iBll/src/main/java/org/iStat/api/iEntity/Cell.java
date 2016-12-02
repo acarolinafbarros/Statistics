@@ -1,7 +1,5 @@
 package org.iStat.api.iEntity;
 
-import java.math.BigDecimal;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Cell<Line, Column> {
@@ -12,7 +10,7 @@ public class Cell<Line, Column> {
 
     private Column column;
 
-    private BigDecimal value;
+    private Float value;
 
     private Cell(CellBuilder<Line, Column> cellBuilder) {
         this.parentDatasetName = cellBuilder.parentDatasetName;
@@ -45,11 +43,11 @@ public class Cell<Line, Column> {
         this.column = column;
     }
 
-    public BigDecimal getValue() {
+    public Float getValue() {
         return value;
     }
 
-    public void setValue(BigDecimal value) {
+    public void setValue(Float value) {
         this.value = value;
     }
 
@@ -67,7 +65,7 @@ public class Cell<Line, Column> {
 
         private Column column;
 
-        private BigDecimal value;
+        private Float value;
 
         public CellBuilder<Line, Column> withParentDatasetName(String parentName) {
             this.parentDatasetName = parentName;
@@ -84,7 +82,7 @@ public class Cell<Line, Column> {
             return this;
         }
 
-        public CellBuilder<Line, Column> withValue(BigDecimal value) {
+        public CellBuilder<Line, Column> withValue(Float value) {
             this.value = value;
             return this;
         }

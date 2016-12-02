@@ -1,20 +1,18 @@
 package org.iStat.api.iController;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import org.iStat.api.iResponse.CalcResponse;
+import org.iStat.api.common.converter.Converter;
+import org.iStat.api.iEntity.DocumentiStat;
 import org.iStat.api.iResponse.StatusEnum;
+import org.iStat.api.iResponse.iStatCalc.RequestiStatCalc;
+import org.iStat.api.iResponse.iStatCalc.ResponseiStatCalc;
 import org.iStat.api.iService.CalcService;
-import org.iStat.api.iUtil.IConvertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/iStatCalc")
 public class IStatCalc {
 
-    private final Logger LOG = LoggerFactory.getLogger(IStatCalc.class);
+    private final Logger LOG = LoggerFactory
+        .getLogger(IStatCalc.class);
 
     @Autowired
     private CalcService calcService;
+
+    @Autowired
+    private Converter<RequestiStatCalc, DocumentiStat> converterRequestiStatCalc;
+
+    @Autowired
+    private Converter<Float, ResponseiStatCalc> converterResponseiStatCalc;
 
     /**
      * WebService responsible for calculate the median of list of floats.
@@ -37,19 +42,26 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
-    @RequestMapping(value = "/calculateMedian", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public @ResponseBody CalcResponse calculateMedian(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
-        CalcResponse calcResponse = null;
-        if (!ObjectUtils.isEmpty(valuesToCalc)) {
-            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
-            Float result = calcService.calculateMedian(input);
-            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
-        }
-        return calcResponse;
+    @RequestMapping(value = "/calculateMedian", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseiStatCalc calculateMedian(@RequestBody RequestiStatCalc request) {
+
+        DocumentiStat documentiStat = converterRequestiStatCalc
+            .convert(request);
+
+        // FIXME: Need to catch the errors and throw an exception
+        Float result = calcService.calculateMedian(documentiStat);
+
+        ResponseiStatCalc response = converterResponseiStatCalc
+            .convert(result);
+        response.setStatus(StatusEnum.Success);
+
+        return response;
+
     }
-    
+
     /**
-     * WebService responsible for calculate the geometric mean of list of floats.
+     * WebService responsible for calculate the geometric mean of list of
+     * floats.
      * 
      * URL example:
      * http://localhost:8080/iStatCalc/calculateGeometricMean?valuesToCalc=4;2;1.0
@@ -58,17 +70,23 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
-    @RequestMapping(value = "/calculateGeometricMean", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public @ResponseBody CalcResponse calculateGeometricMean(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
-        CalcResponse calcResponse = null;
-        if (!ObjectUtils.isEmpty(valuesToCalc)) {
-            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
-            Float result = calcService.calculateGeometricMean(input);
-            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
-        }
-        return calcResponse;
+    @RequestMapping(value = "/calculateGeometricMean", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseiStatCalc calculateGeometricMean(@RequestBody RequestiStatCalc request) {
+
+        DocumentiStat documentiStat = converterRequestiStatCalc
+            .convert(request);
+
+        // FIXME: Need to catch the errors and throw an exception
+        Float result = calcService
+            .calculateGeometricMean(documentiStat);
+
+        ResponseiStatCalc response = converterResponseiStatCalc
+            .convert(result);
+        response.setStatus(StatusEnum.Success);
+
+        return response;
     }
-    
+
     /**
      * WebService responsible for calculate the mode of list of floats.
      * 
@@ -79,17 +97,22 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
-    @RequestMapping(value = "/calculateMode", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public @ResponseBody CalcResponse calculateMode(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
-        CalcResponse calcResponse = null;
-        if (!ObjectUtils.isEmpty(valuesToCalc)) {
-            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
-            Float result = calcService.calculateMode(input);
-            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
-        }
-        return calcResponse;
+    @RequestMapping(value = "/calculateMode", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseiStatCalc calculateMode(@RequestBody RequestiStatCalc request) {
+
+        DocumentiStat documentiStat = converterRequestiStatCalc
+            .convert(request);
+
+        // FIXME: Need to catch the errors and throw an exception
+        Float result = calcService.calculateMode(documentiStat);
+
+        ResponseiStatCalc response = converterResponseiStatCalc
+            .convert(result);
+        response.setStatus(StatusEnum.Success);
+
+        return response;
     }
-    
+
     /**
      * WebService responsible for calculate the midrange of list of floats.
      * 
@@ -100,17 +123,21 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
-    @RequestMapping(value = "/calculateMidrange", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public @ResponseBody CalcResponse calculateMidrange(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
-        CalcResponse calcResponse = null;
-        if (!ObjectUtils.isEmpty(valuesToCalc)) {
-            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
-            Float result = calcService.calculateMidrange(input);
-            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
-        }
-        return calcResponse;
+    @RequestMapping(value = "/calculateMidrange", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseiStatCalc calculateMidrange(@RequestBody RequestiStatCalc request) {
+
+        DocumentiStat documentiStat = converterRequestiStatCalc
+            .convert(request);
+
+        // FIXME: Need to catch the errors and throw an exception
+        Float result = calcService.calculateMidrange(documentiStat);
+        ResponseiStatCalc response = converterResponseiStatCalc
+            .convert(result);
+        response.setStatus(StatusEnum.Success);
+
+        return response;
     }
-    
+
     /**
      * WebService responsible for calculate the variance of list of floats.
      * 
@@ -121,19 +148,24 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
-    @RequestMapping(value = "/calculateVariance", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public @ResponseBody CalcResponse calculateVariance(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
-        CalcResponse calcResponse = null;
-        if (!ObjectUtils.isEmpty(valuesToCalc)) {
-            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
-            Float result = calcService.calculateVariance(input);
-            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
-        }
-        return calcResponse;
+    @RequestMapping(value = "/calculateVariance", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseiStatCalc calculateVariance(@RequestBody RequestiStatCalc request) {
+        
+        DocumentiStat documentiStat = converterRequestiStatCalc
+            .convert(request);
+
+        // FIXME: Need to catch the errors and throw an exception
+        Float result = calcService.calculateVariance(documentiStat);
+        ResponseiStatCalc response = converterResponseiStatCalc
+            .convert(result);
+        response.setStatus(StatusEnum.Success);
+
+        return response;
     }
-    
+
     /**
-     * WebService responsible for calculate the standard deviation of list of floats.
+     * WebService responsible for calculate the standard deviation of list of
+     * floats.
      * 
      * URL example:
      * http://localhost:8080/iStatCalc/calculateStandardDeviation?valuesToCalc=17;15;23;7;9;13
@@ -142,15 +174,19 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
-    @RequestMapping(value = "/calculateStandardDeviation", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public @ResponseBody CalcResponse calculateStandardDeviation(@RequestParam(value = "valuesToCalc") String valuesToCalc) {
-        CalcResponse calcResponse = null;
-        if (!ObjectUtils.isEmpty(valuesToCalc)) {
-            List<Float> input = IConvertUtil.convertStringIntoListFloat(valuesToCalc);
-            Float result = calcService.calculateStandardDeviation(input);
-            calcResponse = new CalcResponse(BigDecimal.valueOf(result));
-        }
-        return calcResponse;
+    @RequestMapping(value = "/calculateStandardDeviation", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseiStatCalc calculateStandardDeviation(@RequestBody RequestiStatCalc request) {
+        DocumentiStat documentiStat = converterRequestiStatCalc
+            .convert(request);
+
+        // FIXME: Need to catch the errors and throw an exception
+        Float result = calcService
+            .calculateStandardDeviation(documentiStat);
+        ResponseiStatCalc response = converterResponseiStatCalc
+            .convert(result);
+        response.setStatus(StatusEnum.Success);
+
+        return response;
     }
 
 }

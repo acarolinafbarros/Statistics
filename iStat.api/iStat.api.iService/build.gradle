@@ -15,7 +15,8 @@ project(':iStat.api.iService') {
 	    compile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
 	    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.4'
 	    
-	    compile group: 'org.iStat', name: 'iStat.api.iBll', version: '1.0-SNAPSHOT'
-	     
+	    compile project(':iStat.api.iBll')
+	    compile project(':iStat.api.iCommon')
+	   
 	}
 }

@@ -1,7 +1,6 @@
 package org.iStat.api.iService;
 
-import java.util.List;
-
+import org.iStat.api.iEntity.DocumentiStat;
 import org.iStat.api.iLogic.CalcStatistical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,33 +10,33 @@ import org.springframework.stereotype.Service;
 public class CalcService {
 
     private final Logger LOG = LoggerFactory.getLogger(CalcService.class);
-
-    public Float calculateMedian(List<Float> input) {
+    
+    public Float calculateMedian(DocumentiStat input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateMedian(input);
     }
 
-    public Float calculateGeometricMean(List<Float> input) {
+    public Float calculateGeometricMean(DocumentiStat input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateGeometricMean(input);
     }
 
-    public Float calculateMode(List<Float> input) {
+    public Float calculateMode(DocumentiStat input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateMode(input);
     }
 
-    public Float calculateMidrange(List<Float> input) {
+    public Float calculateMidrange(DocumentiStat input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateMidrange(input);
     }
 
-    public Float calculateVariance(List<Float> input) {
+    public Float calculateVariance(DocumentiStat input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateVariance(input);
     }
 
-    public Float calculateStandardDeviation(List<Float> input) {
+    public Float calculateStandardDeviation(DocumentiStat input) {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateStandardDeviation(input);
     }
