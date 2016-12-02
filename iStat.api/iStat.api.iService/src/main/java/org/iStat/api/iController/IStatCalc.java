@@ -150,7 +150,7 @@ public class IStatCalc {
      */
     @RequestMapping(value = "/calculateVariance", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public @ResponseBody ResponseiStatCalc calculateVariance(@RequestBody RequestiStatCalc request) {
-        
+
         DocumentiStat documentiStat = converterRequestiStatCalc
             .convert(request);
 
@@ -182,6 +182,33 @@ public class IStatCalc {
         // FIXME: Need to catch the errors and throw an exception
         Float result = calcService
             .calculateStandardDeviation(documentiStat);
+        ResponseiStatCalc response = converterResponseiStatCalc
+            .convert(result);
+        response.setStatus(StatusEnum.Success);
+
+        return response;
+    }
+
+    /**
+     * WebService responsible for calculate row's and column's total .
+     * 
+     * URL example:
+     * http://localhost:8080/iStatCalc/calculateRowColumnTotal?valuesToCalc=2;10;5;1.0;4.0
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/calculateRowColumnTotal", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseiStatCalc calculateRowColumnTotal(@RequestBody RequestiStatCalc request) {
+
+        DocumentiStat documentiStat = converterRequestiStatCalc
+            .convert(request);
+
+        // FIXME: Need to catch the errors and throw an exception
+        Float result = calcService
+            .calculateRowColumnTotal(documentiStat);
+
         ResponseiStatCalc response = converterResponseiStatCalc
             .convert(result);
         response.setStatus(StatusEnum.Success);

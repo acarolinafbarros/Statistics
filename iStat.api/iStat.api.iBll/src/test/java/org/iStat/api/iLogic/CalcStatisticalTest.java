@@ -7,7 +7,6 @@ import static org.iStat.api.iEntity.makeit.DocumentiStatMakeIt._documentiStat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.iStat.api.iEntity.Cell;
@@ -89,10 +88,12 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
     @Test
     public void calculateGeometricMeanInputValid() {
         List<Cell<Integer, String>> listOfCells = newArrayList(
-                makeCell(3, "A", 4.0f), makeCell(4, "A", 2.0f), makeCell(5, "A", 1.0f));
+                makeCell(3, "A", 4.0f), makeCell(4, "A", 2.0f),
+                makeCell(5, "A", 1.0f));
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCells)));
-        Float received = calcStatisical.calculateGeometricMean(documentiStat);
+        Float received = calcStatisical
+            .calculateGeometricMean(documentiStat);
         Float expected = new Float("2.0");
         assertEquals(expected, received);
     }
@@ -155,7 +156,8 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(5, "A", 10.0f), makeCell(6, "A", 11.0f));
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCells)));
-        Float received = calcStatisical.calculateMidrange(documentiStat);
+        Float received = calcStatisical
+            .calculateMidrange(documentiStat);
         Float expected = new Float("7.0");
         assertEquals(expected, received);
     }
@@ -226,6 +228,51 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
         Float received = calcStatisical
             .calculateStandardDeviation(documentiStat);
         Float expected = new Float("5.76");
+        assertEquals(expected, received);
+    }
+
+    /*
+     * ----------------------------------------------------------------------
+     * EN - Total Rows/Columns
+     * ----------------------------------------------------------------------
+     */
+
+    @Test
+    public void calculateRowColumnTotalInputNull() {
+        Float received = calcStatisical.calculateMedian(null);
+        assertNull(received);
+    }
+
+    @Test
+    public void calculateRowColumnTotalInputEmpty() {
+        Float received = calcStatisical
+            .calculateMedian(make(a(_documentiStat)));
+        assertNull(received);
+    }
+
+    @Test
+    public void calculateRowColumnTotalInputValid() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 2.5f), makeCell(4, "A", 2.5f),
+                makeCell(5, "A", 1.7f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateRowColumnTotal(documentiStat);
+        Float expected = new Float("6.7");
+        assertEquals(expected, received);
+    }
+
+    @Test
+    public void calculateRowColumnTotalInputWithNegatives() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", -2.5f), makeCell(4, "A", 2.5f),
+                makeCell(5, "A", 1.5f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateRowColumnTotal(documentiStat);
+        Float expected = new Float("1.5");
         assertEquals(expected, received);
     }
 }

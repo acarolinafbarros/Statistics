@@ -191,4 +191,26 @@ public class CalcStatistical {
         return result;
     }
 
+    public Float calculateRowColumnTotal(DocumentiStat documentiStat) {
+        Float result = null;
+        if (ObjectUtils.allNotNull(documentiStat)) {
+
+            if (CollectionUtils
+                .isNotEmpty(documentiStat.getDatasets())) {
+
+                List<Cell<Integer, String>> input = documentiStat
+                    .getDatasets().get(0).getCells();
+
+                Integer length = input.size();
+                if (length > 0) {
+                    result = (float) input
+                        .stream().mapToDouble(i -> i.getValue())
+                        .sum();
+                }
+            }
+        }
+       
+        return result;
+    }
+
 }

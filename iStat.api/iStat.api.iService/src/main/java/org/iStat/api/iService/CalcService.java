@@ -40,4 +40,10 @@ public class CalcService {
         CalcStatistical calcStatistical = new CalcStatistical();
         return calcStatistical.calculateStandardDeviation(input);
     }
+    
+    public Float calculateRowColumnTotal(DocumentiStat input) {
+        CalcStatistical calcStatistical = new CalcStatistical();
+        return calcStatistical.calculateRowColumnTotal(input);
+    }
+ 
 }
