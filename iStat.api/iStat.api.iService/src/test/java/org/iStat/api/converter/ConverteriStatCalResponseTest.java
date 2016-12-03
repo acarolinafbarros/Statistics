@@ -8,7 +8,7 @@ import org.iStat.api.iConverter.ConverteriStatCalResponse;
 import org.iStat.api.iStatCalc.response.ResponseiStatCalc;
 import org.junit.Test;
 
-public class ConverterDomainToResponseiStatCalTest {
+public class ConverteriStatCalResponseTest {
 
     public Converter<Float, ResponseiStatCalc> converter = new ConverteriStatCalResponse();
 

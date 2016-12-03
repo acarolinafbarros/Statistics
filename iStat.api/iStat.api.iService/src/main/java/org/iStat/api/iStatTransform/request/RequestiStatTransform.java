@@ -9,16 +9,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class RequestiStatTransform {
 
     @JsonProperty(value = "datasets")
-    private List<RequestiStatCalcDatasetTransform> datasets;
+    private List<RequestiStatTransformDataset> datasets;
     
     public RequestiStatTransform(){
     }
     
-    public RequestiStatTransform(List<RequestiStatCalcDatasetTransform> dataset) {
+    public RequestiStatTransform(List<RequestiStatTransformDataset> dataset) {
         this.datasets = dataset;
     }
 
-    public List<RequestiStatCalcDatasetTransform> getDatasets() {
+    public List<RequestiStatTransformDataset> getDatasets() {
         return datasets;
     }
 

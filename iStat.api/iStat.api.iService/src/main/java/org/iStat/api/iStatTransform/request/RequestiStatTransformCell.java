@@ -4,28 +4,28 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RequestiStatCalcCellTransform {
+public class RequestiStatTransformCell {
 
     @JsonProperty(value = "line")
-    private String line;
+    private Integer line;
 
     @JsonProperty(value = "column")
     private String column;
 
     @JsonProperty(value = "value")
-    private float value;
+    private Float value;
 
-    public RequestiStatCalcCellTransform(){
+    public RequestiStatTransformCell(){
     }
     
-    public RequestiStatCalcCellTransform(String line, String column,
-            float value) {
+    public RequestiStatTransformCell(Integer line, String column,
+            Float value) {
         this.line = line;
         this.column = column;
         this.value = value;
     }
 
-    public String getLine() {
+    public Integer getLine() {
         return line;
     }
 
@@ -33,7 +33,7 @@ public class RequestiStatCalcCellTransform {
         return column;
     }
 
-    public float getValue() {
+    public Float getValue() {
         return value;
     }
 

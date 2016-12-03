@@ -1,4 +1,4 @@
-package org.iStat.api.iStatTransform.response;
+package org.iStat.api.iStatTransform.request;
 
 import java.util.List;
 
@@ -6,18 +6,18 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ResponseiStatCalcDatasetTransform {
+public class RequestiStatTransformDataset {
 
     @JsonProperty(value = "name")
     private String name;
 
     @JsonProperty(value = "cells")
-    private List<ResponseiStatCalcCellTransform> cells;
+    private List<RequestiStatTransformCell> cells;
 
-    public ResponseiStatCalcDatasetTransform() {}
+    public RequestiStatTransformDataset() {}
 
-    public ResponseiStatCalcDatasetTransform(String name,
-            List<ResponseiStatCalcCellTransform> cells) {
+    public RequestiStatTransformDataset(String name,
+            List<RequestiStatTransformCell> cells) {
         this.name = name;
         this.cells = cells;
     }
@@ -26,7 +26,7 @@ public class ResponseiStatCalcDatasetTransform {
         return name;
     }
 
-    public List<ResponseiStatCalcCellTransform> getCells() {
+    public List<RequestiStatTransformCell> getCells() {
         return cells;
     }
 

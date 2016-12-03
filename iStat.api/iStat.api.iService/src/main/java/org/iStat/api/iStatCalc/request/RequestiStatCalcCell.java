@@ -7,25 +7,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class RequestiStatCalcCell {
 
     @JsonProperty(value = "line")
-    private String line;
+    private Integer line;
 
     @JsonProperty(value = "column")
     private String column;
 
     @JsonProperty(value = "value")
-    private float value;
+    private Float value;
 
-    public RequestiStatCalcCell(){
-    }
-    
-    public RequestiStatCalcCell(String line, String column,
-            float value) {
+    public RequestiStatCalcCell() {}
+
+    public RequestiStatCalcCell(Integer line, String column,
+            Float value) {
         this.line = line;
         this.column = column;
         this.value = value;
     }
 
-    public String getLine() {
+    public Integer getLine() {
         return line;
     }
 
@@ -33,7 +32,7 @@ public class RequestiStatCalcCell {
         return column;
     }
 
-    public float getValue() {
+    public Float getValue() {
         return value;
     }
 

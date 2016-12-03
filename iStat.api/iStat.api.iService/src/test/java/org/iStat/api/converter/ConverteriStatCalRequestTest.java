@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.math.BigDecimal;
 import java.util.function.Predicate;
 
 import org.iStat.api.common.converter.Converter;
@@ -17,7 +16,7 @@ import org.iStat.api.iStatCalc.request.RequestiStatCalcCell;
 import org.iStat.api.iStatCalc.request.RequestiStatCalcDataset;
 import org.junit.Test;
 
-public class ConverterRequestiStatCalToDomainTest {
+public class ConverteriStatCalRequestTest {
 
     public Converter<RequestiStatCalc, DocumentiStat> converter = new ConverteriStatCalRequest();
 
@@ -30,51 +29,41 @@ public class ConverterRequestiStatCalToDomainTest {
 
         assertNotNull(document);
         assertEquals(2, document.getDatasets().size());
-        assertTrue(document
-            .getDatasets().stream()
-            .anyMatch(assertHasCell("2", "A", Float
-                .valueOf(40.5f))));
-        assertTrue(document
-            .getDatasets().stream()
-            .anyMatch(assertHasCell("10", "A", Float
-                .valueOf(40.5f))));
-        assertTrue(document
-            .getDatasets().stream()
-            .anyMatch(assertHasCell("3", "A", Float
-                .valueOf(20.5f))));
-        assertTrue(document
-            .getDatasets().stream()
-            .anyMatch(assertHasCell("7", "B", Float
-                .valueOf(30.5f))));
+        assertTrue(document.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(40.5f))));
+        assertTrue(document.getDatasets().stream().anyMatch(
+                assertHasCell(10, "A", Float.valueOf(40.5f))));
+        assertTrue(document.getDatasets().stream().anyMatch(
+                assertHasCell(3, "A", Float.valueOf(20.5f))));
+        assertTrue(document.getDatasets().stream().anyMatch(
+                assertHasCell(7, "B", Float.valueOf(30.5f))));
 
     }
 
-    private Predicate<Dataset> assertHasCell(String line, String column, Float value) {
+    private Predicate<Dataset> assertHasCell(Integer line, String column, Float value) {
         return new Predicate<Dataset>() {
 
             @Override
             public boolean test(Dataset dataset) {
-                return dataset
-                    .getCells().stream()
-                    .anyMatch(l -> l
-                        .getLine().equals(Integer.valueOf(line))
-                            && l.getColumn().equals(column)
-                            && l.getValue() != null
-                            && l.getValue().equals(value));
+                return dataset.getCells().stream().anyMatch(
+                        l -> l.getLine().equals(Integer.valueOf(line))
+                                && l.getColumn().equals(column)
+                                && l.getValue() != null
+                                && l.getValue().equals(value));
             }
         };
     }
 
     private RequestiStatCalc createRequest() {
 
-        RequestiStatCalcCell cell1A = new RequestiStatCalcCell("2",
-                "A", 40.5f);
-        RequestiStatCalcCell cell2A = new RequestiStatCalcCell("10",
-                "A", 40.5f);
-        RequestiStatCalcCell cell3A = new RequestiStatCalcCell("3",
-                "A", 20.5f);
-        RequestiStatCalcCell cell7B = new RequestiStatCalcCell("7",
-                "B", 30.5f);
+        RequestiStatCalcCell cell1A = new RequestiStatCalcCell(2, "A",
+                Float.valueOf(40.5f));
+        RequestiStatCalcCell cell2A = new RequestiStatCalcCell(10,
+                "A", Float.valueOf(40.5f));
+        RequestiStatCalcCell cell3A = new RequestiStatCalcCell(3, "A",
+                Float.valueOf(20.5f));
+        RequestiStatCalcCell cell7B = new RequestiStatCalcCell(7, "B",
+                Float.valueOf(30.5f));
 
         RequestiStatCalcDataset dataset1 = new RequestiStatCalcDataset(
                 "dataset_1",
