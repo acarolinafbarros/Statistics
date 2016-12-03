@@ -10,11 +10,11 @@ import org.iStat.api.iEntity.Dataset;
 import org.iStat.api.iEntity.Dataset.DatasetBuilder;
 import org.iStat.api.iEntity.DocumentiStat;
 import org.iStat.api.iEntity.DocumentiStat.DocumentiStatBuilder;
-import org.iStat.api.iResponse.iStatCalc.RequestiStatCalc;
-import org.iStat.api.iResponse.iStatCalc.RequestiStatCalcCell;
-import org.iStat.api.iResponse.iStatCalc.RequestiStatCalcDataset;
+import org.iStat.api.iStatCalc.request.RequestiStatCalc;
+import org.iStat.api.iStatCalc.request.RequestiStatCalcCell;
+import org.iStat.api.iStatCalc.request.RequestiStatCalcDataset;
 
-public class ConverterRequestiStatCalToDomain
+public class ConverteriStatCalRequest
         implements Converter<RequestiStatCalc, DocumentiStat> {
 
     private static final Function<RequestiStatCalcDataset, Dataset> API_TO_DATASET = new Function<RequestiStatCalcDataset, Dataset>() {

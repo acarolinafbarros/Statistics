@@ -1,9 +1,9 @@
 package org.iStat.api.iConverter;
 
 import org.iStat.api.common.converter.Converter;
-import org.iStat.api.iResponse.iStatCalc.ResponseiStatCalc;
+import org.iStat.api.iStatCalc.response.ResponseiStatCalc;
 
-public class ConverterDomainToResponseiStatCal
+public class ConverteriStatCalResponse
         implements Converter<Float, ResponseiStatCalc> {
 
     @Override

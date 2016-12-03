@@ -1,11 +1,11 @@
 package org.iStat.api.iApp;
 
 import org.iStat.api.common.converter.Converter;
-import org.iStat.api.iConverter.ConverterDomainToResponseiStatCal;
-import org.iStat.api.iConverter.ConverterRequestiStatCalToDomain;
+import org.iStat.api.iConverter.ConverteriStatCalResponse;
+import org.iStat.api.iConverter.ConverteriStatCalRequest;
 import org.iStat.api.iEntity.DocumentiStat;
-import org.iStat.api.iResponse.iStatCalc.RequestiStatCalc;
-import org.iStat.api.iResponse.iStatCalc.ResponseiStatCalc;
+import org.iStat.api.iStatCalc.request.RequestiStatCalc;
+import org.iStat.api.iStatCalc.response.ResponseiStatCalc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +19,12 @@ public class App {
 
     @Bean
     public Converter<RequestiStatCalc, DocumentiStat> converterRequestiStatCalc() {
-        return new ConverterRequestiStatCalToDomain();
+        return new ConverteriStatCalRequest();
     }
 
     @Bean
     public Converter<Float, ResponseiStatCalc> converterResponseiStatCalc() {
-        return new ConverterDomainToResponseiStatCal();
+        return new ConverteriStatCalResponse();
     }
 
 }

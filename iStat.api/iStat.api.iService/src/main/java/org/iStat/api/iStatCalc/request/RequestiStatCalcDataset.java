@@ -1,4 +1,4 @@
-package org.iStat.api.iResponse.iStatCalc;
+package org.iStat.api.iStatCalc.request;
 
 import java.util.List;
 

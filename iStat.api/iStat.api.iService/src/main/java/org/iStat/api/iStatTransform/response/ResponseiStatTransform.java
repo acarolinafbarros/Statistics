@@ -1,4 +1,4 @@
-package org.iStat.api.iResponse.iStatCalc;
+package org.iStat.api.iStatTransform.response;
 
 import java.util.List;
 
@@ -6,19 +6,19 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RequestiStatCalc {
+public class ResponseiStatTransform {
 
     @JsonProperty(value = "datasets")
-    private List<RequestiStatCalcDataset> datasets;
-    
-    public RequestiStatCalc(){
-    }
-    
-    public RequestiStatCalc(List<RequestiStatCalcDataset> dataset) {
+    private List<ResponseiStatCalcDatasetTransform> datasets;
+
+    public ResponseiStatTransform() {}
+
+    public ResponseiStatTransform(
+            List<ResponseiStatCalcDatasetTransform> dataset) {
         this.datasets = dataset;
     }
 
-    public List<RequestiStatCalcDataset> getDatasets() {
+    public List<ResponseiStatCalcDatasetTransform> getDatasets() {
         return datasets;
     }
 

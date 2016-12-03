@@ -1,4 +1,4 @@
-package org.iStat.api.iResponse.iStatCalc;
+package org.iStat.api.iStatCalc.response;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.iStat.api.iResponse.StatusEnum;

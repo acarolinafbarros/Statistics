@@ -4,13 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.iStat.api.common.converter.Converter;
-import org.iStat.api.iConverter.ConverterDomainToResponseiStatCal;
-import org.iStat.api.iResponse.iStatCalc.ResponseiStatCalc;
+import org.iStat.api.iConverter.ConverteriStatCalResponse;
+import org.iStat.api.iStatCalc.response.ResponseiStatCalc;
 import org.junit.Test;
 
 public class ConverterDomainToResponseiStatCalTest {
 
-    public Converter<Float, ResponseiStatCalc> converter = new ConverterDomainToResponseiStatCal();
+    public Converter<Float, ResponseiStatCalc> converter = new ConverteriStatCalResponse();
 
     @Test
     public void shouldConvertDomainToResponseiStatCal() {

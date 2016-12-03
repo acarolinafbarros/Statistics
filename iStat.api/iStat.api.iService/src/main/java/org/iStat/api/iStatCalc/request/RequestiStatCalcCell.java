@@ -1,4 +1,4 @@
-package org.iStat.api.iResponse.iStatCalc;
+package org.iStat.api.iStatCalc.request;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
