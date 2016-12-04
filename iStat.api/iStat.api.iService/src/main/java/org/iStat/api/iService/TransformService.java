@@ -1,7 +1,6 @@
 package org.iStat.api.iService;
 
-import java.util.List;
-
+import org.iStat.api.iEntity.DocumentiStat;
 import org.iStat.api.iLogic.TransformStatistical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +11,10 @@ public class TransformService {
 
 	private final Logger LOG = LoggerFactory.getLogger(TransformService.class);
 	
-	/*
-    public Float transformScale(List<Float> input, float value) {
+    public Float transformScale(DocumentiStat input) {
     	TransformStatistical transformStatistical = new TransformStatistical();
-        return transformStatistical.transformScale(input, value);
+        return transformStatistical.transformScale(input);
     }
-	*/
+	
+  
 }
