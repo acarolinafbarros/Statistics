@@ -8,8 +8,11 @@ public class DocumentiStat {
 
     private List<Dataset> datasets;
 
+    private Float scalar;
+    
     private DocumentiStat(DocumentiStatBuilder builder) {
         this.datasets = builder.datasets;
+        this.scalar = builder.scalar;
     }
 
     public List<Dataset> getDatasets() {
@@ -22,16 +25,33 @@ public class DocumentiStat {
     public void setDatasets(List<Dataset> datasets) {
         this.datasets = datasets;
     }
+      
+    public Float getScalar() {
+        return scalar;
+    }
+
+    public void setScalar(Float scalar) {
+        this.scalar = scalar;
+    }
+
+
 
     public static class DocumentiStatBuilder {
 
         private List<Dataset> datasets;
 
+        private Float scalar;
+        
         public DocumentiStatBuilder withDatasets(List<Dataset> datasets) {
             this.datasets = datasets;
             return this;
         }
 
+        public DocumentiStatBuilder withScalar(Float scalar){
+            this.scalar = scalar;
+            return this;
+        }
+        
         public DocumentiStat build() {
             return new DocumentiStat(this);
         }

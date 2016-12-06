@@ -52,6 +52,7 @@ public class ConverteriStatTransformRequest
             .withDatasets(from
                 .getDatasets().stream().map(API_TO_DATASET)
                 .collect(Collectors.toList()))
+            .withScalar(from.getScalar())
             .build();
 
     }
