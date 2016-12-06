@@ -34,8 +34,6 @@ public class DocumentiStat {
         this.scalar = scalar;
     }
 
-
-
     public static class DocumentiStatBuilder {
 
         private List<Dataset> datasets;
