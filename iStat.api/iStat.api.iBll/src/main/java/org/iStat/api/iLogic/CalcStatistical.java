@@ -1,8 +1,11 @@
 package org.iStat.api.iLogic;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -13,8 +16,7 @@ import org.slf4j.LoggerFactory;
 
 public class CalcStatistical {
 
-    private final Logger LOG = LoggerFactory
-        .getLogger(CalcStatistical.class);
+    private final Logger LOG = LoggerFactory.getLogger(CalcStatistical.class);
 
     private Function<Cell<Integer, String>, Float> EXTRACT_VALUE_OF_CELL = new Function<Cell<Integer, String>, Float>() {
 
@@ -28,18 +30,14 @@ public class CalcStatistical {
         Float result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                List<Cell<Integer, String>> input = documentiStat
-                    .getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
 
                 if (!CollectionUtils.isEmpty(input)) {
                     Integer length = input.size();
                     if (length > 0) {
-                        Float sum = (float) input
-                            .stream().mapToDouble(i -> i.getValue())
-                            .sum();
+                        Float sum = (float) input.stream().mapToDouble(i -> i.getValue()).sum();
                         result = sum / length;
                     }
                 }
@@ -53,18 +51,14 @@ public class CalcStatistical {
         Float result = null;
         if (ObjectUtils.allNotNull(documentiStat)) {
 
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                List<Cell<Integer, String>> input = documentiStat
-                    .getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
 
                 if (!CollectionUtils.isEmpty(input)) {
                     Integer length = input.size();
                     if (length > 0) {
-                        Float mult = (float) input
-                            .stream().mapToDouble(i -> i.getValue())
-                            .reduce(1, (a, b) -> a * b);
+                        Float mult = (float) input.stream().mapToDouble(i -> i.getValue()).reduce(1, (a, b) -> a * b);
                         double geoMean = Math.pow(mult, 1.0 / length);
                         result = (float) geoMean;
                     }
@@ -79,29 +73,31 @@ public class CalcStatistical {
         Float result = null;
         if (ObjectUtils.allNotNull(documentiStat)) {
 
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                List<Cell<Integer, String>> input = documentiStat
-                    .getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
 
                 if (!CollectionUtils.isEmpty(input)) {
                     Integer length = input.size();
                     if (length > 0) {
-                        float keyValue = 0;
-                        float maxCounts = 0;
-                        float[] counts = new float[length];
-
-                        for (int i = 0; i < length; ++i) {
-                            float value = input.get(i).getValue();
-                            counts[(int) value]++;
-
-                            if (maxCounts < counts[(int) value]) {
-                                maxCounts = counts[(int) value];
-                                keyValue = input.get(i).getValue();
-                            }
+                        List<Float> values = new ArrayList<>();
+                        for(Cell<Integer, String> value: input){
+                            values.add(value.getValue());
                         }
-                        result = keyValue;
+                        
+                        final Map<Float, Long> countFrequencies = values.stream()
+                                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+                        final long maxFrequency = countFrequencies.values().stream()
+                                .mapToLong(count -> count)
+                                .max().orElse(-1);
+
+                        List<Float> results =  countFrequencies.entrySet().stream()
+                                .filter(tuple -> tuple.getValue() == maxFrequency)
+                                .map(Map.Entry::getKey)
+                                .collect(Collectors.toList());
+                        
+                        result = results.get(0);
                     }
                 }
             }
@@ -113,25 +109,15 @@ public class CalcStatistical {
         Float result = null;
         if (ObjectUtils.allNotNull(documentiStat)) {
 
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                List<Cell<Integer, String>> input = documentiStat
-                    .getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
 
                 if (!CollectionUtils.isEmpty(input)) {
                     Integer length = input.size();
                     if (length > 0) {
-                        Float max = (float) input
-                            .stream()
-                            .max(Comparator
-                                .comparing(EXTRACT_VALUE_OF_CELL))
-                            .get().getValue();
-                        Float min = (float) input
-                            .stream()
-                            .min(Comparator
-                                .comparing(EXTRACT_VALUE_OF_CELL))
-                            .get().getValue();
+                        Float max = (float) input.stream().max(Comparator.comparing(EXTRACT_VALUE_OF_CELL)).get().getValue();
+                        Float min = (float) input.stream().min(Comparator.comparing(EXTRACT_VALUE_OF_CELL)).get().getValue();
 
                         result = (max + min) / 2;
                     }
@@ -146,20 +132,16 @@ public class CalcStatistical {
         Float result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                List<Cell<Integer, String>> input = documentiStat
-                    .getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
 
                 Integer length = input.size();
                 if (length > 0) {
-                    float median = Float
-                        .valueOf(calculateMedian(documentiStat));
+                    float median = Float.valueOf(calculateMedian(documentiStat));
                     float temp = 0;
                     for (Cell<Integer, String> value : input) {
-                        temp += (value.getValue() - median)
-                                * (value.getValue() - median);
+                        temp += (value.getValue() - median) * (value.getValue() - median);
                     }
                     result = temp / ((float) length - 1);
                 }
@@ -172,17 +154,14 @@ public class CalcStatistical {
         Float result = null;
         if (ObjectUtils.allNotNull(documentiStat)) {
 
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                List<Cell<Integer, String>> input = documentiStat
-                    .getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
 
                 if (!CollectionUtils.isEmpty(input)) {
                     Integer length = input.size();
                     if (length > 0) {
-                        float variance = calculateVariance(
-                                documentiStat);
+                        float variance = calculateVariance(documentiStat);
                         result = (float) Math.sqrt(variance);
                     }
                 }
@@ -195,21 +174,17 @@ public class CalcStatistical {
         Float result = null;
         if (ObjectUtils.allNotNull(documentiStat)) {
 
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                List<Cell<Integer, String>> input = documentiStat
-                    .getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
 
                 Integer length = input.size();
                 if (length > 0) {
-                    result = (float) input
-                        .stream().mapToDouble(i -> i.getValue())
-                        .sum();
+                    result = (float) input.stream().mapToDouble(i -> i.getValue()).sum();
                 }
             }
         }
-       
+
         return result;
     }
 
