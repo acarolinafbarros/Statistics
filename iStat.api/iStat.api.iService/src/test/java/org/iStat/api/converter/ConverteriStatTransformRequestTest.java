@@ -21,7 +21,7 @@ public class ConverteriStatTransformRequestTest {
     public Converter<RequestiStatTransform, DocumentiStat> converter = new ConverteriStatTransformRequest();
 
     @Test
-    public void shouldConvertRequestiStatCalToDomain() {
+    public void shouldConvertRequestiStatTransform() {
 
         RequestiStatTransform request = createRequest();
 

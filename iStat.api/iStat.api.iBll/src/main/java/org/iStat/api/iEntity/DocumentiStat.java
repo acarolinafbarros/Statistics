@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class DocumentiStat {
 
     private List<Dataset> datasets;
@@ -21,6 +23,12 @@ public class DocumentiStat {
 
     public void setDatasets(List<Dataset> datasets) {
         this.datasets = datasets;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+            .append("datasets", datasets).build();
     }
 
     public static class DocumentiStatBuilder {
