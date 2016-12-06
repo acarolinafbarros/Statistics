@@ -11,10 +11,5 @@ public class TransformService {
 
 	private final Logger LOG = LoggerFactory.getLogger(TransformService.class);
 	
-    public Float transformScale(DocumentiStat input) {
-    	TransformStatistical transformStatistical = new TransformStatistical();
-        return transformStatistical.transformScale(input);
-    }
-	
   
 }
