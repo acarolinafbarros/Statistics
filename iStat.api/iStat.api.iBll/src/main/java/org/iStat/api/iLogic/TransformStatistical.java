@@ -12,7 +12,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.iStat.api.iEntity.Cell;
 import org.iStat.api.iEntity.Cell.CellBuilder;
+import org.iStat.api.iEntity.Dataset;
+import org.iStat.api.iEntity.Dataset.DatasetBuilder;
 import org.iStat.api.iEntity.DocumentiStat;
+import org.iStat.api.iEntity.DocumentiStat.DocumentiStatBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,42 +94,43 @@ public class TransformStatistical {
         }
     };
 
-    public Float transformScale(DocumentiStat documentiStat) {
-        Float result = null;
-
+    public DocumentiStat transformScale(DocumentiStat documentiStat, Float scalar) {
+        DocumentiStat result = null;
+        Float sum = null;
+        
         if (ObjectUtils.allNotNull(documentiStat)) {
             if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
-
+            	
                 List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> dataset_final = new ArrayList<>();
 
                 if (!CollectionUtils.isEmpty(input)) {
                     Integer length = input.size();
                     if (length > 0) {
-                        Float sum = (float) input.stream().mapToDouble(i -> i.getValue()).sum();
-                        result = sum / length;
+                    	for (int i = 0; i < length; ++i) {
+                    		
+                    		sum = input.get(i).getValue() * scalar;
+                    				
+                            CellBuilder<Integer, String> builderCell = new CellBuilder<Integer,String>();
+                            builderCell.withLine(input.get(i).getLine());
+                            builderCell.withColumn(input.get(i).getColumn());
+                            builderCell.withValue(sum);
+                            Cell<Integer, String> cell = builderCell.build();
+                            dataset_final.add(cell); 
+                    	}               	
                     }
-                }
-            }
+                }  
+                DatasetBuilder builderDataset = new DatasetBuilder();
+                builderDataset.withCells(dataset_final);
+                Dataset dataset = builderDataset.build();
+                List<Dataset> datasets = new ArrayList<Dataset>();
+                datasets.add(dataset);
+                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
+                builderDocument.withDatasets(datasets);
+                
+                result = builderDocument.build();
+            }    
         }
-
         return result;
-    }
-
-	/*
-    public Float [] transformScale(List<Float> input, float scaleFactor) {
-    	Float result [] = null;
-        if (!CollectionUtils.isEmpty(input)) {
-            Integer length = input.size();
-            if (length > 0) {
-            	result = new Float [length];
-            	for (int i = 0; i < length; ++i) {
-            		result[i] = result[i] * scaleFactor;
-            	}           
-            }
-        }
-        LOG.info("teste");
-        return result;
-    }
-    */
-
+    }	
 }

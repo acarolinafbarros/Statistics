@@ -37,7 +37,7 @@ public class IStatTransform {
      * WebService responsible for scale the dataset.
      * 
      * URL example:
-     * http://localhost:8080/iStatTransform/transformScale?valuesToCalc=1;3.0
+     * http://localhost:8080/iStatTransform/transformScale
      * 
      * @param valuesToCalc
      *            - List of floats separated with ;
@@ -52,11 +52,14 @@ public class IStatTransform {
 
         DocumentiStat documentiStat = converterRequestiStatTransform
             .convert(request);
-
+        
+        Float scalar = request.getScalar();
+      
         // FIXME: Need to catch the errors and throw an exception
+        DocumentiStat result = transformService.transformScale(documentiStat,scalar);
 
         ResponseiStatTransform response = converterResponseiStatTransform
-            .convert(null);
+            .convert(result);
 
         response.setStatus(StatusEnum.Success);
 
@@ -64,3 +67,5 @@ public class IStatTransform {
 
     }
 }
+
+
