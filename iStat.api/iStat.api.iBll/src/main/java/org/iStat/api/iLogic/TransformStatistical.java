@@ -4,12 +4,9 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.apache.commons.collections4.CollectionUtils;
-<<<<<<< HEAD
-=======
 import org.apache.commons.lang3.ObjectUtils;
 import org.iStat.api.iEntity.Cell;
 import org.iStat.api.iEntity.DocumentiStat;
->>>>>>> iStat.api
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

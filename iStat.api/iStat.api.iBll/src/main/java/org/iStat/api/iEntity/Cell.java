@@ -53,8 +53,10 @@ public class Cell<Line, Column> {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("parentDatasetName", parentDatasetName).append("line", line).append("column", column)
-                .append("value", value).build();
+        return new ToStringBuilder(this)
+            .append("parentDatasetName", parentDatasetName)
+            .append("line", line).append("column", column)
+            .append("value", value).build();
     }
 
     public static class CellBuilder<Line, Column> {

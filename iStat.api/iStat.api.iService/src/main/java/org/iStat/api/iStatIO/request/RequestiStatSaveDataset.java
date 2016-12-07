@@ -1,4 +1,4 @@
-package org.iStat.api.iStatIO.response;
+package org.iStat.api.iStatIO.request;
 
 import java.util.List;
 
@@ -6,18 +6,18 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ResponseiStatIOOpenDataset {
+public class RequestiStatSaveDataset {
 
     @JsonProperty(value = "name")
     private String name;
 
     @JsonProperty(value = "cells")
-    private List<ResponseiStatIOOpenCell> cells;
+    private List<RequestiStatSaveCell> cells;
 
-    public ResponseiStatIOOpenDataset() {}
+    public RequestiStatSaveDataset() {}
 
-    public ResponseiStatIOOpenDataset(String name,
-            List<ResponseiStatIOOpenCell> cells) {
+    public RequestiStatSaveDataset(String name,
+            List<RequestiStatSaveCell> cells) {
         this.name = name;
         this.cells = cells;
     }
@@ -30,11 +30,11 @@ public class ResponseiStatIOOpenDataset {
         this.name = name;
     }
 
-    public List<ResponseiStatIOOpenCell> getCells() {
+    public List<RequestiStatSaveCell> getCells() {
         return cells;
     }
 
-    public void setCells(List<ResponseiStatIOOpenCell> cells) {
+    public void setCells(List<RequestiStatSaveCell> cells) {
         this.cells = cells;
     }
 

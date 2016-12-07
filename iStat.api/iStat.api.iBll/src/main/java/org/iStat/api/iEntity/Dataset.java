@@ -38,7 +38,8 @@ public class Dataset {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("cells", cells).build();
+        return new ToStringBuilder(this)
+            .append("name", name).append("cells", cells).build();
     }
 
     public static class DatasetBuilder {

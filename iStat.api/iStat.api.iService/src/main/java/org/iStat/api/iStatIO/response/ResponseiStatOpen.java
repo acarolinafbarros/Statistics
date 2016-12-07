@@ -3,26 +3,26 @@ package org.iStat.api.iStatIO.response;
 import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.iStat.api.response.ResponseiStat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ResponseiStatIOOpen {
+public class ResponseiStatOpen extends ResponseiStat {
 
     @JsonProperty(value = "datasets")
-    private List<ResponseiStatIOOpenDataset> datasets;
+    private List<ResponseiStatOpenDataset> datasets;
 
-    public ResponseiStatIOOpen() {}
+    public ResponseiStatOpen() {}
 
-    public ResponseiStatIOOpen(
-            List<ResponseiStatIOOpenDataset> dataset) {
+    public ResponseiStatOpen(List<ResponseiStatOpenDataset> dataset) {
         this.datasets = dataset;
     }
 
-    public List<ResponseiStatIOOpenDataset> getDatasets() {
+    public List<ResponseiStatOpenDataset> getDatasets() {
         return datasets;
     }
 
-    public void setDatasets(List<ResponseiStatIOOpenDataset> datasets) {
+    public void setDatasets(List<ResponseiStatOpenDataset> datasets) {
         this.datasets = datasets;
     }
 

@@ -4,12 +4,16 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RequestiStatIOOpen {
+public class RequestiStatOpen {
 
     @JsonProperty(value = "name")
     private String name;
 
-    public RequestiStatIOOpen() {}
+    public RequestiStatOpen() {}
+    
+    public RequestiStatOpen(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;

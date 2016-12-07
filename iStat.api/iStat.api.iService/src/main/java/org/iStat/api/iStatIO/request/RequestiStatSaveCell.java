@@ -1,10 +1,10 @@
-package org.iStat.api.iStatIO.response;
+package org.iStat.api.iStatIO.request;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ResponseiStatIOOpenCell {
+public class RequestiStatSaveCell {
 
     @JsonProperty(value = "line")
     private Integer line;
@@ -15,9 +15,9 @@ public class ResponseiStatIOOpenCell {
     @JsonProperty(value = "value")
     private Float value;
 
-    public ResponseiStatIOOpenCell() {}
+    public RequestiStatSaveCell() {}
 
-    public ResponseiStatIOOpenCell(Integer line, String column,
+    public RequestiStatSaveCell(Integer line, String column,
             Float value) {
         this.line = line;
         this.column = column;
