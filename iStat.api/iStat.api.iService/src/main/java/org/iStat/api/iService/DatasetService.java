@@ -2,6 +2,7 @@ package org.iStat.api.iService;
 
 import org.iStat.api.common.converter.Converter;
 import org.iStat.api.iEntity.DocumentiStat;
+import org.iStat.api.iEntity.DocumentiStat.DocumentiStatBuilder;
 import org.iStat.api.iManage.ManageDocumentIStat;
 import org.iStat.api.iModel.DocumentIStatModel;
 import org.slf4j.Logger;
@@ -30,7 +31,12 @@ public class DatasetService {
     public DocumentiStat openDataset(DocumentiStat input) {
         ManageDocumentIStat manageDocumentIStat = new ManageDocumentIStat();
         DocumentIStatModel result = manageDocumentIStat.findDocumentByName(input.getId());
-        return converterDocumentiStatEntity.convert(result);
+        if (result != null) {
+            return converterDocumentiStatEntity.convert(result);
+        } else {
+            DocumentiStatBuilder builder = new DocumentiStatBuilder();
+            return builder.build();
+        }
 
     }
 }
