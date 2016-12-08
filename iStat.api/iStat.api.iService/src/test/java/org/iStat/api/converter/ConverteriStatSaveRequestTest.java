@@ -8,22 +8,22 @@ import static org.junit.Assert.assertTrue;
 import java.util.function.Predicate;
 
 import org.iStat.api.common.converter.Converter;
-import org.iStat.api.iConverter.ConverteriStatTransformRequest;
+import org.iStat.api.iConverter.ConverteriStatSaveRequest;
 import org.iStat.api.iEntity.Dataset;
 import org.iStat.api.iEntity.DocumentiStat;
-import org.iStat.api.iStatTransform.request.RequestiStatTransform;
-import org.iStat.api.iStatTransform.request.RequestiStatTransformCell;
-import org.iStat.api.iStatTransform.request.RequestiStatTransformDataset;
+import org.iStat.api.iStatIO.request.RequestiStatSave;
+import org.iStat.api.iStatIO.request.RequestiStatSaveCell;
+import org.iStat.api.iStatIO.request.RequestiStatSaveDataset;
 import org.junit.Test;
 
-public class ConverteriStatTransformRequestTest {
+public class ConverteriStatSaveRequestTest {
 
-    public Converter<RequestiStatTransform, DocumentiStat> converter = new ConverteriStatTransformRequest();
+    public Converter<RequestiStatSave, DocumentiStat> converter = new ConverteriStatSaveRequest();
 
     @Test
-    public void shouldConvertRequestiStatTransform() {
+    public void shouldConverteriStatSaveRequest() {
 
-        RequestiStatTransform request = createRequest();
+        RequestiStatSave request = createRequest();
 
         DocumentiStat document = converter.convert(request);
 
@@ -54,25 +54,25 @@ public class ConverteriStatTransformRequestTest {
         };
     }
 
-    private RequestiStatTransform createRequest() {
+    private RequestiStatSave createRequest() {
 
-        RequestiStatTransformCell cell1A = new RequestiStatTransformCell(2, "A",
+        RequestiStatSaveCell cell1A = new RequestiStatSaveCell(2, "A",
                 Float.valueOf(40.5f));
-        RequestiStatTransformCell cell2A = new RequestiStatTransformCell(10,
+        RequestiStatSaveCell cell2A = new RequestiStatSaveCell(10,
                 "A", Float.valueOf(40.5f));
-        RequestiStatTransformCell cell3A = new RequestiStatTransformCell(3, "A",
+        RequestiStatSaveCell cell3A = new RequestiStatSaveCell(3, "A",
                 Float.valueOf(20.5f));
-        RequestiStatTransformCell cell7B = new RequestiStatTransformCell(7, "B",
+        RequestiStatSaveCell cell7B = new RequestiStatSaveCell(7, "B",
                 Float.valueOf(30.5f));
 
-        RequestiStatTransformDataset dataset1 = new RequestiStatTransformDataset(
+        RequestiStatSaveDataset dataset1 = new RequestiStatSaveDataset(
                 "dataset_1",
                 newArrayList(cell1A, cell2A, cell3A, cell7B));
 
-        RequestiStatTransformDataset dataset2 = new RequestiStatTransformDataset(
+        RequestiStatSaveDataset dataset2 = new RequestiStatSaveDataset(
                 "dataset_2", newArrayList(cell1A, cell3A));
 
-        return new RequestiStatTransform(newArrayList(dataset1, dataset2));
+        return new RequestiStatSave(newArrayList(dataset1, dataset2), "document1");
 
     }
 

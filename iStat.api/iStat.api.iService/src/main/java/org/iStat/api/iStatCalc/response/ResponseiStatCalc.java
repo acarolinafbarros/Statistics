@@ -1,40 +1,31 @@
 package org.iStat.api.iStatCalc.response;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.iStat.api.iResponse.StatusEnum;
+import org.iStat.api.response.ResponseiStat;
+import org.iStat.api.response.StatusEnum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ResponseiStatCalc {
-
-    private StatusEnum status;
+public class ResponseiStatCalc extends ResponseiStat {
 
     @JsonProperty(value = "value")
     private Float result;
 
     public ResponseiStatCalc() {
-        this(null, null);
+        this(null);
     }
 
     public ResponseiStatCalc(Float result) {
-        this(StatusEnum.Success, result);
+        this(null, result);
     }
 
     public ResponseiStatCalc(StatusEnum status, Float result) {
-        this.status = status;
+        super(status);
         this.result = result;
-    }
-
-    public StatusEnum getStatus() {
-        return status;
     }
 
     public Float getResult() {
         return result;
-    }
-
-    public void setStatus(StatusEnum status) {
-        this.status = status;
     }
 
     public void setResult(Float result) {
@@ -43,7 +34,8 @@ public class ResponseiStatCalc {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("status", status).append("result", result).build();
+        return new ToStringBuilder(this)
+            .append("result", result).build();
     }
 
 }

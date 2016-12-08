@@ -12,6 +12,7 @@ import static org.iStat.api.iEntity.makeit.DatasetMakeIt.cells;
 import static org.iStat.api.iEntity.makeit.DatasetMakeIt.name;
 import static org.iStat.api.iEntity.makeit.DocumentiStatMakeIt._documentiStat;
 import static org.iStat.api.iEntity.makeit.DocumentiStatMakeIt.datasets;
+import static org.iStat.api.iEntity.makeit.DocumentiStatMakeIt.id;
 
 import java.util.List;
 
@@ -31,8 +32,18 @@ public class AbstractUtilsiServiceTest {
                 a(_dataset, with(name, iName), with(cells, iCells)));
     }
 
+    protected DocumentiStat makeDocumentiStat(String fileName) {
+        return make(a(_documentiStat, with(id, fileName)));
+    }
+
+    
     protected DocumentiStat makeDocumentiStat(List<Dataset> iDatasets) {
         return make(a(_documentiStat, with(datasets, iDatasets)));
+    }
+
+    protected DocumentiStat makeDocumentiStat(List<Dataset> iDatasets, String fileName) {
+        return make(a(_documentiStat, with(datasets, iDatasets),
+                with(id, fileName)));
     }
 
 }

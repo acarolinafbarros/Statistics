@@ -16,6 +16,12 @@ public class DocumentiStatMakeIt {
 
     public static final Property<DocumentiStat, List<Dataset>> datasets = Property
         .newProperty();
+    
+    public static final Property<DocumentiStat, String> id = Property
+            .newProperty();
+    
+    public static final Property<DocumentiStat, Float> scalar = Property
+            .newProperty();
 
     public static final Instantiator<DocumentiStat> _documentiStat = new Instantiator<DocumentiStat>() {
 
@@ -25,6 +31,8 @@ public class DocumentiStatMakeIt {
             return new DocumentiStatBuilder()
                 .withDatasets(lookup
                     .valueOf(datasets, newArrayList()))
+                .withId(lookup.valueOf(id, "documentDefault"))
+                .withScalar(lookup.valueOf(scalar, 0.0f))
                 .build();
 
         }

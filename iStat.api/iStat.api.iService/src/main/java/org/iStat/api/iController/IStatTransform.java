@@ -2,10 +2,10 @@ package org.iStat.api.iController;
 
 import org.iStat.api.common.converter.Converter;
 import org.iStat.api.iEntity.DocumentiStat;
-import org.iStat.api.iResponse.StatusEnum;
 import org.iStat.api.iService.TransformService;
 import org.iStat.api.iStatTransform.request.RequestiStatTransform;
 import org.iStat.api.iStatTransform.response.ResponseiStatTransform;
+import org.iStat.api.response.StatusEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
