@@ -11,7 +11,7 @@ import org.iStat.api.iModel.CellModel;
 import org.iStat.api.iModel.DatasetModel;
 import org.iStat.api.iModel.DocumentIStatModel;
 
-public class ConverteriStatDocument implements Converter<DocumentiStat, DocumentIStatModel> {
+public class ConverteriStatDocumentModel implements Converter<DocumentiStat, DocumentIStatModel> {
 
     private static final Function<Dataset, DatasetModel> API_TO_DATASET = new Function<Dataset, DatasetModel>() {
 

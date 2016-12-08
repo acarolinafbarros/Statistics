@@ -23,4 +23,14 @@ public class ManageDocumentIStat {
         }
     }
 
+    public DocumentIStatModel findDocumentByName(String name) {
+        DocumentIStatModel foundDocument = null;
+        try {
+            foundDocument = datasetRepository.findByName(name);
+            return foundDocument;
+        } catch (Exception e) {
+            return foundDocument;
+        }
+    }
+
 }

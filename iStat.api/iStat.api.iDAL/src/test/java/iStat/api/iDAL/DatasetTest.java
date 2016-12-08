@@ -36,5 +36,13 @@ public class DatasetTest {
         
         DocumentIStatModel returned = repository.save(document);
     }
+    
+    @Test
+    public void testgetDataset(){
+        String id ="teste document";
+        
+        DocumentIStatModel returned = repository.findByName(id);
+        System.out.println(returned.toString());
+    }
 
 }

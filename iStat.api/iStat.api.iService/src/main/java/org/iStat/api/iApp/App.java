@@ -3,7 +3,10 @@ package org.iStat.api.iApp;
 import org.iStat.api.common.converter.Converter;
 import org.iStat.api.iConverter.ConverteriStatCalRequest;
 import org.iStat.api.iConverter.ConverteriStatCalResponse;
-import org.iStat.api.iConverter.ConverteriStatDocument;
+import org.iStat.api.iConverter.ConverteriStatDocumentEntity;
+import org.iStat.api.iConverter.ConverteriStatDocumentModel;
+import org.iStat.api.iConverter.ConverteriStatOpenRequest;
+import org.iStat.api.iConverter.ConverteriStatOpenResponse;
 import org.iStat.api.iConverter.ConverteriStatSaveRequest;
 import org.iStat.api.iConverter.ConverteriStatSaveResponse;
 import org.iStat.api.iConverter.ConverteriStatTransformRequest;
@@ -12,7 +15,9 @@ import org.iStat.api.iEntity.DocumentiStat;
 import org.iStat.api.iModel.DocumentIStatModel;
 import org.iStat.api.iStatCalc.request.RequestiStatCalc;
 import org.iStat.api.iStatCalc.response.ResponseiStatCalc;
+import org.iStat.api.iStatIO.request.RequestiStatOpen;
 import org.iStat.api.iStatIO.request.RequestiStatSave;
+import org.iStat.api.iStatIO.response.ResponseiStatOpen;
 import org.iStat.api.iStatIO.response.ResponseiStatSave;
 import org.iStat.api.iStatTransform.request.RequestiStatTransform;
 import org.iStat.api.iStatTransform.response.ResponseiStatTransform;
@@ -58,8 +63,23 @@ public class App {
     }    
     
     @Bean
-    public Converter<DocumentiStat, DocumentIStatModel> converterDocumentiStat() {
-        return new ConverteriStatDocument();
+    public Converter<DocumentiStat, DocumentIStatModel> converterDocumentiStatModel() {
+        return new ConverteriStatDocumentModel();
+    }   
+    
+    @Bean
+    public Converter<RequestiStatOpen, DocumentiStat> converterRequestiStatOpen() {
+        return new ConverteriStatOpenRequest();
+    }
+
+    @Bean
+    public Converter<DocumentiStat, ResponseiStatOpen> converterResponseiStatOpen() {
+        return new ConverteriStatOpenResponse();
+    }    
+    
+    @Bean
+    public Converter<DocumentIStatModel,DocumentiStat> converterDocumentiStatEntity() {
+        return new ConverteriStatDocumentEntity();
     }   
     
 }

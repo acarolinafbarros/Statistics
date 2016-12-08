@@ -1,5 +1,6 @@
 package org.iStat.api.iService;
 
+import org.iStat.api.common.converter.Converter;
 import org.iStat.api.iEntity.DocumentiStat;
 import org.iStat.api.iManage.ManageDocumentIStat;
 import org.iStat.api.iModel.DocumentIStatModel;
@@ -8,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.iStat.api.common.converter.Converter;
-
 @Service
 public class DatasetService {
 
@@ -17,11 +16,21 @@ public class DatasetService {
     // @TODO
 
     @Autowired
-    private Converter<DocumentiStat, DocumentIStatModel> converterDocumentiStat;
+    private Converter<DocumentiStat, DocumentIStatModel> converterDocumentiStatModel;
+
+    @Autowired
+    private Converter<DocumentIStatModel, DocumentiStat> converterDocumentiStatEntity;
 
     public Boolean saveDataset(DocumentiStat input) {
-        DocumentIStatModel document = converterDocumentiStat.convert(input);
+        DocumentIStatModel document = converterDocumentiStatModel.convert(input);
         ManageDocumentIStat manageDocumentIStat = new ManageDocumentIStat();
         return manageDocumentIStat.saveDataset(document);
+    }
+
+    public DocumentiStat openDataset(DocumentiStat input) {
+        ManageDocumentIStat manageDocumentIStat = new ManageDocumentIStat();
+        DocumentIStatModel result = manageDocumentIStat.findDocumentByName(input.getId());
+        return converterDocumentiStatEntity.convert(result);
+
     }
 }
