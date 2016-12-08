@@ -2,7 +2,7 @@
 
 ***** Quinta-feira, 8 de Dezembro de 2016 *****
 
-- Para terem a base de dados operacional, precisam de instalá-la, seguindo o que está no site do MongoDB
+- Para terem a base de dados operacional, precisam de a instalar, seguindo o que está no site do MongoDB
 
 - Depois, é preciso executarem numa linha de comandos: mongod --port 9090
 
