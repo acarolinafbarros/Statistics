@@ -12,5 +12,7 @@ project(':iStat.api.iDAL') {
 		
 		compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
 		compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+		compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '1.9.3.RELEASE'
+		compile group: 'org.springframework', name: 'spring-test', version: '4.3.3.RELEASE'
 	}
 }
