@@ -1,6 +1,7 @@
 package org.iStat.api.iApp;
 
 import org.iStat.api.common.converter.Converter;
+import org.iStat.api.iConfiguration.MongoConfig;
 import org.iStat.api.iConverter.ConverteriStatCalRequest;
 import org.iStat.api.iConverter.ConverteriStatCalResponse;
 import org.iStat.api.iConverter.ConverteriStatDocumentEntity;
@@ -24,8 +25,10 @@ import org.iStat.api.iStatTransform.response.ResponseiStatTransform;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 @SpringBootApplication(scanBasePackages = "org.iStat.api")
+@Import({MongoConfig.class})
 public class App {
 
     public static void main(String[] args) {

@@ -22,14 +22,15 @@ public class DatasetService {
     @Autowired
     private Converter<DocumentIStatModel, DocumentiStat> converterDocumentiStatEntity;
 
+    @Autowired
+    private ManageDocumentIStat manageDocumentIStat;
+
     public Boolean saveDataset(DocumentiStat input) {
         DocumentIStatModel document = converterDocumentiStatModel.convert(input);
-        ManageDocumentIStat manageDocumentIStat = new ManageDocumentIStat();
         return manageDocumentIStat.saveDataset(document);
     }
 
     public DocumentiStat openDataset(DocumentiStat input) {
-        ManageDocumentIStat manageDocumentIStat = new ManageDocumentIStat();
         DocumentIStatModel result = manageDocumentIStat.findDocumentByName(input.getId());
         if (result != null) {
             return converterDocumentiStatEntity.convert(result);
