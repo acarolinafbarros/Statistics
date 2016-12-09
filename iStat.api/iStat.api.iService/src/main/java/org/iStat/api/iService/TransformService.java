@@ -12,6 +12,11 @@ public class TransformService {
 
 	private final Logger LOG = LoggerFactory.getLogger(TransformService.class);
 	
+	 public DocumentiStat transformTranspose(DocumentiStat input) {
+        TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformTranspose(input);
+	 }
+		 	
 	 public DocumentiStat transformScale(DocumentiStat input, Float scalar) {
         TransformStatistical transformStatistical = new TransformStatistical();
         return transformStatistical.transformScale(input,scalar);

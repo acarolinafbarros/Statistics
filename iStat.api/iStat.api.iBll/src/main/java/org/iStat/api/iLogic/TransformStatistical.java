@@ -129,6 +129,42 @@ public class TransformStatistical {
         }
     };
 
+    public DocumentiStat transformTranspose(DocumentiStat documentiStat) {
+    	DocumentiStat result = null;
+    	
+    	if (ObjectUtils.allNotNull(documentiStat)) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
+            	
+            	Dataset input = documentiStat.getDatasets().get(0);             	
+        		Float [][] matrix = convertListToMatrix(input);
+        		
+        		int line_size = matrix.length;
+        		int column_size = matrix[0].length;	
+        		Float [][] matrix_final = new Float[line_size][column_size];
+        		        		
+        		for (int line = 0; line < line_size; ++line) {
+        			for (int column = 0; column < column_size; ++column) {
+        				matrix_final[column][line] =  input.getValueOfColumnLine(line, column);        			
+        			}
+        		}
+        		
+        		List<Cell<Integer, String>> output = convertMatrixtToList(matrix_final, "A", 1);
+        		
+        		DatasetBuilder builderDataset = new DatasetBuilder();
+                builderDataset.withCells(output);
+                Dataset dataset = builderDataset.build();
+                List<Dataset> datasets = new ArrayList<Dataset>();
+                datasets.add(dataset);
+                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
+                builderDocument.withDatasets(datasets);
+
+                result = builderDocument.build();
+            }
+    	}
+    	 	
+    	return result;
+    }
+    
     public DocumentiStat transformScale(DocumentiStat documentiStat, Float scalar) {
         DocumentiStat result = null;
         Float sum = null;

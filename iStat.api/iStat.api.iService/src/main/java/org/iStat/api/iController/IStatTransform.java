@@ -34,6 +34,36 @@ public class IStatTransform {
     private Converter<DocumentiStat, ResponseiStatTransform> converterResponseiStatTransform;
 
     /**
+     * WebService responsible for transpose the dataset.
+     * 
+     * URL example:
+     * http://localhost:8080/iStatTransform/transformScale
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/transformTranspose", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseiStatTransform transformTranspose(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+
+        LOG.info("Request: {}", request);
+        LOG.info("The final line is {} and the column is {}",
+                finalLine, finalColumn);
+
+        DocumentiStat documentiStat = converterRequestiStatTransform.convert(request);
+        
+        // FIXME: Need to catch the errors and throw an exception
+        DocumentiStat result = transformService.transformTranspose(documentiStat);
+
+        ResponseiStatTransform response = converterResponseiStatTransform.convert(result);
+
+        response.setStatus(StatusEnum.Success);
+
+        return response;
+
+    }
+    
+    /**
      * WebService responsible for scale the dataset.
      * 
      * URL example:
