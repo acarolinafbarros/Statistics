@@ -266,8 +266,8 @@ public class TransformStatistical {
         		        		
         		for (int line = 0; line < line_size; ++line) {
         			for (int column = 0; column < column_size; ++column) {
-        				matrix_final[line][column] =  input1.getValueOfColumnLine(line, column) + input2.getValueOfColumnLine(line, column);      
-        				System.out.println("---- MATRIX == " + matrix_final[line][column] + " || 1 - " + input1.getValueOfColumnLine(line, column) + " || 2 - " + input2.getValueOfColumnLine(line, column) + "/n");
+        				matrix_final[line][column] =  input1.getValueOfColumnLine(column, line) + input2.getValueOfColumnLine(column, line);      
+        				System.out.println("---- MATRIX == " + matrix_final[line][column] + " || 1 - " + input1.getValueOfColumnLine(column, line) + " || 2 - " + input2.getValueOfColumnLine(column, line) + "/n");
         			}
         		}
         		
@@ -313,8 +313,8 @@ public class TransformStatistical {
             		
             		for (int i = 0; i < line_size1; ++i) {          			
             			for (int j = 0; j < column_size2; ++j) {    				
-            				for (int k = 0; k < column_size1; ++k) {
-            					sum += input1.getValueOfColumnLine(i, k) * input2.getValueOfColumnLine(k, j);
+            				for (int k = 0; k < line_size2; ++k) {
+            					sum += input1.getValueOfColumnLine(k, j) * input2.getValueOfColumnLine(i,k);
             				}		
             				matrix_final[i][j] = sum;
             				sum = 0;
