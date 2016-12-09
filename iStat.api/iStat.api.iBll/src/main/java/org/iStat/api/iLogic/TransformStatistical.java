@@ -166,6 +166,7 @@ public class TransformStatistical {
     }
     
     public DocumentiStat transformScale(DocumentiStat documentiStat, Float scalar) {
+
         DocumentiStat result = null;
         Float sum = null;
 
@@ -245,4 +246,46 @@ public class TransformStatistical {
         return result;
     }
 
+    public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat) {
+    	DocumentiStat result = null;
+    	
+    	if (ObjectUtils.allNotNull(documentiStat)) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
+            	
+            	Dataset input1 = documentiStat.getDatasets().get(0);             	
+        		Float [][] matrix1 = convertListToMatrix(input1);
+        		
+            	Dataset input2 = documentiStat.getDatasets().get(1);             	
+        		Float [][] matrix2 = convertListToMatrix(input2);
+        		
+        		int line_size = matrix1.length;
+        		System.out.println("---- LINHA == " + line_size);
+        		int column_size = matrix1[0].length;	
+        		System.out.println("---- COLUNA == " + column_size);
+        		Float [][] matrix_final = new Float[line_size][column_size];
+        		        		
+        		for (int line = 0; line < line_size; ++line) {
+        			for (int column = 0; column < column_size; ++column) {
+        				matrix_final[line][column] =  input1.getValueOfColumnLine(line, column) + input2.getValueOfColumnLine(line, column);      
+        				System.out.println("---- MATRIX == " + matrix_final[line][column] + " || 1 - " + input1.getValueOfColumnLine(line, column) + " || 2 - " + input2.getValueOfColumnLine(line, column) + "/n");
+        			}
+        		}
+        		
+        		List<Cell<Integer, String>> output = convertMatrixtToList(matrix_final, "A", 1);
+        		
+        		DatasetBuilder builderDataset = new DatasetBuilder();
+                builderDataset.withCells(output);
+                Dataset dataset = builderDataset.build();
+                List<Dataset> datasets = new ArrayList<Dataset>();
+                datasets.add(dataset);
+                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
+                builderDocument.withDatasets(datasets);
+
+                result = builderDocument.build();
+            }
+    	}
+    	
+    	return result;
+    }
+    
 }
