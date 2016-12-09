@@ -31,5 +31,10 @@ public class TransformService {
         TransformStatistical transformStatistical = new TransformStatistical();
         return transformStatistical.transformAddTwoDatasets(input);
 	 }
+	 
+	 public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat input) {
+        TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformMultiplyTwoDatasets(input);
+	 }
   
 }
