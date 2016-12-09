@@ -66,6 +66,39 @@ public class IStatTransform {
         return response;
 
     }
+    
+    /**
+     * WebService responsible for add a scalar to every element of the dataset.
+     * 
+     * URL example:
+     * http://localhost:8080/iStatTransform/transformScale
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/transformAddScalar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseiStatTransform transformAddScalar(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+
+        LOG.info("Request: {}", request);
+        LOG.info("The final line is {} and the column is {}",
+                finalLine, finalColumn);
+
+        DocumentiStat documentiStat = converterRequestiStatTransform.convert(request);
+        
+        Float scalar = request.getScalar();
+      
+        // FIXME: Need to catch the errors and throw an exception
+        DocumentiStat result = transformService.transformAddScalar(documentiStat,scalar);
+
+        ResponseiStatTransform response = converterResponseiStatTransform.convert(result);
+
+        response.setStatus(StatusEnum.Success);
+
+        return response;
+
+    }
+    
 }
 
 

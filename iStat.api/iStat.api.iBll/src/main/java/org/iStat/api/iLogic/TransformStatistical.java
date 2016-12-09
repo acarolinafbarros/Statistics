@@ -169,21 +169,44 @@ public class TransformStatistical {
         return result;
     }
 
-    /*
-     * public Float [] transformScale(List<Float> input, float scaleFactor) {
-     * Float result [] = null;
-     * if (!CollectionUtils.isEmpty(input)) {
-     * Integer length = input.size();
-     * if (length > 0) {
-     * result = new Float [length];
-     * for (int i = 0; i < length; ++i) {
-     * result[i] = result[i] * scaleFactor;
-     * }
-     * }
-     * }
-     * LOG.info("teste");
-     * return result;
-     * }
-     */
+    public DocumentiStat transformAddScalar(DocumentiStat documentiStat, Float scalar) {
+        DocumentiStat result = null;
+        Float sum = null;
+
+        if (ObjectUtils.allNotNull(documentiStat)) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
+
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> dataset_final = new ArrayList<>();
+
+                if (!CollectionUtils.isEmpty(input)) {
+                    Integer length = input.size();
+                    if (length > 0) {
+                        for (int i = 0; i < length; ++i) {
+
+                            sum = input.get(i).getValue() + scalar;
+
+                            CellBuilder<Integer, String> builderCell = new CellBuilder<Integer, String>();
+                            builderCell.withLine(input.get(i).getLine());
+                            builderCell.withColumn(input.get(i).getColumn());
+                            builderCell.withValue(sum);
+                            Cell<Integer, String> cell = builderCell.build();
+                            dataset_final.add(cell);
+                        }
+                    }
+                }
+                DatasetBuilder builderDataset = new DatasetBuilder();
+                builderDataset.withCells(dataset_final);
+                Dataset dataset = builderDataset.build();
+                List<Dataset> datasets = new ArrayList<Dataset>();
+                datasets.add(dataset);
+                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
+                builderDocument.withDatasets(datasets);
+
+                result = builderDocument.build();
+            }
+        }
+        return result;
+    }
 
 }

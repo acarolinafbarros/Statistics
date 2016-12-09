@@ -13,8 +13,13 @@ public class TransformService {
 	private final Logger LOG = LoggerFactory.getLogger(TransformService.class);
 	
 	 public DocumentiStat transformScale(DocumentiStat input, Float scalar) {
-	        TransformStatistical transformStatistical = new TransformStatistical();
-	        return transformStatistical.transformScale(input,scalar);
-	    }
+        TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformScale(input,scalar);
+	 }
+	 
+	 public DocumentiStat transformAddScalar(DocumentiStat input, Float scalar) {
+        TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformAddScalar(input,scalar);
+	 }
   
 }
