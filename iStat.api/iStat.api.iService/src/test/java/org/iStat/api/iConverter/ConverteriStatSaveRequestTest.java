@@ -7,10 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.function.Predicate;
 
-import org.iStat.api.common.converter.Converter;
+import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iConverter.ConverteriStatSaveRequest;
-import org.iStat.api.iEntity.Dataset;
-import org.iStat.api.iEntity.DocumentiStat;
+import org.iStat.api.iDomain.Dataset;
+import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iStatIO.request.RequestiStatSave;
 import org.iStat.api.iStatIO.request.RequestiStatSaveCell;
 import org.iStat.api.iStatIO.request.RequestiStatSaveDataset;

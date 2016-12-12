@@ -3,15 +3,15 @@ package org.iStat.api.iLogic;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.natpryce.makeiteasy.MakeItEasy.a;
 import static com.natpryce.makeiteasy.MakeItEasy.make;
-import static org.iStat.api.iEntity.makeit.DocumentiStatMakeIt._documentiStat;
+import static org.iStat.api.iDomain.makeit.DocumentiStatMakeIt._documentiStat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
-import org.iStat.api.iEntity.Cell;
-import org.iStat.api.iEntity.DocumentiStat;
-import org.iStat.api.iEntity.DocumentiStat.DocumentiStatBuilder;
+import org.iStat.api.iDomain.Cell;
+import org.iStat.api.iDomain.DocumentiStat;
+import org.iStat.api.iDomain.DocumentiStat.DocumentiStatBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
 

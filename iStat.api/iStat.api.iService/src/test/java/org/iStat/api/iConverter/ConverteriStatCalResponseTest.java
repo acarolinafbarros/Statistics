@@ -3,7 +3,7 @@ package org.iStat.api.iConverter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.iStat.api.common.converter.Converter;
+import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iConverter.ConverteriStatCalResponse;
 import org.iStat.api.iStatCalc.response.ResponseiStatCalc;
 import org.junit.Test;

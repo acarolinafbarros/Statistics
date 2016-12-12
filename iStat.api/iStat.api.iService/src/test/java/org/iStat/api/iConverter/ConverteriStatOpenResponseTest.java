@@ -2,9 +2,9 @@ package org.iStat.api.iConverter;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.iStat.api.common.converter.Converter;
+import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iConverter.ConverteriStatOpenResponse;
-import org.iStat.api.iEntity.DocumentiStat;
+import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iStatIO.response.ResponseiStatOpen;
 import org.junit.Test;
 

@@ -1,8 +1,8 @@
-package org.iStat.api.iEntity.makeit;
+package org.iStat.api.iDomain.makeit;
 
 import org.apache.commons.lang3.StringUtils;
-import org.iStat.api.iEntity.Cell;
-import org.iStat.api.iEntity.Cell.CellBuilder;
+import org.iStat.api.iDomain.Cell;
+import org.iStat.api.iDomain.Cell.CellBuilder;
 
 import com.natpryce.makeiteasy.Instantiator;
 import com.natpryce.makeiteasy.Property;

@@ -1,7 +1,7 @@
 package org.iStat.api.iStatIO.response;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.iStat.api.response.ResponseiStat;
+import org.iStat.api.iResponse.ResponseiStat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

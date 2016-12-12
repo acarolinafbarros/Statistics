@@ -1,4 +1,4 @@
-package org.iStat.api.common.converter;
+package org.iStat.api.iCommon.converter;
 
 @FunctionalInterface
 public interface Converter<From, To> {

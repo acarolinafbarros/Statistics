@@ -1,4 +1,4 @@
-package org.iStat.api.iEntity;
+package org.iStat.api.iDomain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

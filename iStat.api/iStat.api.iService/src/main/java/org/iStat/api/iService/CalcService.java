@@ -1,6 +1,6 @@
 package org.iStat.api.iService;
 
-import org.iStat.api.iEntity.DocumentiStat;
+import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iLogic.CalcStatistical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

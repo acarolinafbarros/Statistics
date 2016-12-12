@@ -2,13 +2,13 @@ package org.iStat.api.iController;
 
 import java.util.Objects;
 
-import org.iStat.api.common.converter.Converter;
-import org.iStat.api.iEntity.DocumentiStat;
+import org.iStat.api.iCommon.converter.Converter;
+import org.iStat.api.iDomain.DocumentiStat;
+import org.iStat.api.iResponse.StatusEnum;
 import org.iStat.api.iService.CalcService;
 import org.iStat.api.iStatCalc.request.RequestiStatCalc;
 import org.iStat.api.iStatCalc.response.ResponseiStatCalc;
 import org.iStat.api.iUtils.ResponseUtils;
-import org.iStat.api.response.StatusEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

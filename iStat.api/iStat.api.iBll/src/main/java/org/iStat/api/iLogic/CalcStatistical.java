@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.iStat.api.iEntity.Cell;
-import org.iStat.api.iEntity.DocumentiStat;
+import org.iStat.api.iDomain.Cell;
+import org.iStat.api.iDomain.DocumentiStat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

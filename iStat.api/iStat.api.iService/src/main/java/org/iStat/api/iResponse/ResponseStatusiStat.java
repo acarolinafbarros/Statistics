@@ -1,4 +1,4 @@
-package org.iStat.api.response;
+package org.iStat.api.iResponse;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

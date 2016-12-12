@@ -1,13 +1,13 @@
-package org.iStat.api.iEntity.makeit;
+package org.iStat.api.iDomain.makeit;
 
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.iStat.api.iEntity.Cell;
-import org.iStat.api.iEntity.Dataset;
-import org.iStat.api.iEntity.Dataset.DatasetBuilder;
+import org.iStat.api.iDomain.Cell;
+import org.iStat.api.iDomain.Dataset;
+import org.iStat.api.iDomain.Dataset.DatasetBuilder;
 
 import com.natpryce.makeiteasy.Instantiator;
 import com.natpryce.makeiteasy.Property;

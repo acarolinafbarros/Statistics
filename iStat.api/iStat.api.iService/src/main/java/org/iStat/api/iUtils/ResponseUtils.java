@@ -1,7 +1,7 @@
 package org.iStat.api.iUtils;
 
-import org.iStat.api.response.ResponseStatusiStat;
-import org.iStat.api.response.StatusEnum;
+import org.iStat.api.iResponse.ResponseStatusiStat;
+import org.iStat.api.iResponse.StatusEnum;
 
 public class ResponseUtils {
 

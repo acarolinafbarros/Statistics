@@ -3,10 +3,10 @@ package org.iStat.api.iConverter;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.iStat.api.common.converter.Converter;
-import org.iStat.api.iEntity.Cell;
-import org.iStat.api.iEntity.Dataset;
-import org.iStat.api.iEntity.DocumentiStat;
+import org.iStat.api.iCommon.converter.Converter;
+import org.iStat.api.iDomain.Cell;
+import org.iStat.api.iDomain.Dataset;
+import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iStatTransform.response.ResponseiStatTransformCell;
 import org.iStat.api.iStatTransform.response.ResponseiStatTransformDataset;
 import org.iStat.api.iStatTransform.response.ResponseiStatTransform;

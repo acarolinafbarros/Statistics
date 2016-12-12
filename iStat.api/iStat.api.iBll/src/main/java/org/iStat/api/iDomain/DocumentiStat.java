@@ -1,4 +1,4 @@
-package org.iStat.api.iEntity;
+package org.iStat.api.iDomain;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,6 +5,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import org.iStat.api.iCommon.converter.Converter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

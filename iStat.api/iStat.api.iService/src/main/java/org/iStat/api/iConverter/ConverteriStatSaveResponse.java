@@ -1,6 +1,6 @@
 package org.iStat.api.iConverter;
 
-import org.iStat.api.common.converter.Converter;
+import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iStatIO.response.ResponseiStatSave;
 
 public class ConverteriStatSaveResponse

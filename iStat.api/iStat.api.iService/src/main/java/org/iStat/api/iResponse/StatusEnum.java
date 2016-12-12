@@ -1,4 +1,4 @@
-package org.iStat.api.response;
+package org.iStat.api.iResponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
