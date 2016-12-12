@@ -1,0 +1,15 @@
+project(':iStat.api.iCommon') { 
+	version = '1.0-SNAPSHOT'
+	
+	jar {
+	    baseName = 'iStat.api.iCommon'
+	    version =  '1.0-SNAPSHOT'
+	}
+	
+	dependencies {
+	
+		testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+		compile group: 'com.google.guava', name: 'guava', version: '19.0'
+		
+	}
+}
