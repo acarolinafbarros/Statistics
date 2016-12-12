@@ -1,0 +1,12 @@
+
+// Modules inside the project
+// More info: https://docs.gradle.org/3.1/userguide/multi_project_builds.html
+include 'iStat.api.iCommon'
+include 'iStat.api.iService'
+include 'iStat.api.iBLL'
+include 'iStat.api.iDAL'
+
+project(':iStat.api.iService').name = 'iStat.api.iService'
+project(':iStat.api.iCommon').name = 'iStat.api.iCommon'
+project(':iStat.api.iBLL').name = 'iStat.api.iBLL'
+project(':iStat.api.iDAL').name = 'iStat.api.iDAL'
