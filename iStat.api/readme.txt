@@ -26,3 +26,12 @@
 
 
 
+***** Sexta-feira, 9 de Dezembro de 2016 *****
+
+- AddTwoDatasets e o MultiplyTwoDatasets apenas funciona com matrizes quadradas e supostamente devia estar a funcionar para qualquer tipo de matriz. Já demos bastantes voltas com isto e na net esta tudo implementado como fizemos por isso pode ser algum pormenor que esteja a falhar
+
+-- Autor : Manuel Correia --
+
+***** <dia da semana>, <dia> de <mês> de <ano> *****
+
+-- Autor(a) : <nome> --

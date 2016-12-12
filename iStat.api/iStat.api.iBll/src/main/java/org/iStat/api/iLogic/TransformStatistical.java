@@ -129,7 +129,44 @@ public class TransformStatistical {
         }
     };
 
+    public DocumentiStat transformTranspose(DocumentiStat documentiStat) {
+    	DocumentiStat result = null;
+    	
+    	if (ObjectUtils.allNotNull(documentiStat)) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
+            	
+            	Dataset input = documentiStat.getDatasets().get(0);             	
+        		Float [][] matrix = convertListToMatrix(input);
+        		
+        		int line_size = matrix.length;
+        		int column_size = matrix[0].length;	
+        		Float [][] matrix_final = new Float[line_size][column_size];
+        		        		
+        		for (int line = 0; line < line_size; ++line) {
+        			for (int column = 0; column < column_size; ++column) {
+        				matrix_final[column][line] =  input.getValueOfColumnLine(line, column);        			
+        			}
+        		}
+        		
+        		List<Cell<Integer, String>> output = convertMatrixtToList(matrix_final, "A", 1);
+        		
+        		DatasetBuilder builderDataset = new DatasetBuilder();
+                builderDataset.withCells(output);
+                Dataset dataset = builderDataset.build();
+                List<Dataset> datasets = new ArrayList<Dataset>();
+                datasets.add(dataset);
+                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
+                builderDocument.withDatasets(datasets);
+
+                result = builderDocument.build();
+            }
+    	}
+    	 	
+    	return result;
+    }
+    
     public DocumentiStat transformScale(DocumentiStat documentiStat, Float scalar) {
+
         DocumentiStat result = null;
         Float sum = null;
 
@@ -169,21 +206,139 @@ public class TransformStatistical {
         return result;
     }
 
-    /*
-     * public Float [] transformScale(List<Float> input, float scaleFactor) {
-     * Float result [] = null;
-     * if (!CollectionUtils.isEmpty(input)) {
-     * Integer length = input.size();
-     * if (length > 0) {
-     * result = new Float [length];
-     * for (int i = 0; i < length; ++i) {
-     * result[i] = result[i] * scaleFactor;
-     * }
-     * }
-     * }
-     * LOG.info("teste");
-     * return result;
-     * }
-     */
+    public DocumentiStat transformAddScalar(DocumentiStat documentiStat, Float scalar) {
+        DocumentiStat result = null;
+        Float sum = null;
 
+        if (ObjectUtils.allNotNull(documentiStat)) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
+
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> dataset_final = new ArrayList<>();
+
+                if (!CollectionUtils.isEmpty(input)) {
+                    Integer length = input.size();
+                    if (length > 0) {
+                        for (int i = 0; i < length; ++i) {
+
+                            sum = input.get(i).getValue() + scalar;
+
+                            CellBuilder<Integer, String> builderCell = new CellBuilder<Integer, String>();
+                            builderCell.withLine(input.get(i).getLine());
+                            builderCell.withColumn(input.get(i).getColumn());
+                            builderCell.withValue(sum);
+                            Cell<Integer, String> cell = builderCell.build();
+                            dataset_final.add(cell);
+                        }
+                    }
+                }
+                DatasetBuilder builderDataset = new DatasetBuilder();
+                builderDataset.withCells(dataset_final);
+                Dataset dataset = builderDataset.build();
+                List<Dataset> datasets = new ArrayList<Dataset>();
+                datasets.add(dataset);
+                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
+                builderDocument.withDatasets(datasets);
+
+                result = builderDocument.build();
+            }
+        }
+        return result;
+    }
+
+    public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat) {
+    	DocumentiStat result = null;
+    	
+    	if (ObjectUtils.allNotNull(documentiStat)) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
+            	
+            	Dataset input1 = documentiStat.getDatasets().get(0);             	
+        		Float [][] matrix1 = convertListToMatrix(input1);
+        		
+            	Dataset input2 = documentiStat.getDatasets().get(1);             	
+        		Float [][] matrix2 = convertListToMatrix(input2);
+        		
+        		int line_size = matrix1.length;
+        		System.out.println("---- LINHA == " + line_size);
+        		int column_size = matrix1[0].length;	
+        		System.out.println("---- COLUNA == " + column_size);
+        		Float [][] matrix_final = new Float[line_size][column_size];
+        		        		
+        		for (int line = 0; line < line_size; ++line) {
+        			for (int column = 0; column < column_size; ++column) {
+        				matrix_final[line][column] =  input1.getValueOfColumnLine(column, line) + input2.getValueOfColumnLine(column, line);      
+        				System.out.println("---- MATRIX == " + matrix_final[line][column] + " || 1 - " + input1.getValueOfColumnLine(column, line) + " || 2 - " + input2.getValueOfColumnLine(column, line) + "/n");
+        			}
+        		}
+        		
+        		List<Cell<Integer, String>> output = convertMatrixtToList(matrix_final, "A", 1);
+        		
+        		DatasetBuilder builderDataset = new DatasetBuilder();
+                builderDataset.withCells(output);
+                Dataset dataset = builderDataset.build();
+                List<Dataset> datasets = new ArrayList<Dataset>();
+                datasets.add(dataset);
+                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
+                builderDocument.withDatasets(datasets);
+
+                result = builderDocument.build();
+            }
+    	}
+    	
+    	return result;
+    }
+
+    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat documentiStat) {
+    	DocumentiStat result = null;
+    	
+    	if (ObjectUtils.allNotNull(documentiStat)) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
+            	
+            	Dataset input1 = documentiStat.getDatasets().get(0);             	
+        		Float [][] matrix1 = convertListToMatrix(input1);
+        		int line_size1 = matrix1.length;
+        		int column_size1 = matrix1[0].length;
+        		
+            	Dataset input2 = documentiStat.getDatasets().get(1);             	
+        		Float [][] matrix2 = convertListToMatrix(input2);
+        		int line_size2 = matrix2.length;
+        		int column_size2 = matrix2[0].length;
+        		
+        		if (column_size1 != line_size2) {
+        			System.out.println("The number of columns in 1 does not equal the number of rows in 2 \n");
+        		} else {
+        			
+            		Float [][] matrix_final = new Float[line_size1][column_size2];
+            		float sum = 0;
+            		
+            		for (int i = 0; i < line_size1; ++i) {          			
+            			for (int j = 0; j < column_size2; ++j) {    				
+            				for (int k = 0; k < line_size2; ++k) {
+            					sum += input1.getValueOfColumnLine(k, j) * input2.getValueOfColumnLine(i,k);
+            				}		
+            				matrix_final[i][j] = sum;
+            				sum = 0;
+            			    System.out.println("---- MATRIX == " + matrix_final[i][j] + "\n");
+            			}
+            		}
+            		          		
+            		List<Cell<Integer, String>> output = convertMatrixtToList(matrix_final, "A", 1);
+            		
+            		DatasetBuilder builderDataset = new DatasetBuilder();
+                    builderDataset.withCells(output);
+                    Dataset dataset = builderDataset.build();
+                    List<Dataset> datasets = new ArrayList<Dataset>();
+                    datasets.add(dataset);
+                    DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
+                    builderDocument.withDatasets(datasets);
+
+                    result = builderDocument.build();
+        		}	      		
+            }
+    	}
+    	
+    	return result;
+    }
+    
+    
 }

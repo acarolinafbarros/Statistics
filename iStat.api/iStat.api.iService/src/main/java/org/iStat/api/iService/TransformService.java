@@ -12,9 +12,29 @@ public class TransformService {
 
 	private final Logger LOG = LoggerFactory.getLogger(TransformService.class);
 	
+	 public DocumentiStat transformTranspose(DocumentiStat input) {
+        TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformTranspose(input);
+	 }
+		 	
 	 public DocumentiStat transformScale(DocumentiStat input, Float scalar) {
-	        TransformStatistical transformStatistical = new TransformStatistical();
-	        return transformStatistical.transformScale(input,scalar);
-	    }
+        TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformScale(input,scalar);
+	 }
+	 
+	 public DocumentiStat transformAddScalar(DocumentiStat input, Float scalar) {
+        TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformAddScalar(input,scalar);
+	 }
+	 
+	 public DocumentiStat transformAddTwoDatasets(DocumentiStat input) {
+        TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformAddTwoDatasets(input);
+	 }
+	 
+	 public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat input) {
+        TransformStatistical transformStatistical = new TransformStatistical();
+        return transformStatistical.transformMultiplyTwoDatasets(input);
+	 }
   
 }
