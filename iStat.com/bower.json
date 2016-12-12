@@ -24,7 +24,8 @@
     "bootstrap": "v3.3.7",
     "angular": "^1.5.8",
     "angular-route": "^1.5.8",
-    "chart.js": "Chart.js#^2.4.0"
+    "chart.js": "Chart.js#^2.4.0",
+    "hot-table": "^0.5.0"
   },
   "private": true
 }
