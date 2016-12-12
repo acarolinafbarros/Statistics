@@ -1,8 +1,8 @@
 package org.iStat.api.iStatCalc.response;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.iStat.api.response.ResponseStatusiStat;
 import org.iStat.api.response.ResponseiStat;
-import org.iStat.api.response.StatusEnum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,15 +12,15 @@ public class ResponseiStatCalc extends ResponseiStat {
     private Float result;
 
     public ResponseiStatCalc() {
-        this(null);
+        this(null, null);
     }
 
     public ResponseiStatCalc(Float result) {
         this(null, result);
     }
 
-    public ResponseiStatCalc(StatusEnum status, Float result) {
-        super(status);
+    public ResponseiStatCalc(ResponseStatusiStat status, Float result) {
+        this.status = status;
         this.result = result;
     }
 

@@ -1,4 +1,4 @@
-package org.iStat.api.converter;
+package org.iStat.api.iConverter;
 
 import static com.natpryce.makeiteasy.MakeItEasy.a;
 import static com.natpryce.makeiteasy.MakeItEasy.make;

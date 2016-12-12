@@ -58,7 +58,7 @@ public class IStatTransform {
         ResponseiStatTransform response = converterResponseiStatTransform
             .convert(null);
 
-        response.setStatus(StatusEnum.Success);
+        //response.setStatus(StatusEnum.Success);
 
         return response;
 

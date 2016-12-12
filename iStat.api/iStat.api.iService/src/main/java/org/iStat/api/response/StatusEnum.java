@@ -1,17 +1,19 @@
 package org.iStat.api.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StatusEnum {
 
-    Success(200, "SUCESS");
+    SUCCESS(1000, "SUCCESS"),
+    UNSUCCESS(1001, "UNSUCCESS"),
+    UNEXPECTED(9999, "UNEXPECTED");
 
-    @JsonProperty(value = "code")
     private int code;
 
-    @JsonProperty(value = "message")
+    @JsonIgnore
     private String message;
 
     private StatusEnum(int code, String message) {
@@ -19,6 +21,7 @@ public enum StatusEnum {
         this.message = message;
     }
 
+    @JsonValue
     public int getCode() {
         return code;
     }

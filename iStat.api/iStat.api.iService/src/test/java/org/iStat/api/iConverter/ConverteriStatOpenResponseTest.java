@@ -1,4 +1,4 @@
-package org.iStat.api.converter;
+package org.iStat.api.iConverter;
 
 import static org.junit.Assert.assertNotNull;
 

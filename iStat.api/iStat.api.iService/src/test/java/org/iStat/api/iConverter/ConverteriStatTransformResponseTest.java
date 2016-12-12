@@ -1,4 +1,4 @@
-package org.iStat.api.converter;
+package org.iStat.api.iConverter;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
@@ -8,24 +8,25 @@ import static org.junit.Assert.assertTrue;
 import java.util.function.Predicate;
 
 import org.iStat.api.common.converter.Converter;
-import org.iStat.api.iConverter.ConverteriStatCalRequest;
+import org.iStat.api.iConverter.ConverteriStatTransformResponse;
+import org.iStat.api.iEntity.Cell;
 import org.iStat.api.iEntity.Dataset;
 import org.iStat.api.iEntity.DocumentiStat;
-import org.iStat.api.iStatCalc.request.RequestiStatCalc;
-import org.iStat.api.iStatCalc.request.RequestiStatCalcCell;
-import org.iStat.api.iStatCalc.request.RequestiStatCalcDataset;
+import org.iStat.api.iStatTransform.response.ResponseiStatTransform;
+import org.iStat.api.iStatTransform.response.ResponseiStatTransformDataset;
 import org.junit.Test;
 
-public class ConverteriStatCalRequestTest {
+public class ConverteriStatTransformResponseTest
+        extends AbstractUtilsiServiceTest {
 
-    public Converter<RequestiStatCalc, DocumentiStat> converter = new ConverteriStatCalRequest();
+    public Converter<DocumentiStat, ResponseiStatTransform> converter = new ConverteriStatTransformResponse();
 
     @Test
     public void shouldConvertRequestiStatCalToDomain() {
 
-        RequestiStatCalc request = createRequest();
+        DocumentiStat request = createDomainResponse();
 
-        DocumentiStat document = converter.convert(request);
+        ResponseiStatTransform document = converter.convert(request);
 
         assertNotNull(document);
         assertEquals(2, document.getDatasets().size());
@@ -40,11 +41,11 @@ public class ConverteriStatCalRequestTest {
 
     }
 
-    private Predicate<Dataset> assertHasCell(Integer line, String column, Float value) {
-        return new Predicate<Dataset>() {
+    private Predicate<ResponseiStatTransformDataset> assertHasCell(Integer line, String column, Float value) {
+        return new Predicate<ResponseiStatTransformDataset>() {
 
             @Override
-            public boolean test(Dataset dataset) {
+            public boolean test(ResponseiStatTransformDataset dataset) {
                 return dataset.getCells().stream().anyMatch(
                         l -> l.getLine().equals(Integer.valueOf(line))
                                 && l.getColumn().equals(column)
@@ -54,26 +55,24 @@ public class ConverteriStatCalRequestTest {
         };
     }
 
-    private RequestiStatCalc createRequest() {
+    private DocumentiStat createDomainResponse() {
 
-        RequestiStatCalcCell cell1A = new RequestiStatCalcCell(2, "A",
+        Cell<Integer, String> cell1A = makeCell(2, "A",
                 Float.valueOf(40.5f));
-        RequestiStatCalcCell cell2A = new RequestiStatCalcCell(10,
-                "A", Float.valueOf(40.5f));
-        RequestiStatCalcCell cell3A = new RequestiStatCalcCell(3, "A",
+        Cell<Integer, String> cell10A = makeCell(10, "A",
+                Float.valueOf(40.5f));
+        Cell<Integer, String> cell3A = makeCell(3, "A",
                 Float.valueOf(20.5f));
-        RequestiStatCalcCell cell7B = new RequestiStatCalcCell(7, "B",
+        Cell<Integer, String> cell7B = makeCell(7, "B",
                 Float.valueOf(30.5f));
 
-        RequestiStatCalcDataset dataset1 = new RequestiStatCalcDataset(
-                "dataset_1",
-                newArrayList(cell1A, cell2A, cell3A, cell7B));
+        Dataset dataset1 = makeDataset("dataset_1",
+                newArrayList(cell1A, cell10A, cell3A, cell7B));
 
-        RequestiStatCalcDataset dataset2 = new RequestiStatCalcDataset(
-                "dataset_2", newArrayList(cell1A, cell3A));
+        Dataset dataset2 = makeDataset("dataset_2",
+                newArrayList(cell1A, cell3A));
 
-        return new RequestiStatCalc(newArrayList(dataset1, dataset2));
-
+        return makeDocumentiStat(newArrayList(dataset1, dataset2));
     }
 
 }

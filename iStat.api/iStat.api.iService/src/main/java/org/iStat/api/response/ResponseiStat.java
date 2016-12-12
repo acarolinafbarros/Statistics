@@ -2,21 +2,24 @@ package org.iStat.api.response;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ResponseiStat {
 
-    private StatusEnum status;
+    @JsonProperty(value = "status")
+    protected ResponseStatusiStat status;
 
     public ResponseiStat() {}
 
-    public ResponseiStat(StatusEnum status) {
+    public ResponseiStat(ResponseStatusiStat status) {
         this.status = status;
     }
 
-    public StatusEnum getStatus() {
+    public ResponseStatusiStat getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(ResponseStatusiStat status) {
         this.status = status;
     }
 

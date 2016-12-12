@@ -1,4 +1,4 @@
-package org.iStat.api.converter;
+package org.iStat.api.iConverter;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;

@@ -1,26 +1,30 @@
 package org.iStat.api.iController;
 
+import java.util.Objects;
+
 import org.iStat.api.common.converter.Converter;
 import org.iStat.api.iEntity.DocumentiStat;
 import org.iStat.api.iService.CalcService;
 import org.iStat.api.iStatCalc.request.RequestiStatCalc;
 import org.iStat.api.iStatCalc.response.ResponseiStatCalc;
+import org.iStat.api.iUtils.ResponseUtils;
 import org.iStat.api.response.StatusEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/iStatCalc")
 public class IStatCalc {
 
-    private final Logger LOG = LoggerFactory
+    private final Logger LOGGER = LoggerFactory
         .getLogger(IStatCalc.class);
 
     @Autowired
@@ -43,20 +47,45 @@ public class IStatCalc {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/calculateMedian", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public @ResponseBody ResponseiStatCalc calculateMedian(@RequestBody RequestiStatCalc request) {
+    public ResponseEntity<ResponseiStatCalc> calculateMedian(@RequestBody RequestiStatCalc request) {
 
-        DocumentiStat documentiStat = converterRequestiStatCalc
-            .convert(request);
+        ResponseiStatCalc response = new ResponseiStatCalc();
 
-        // FIXME: Need to catch the errors and throw an exception
-        Float result = calcService.calculateMedian(documentiStat);
+        if (Objects.nonNull(request)) {
 
-        ResponseiStatCalc response = converterResponseiStatCalc
-            .convert(result);
-        response.setStatus(StatusEnum.Success);
+            try {
+                DocumentiStat documentiStat = converterRequestiStatCalc
+                    .convert(request);
 
-        return response;
+                LOGGER.info("DocumentiStat: {}", documentiStat);
 
+                Float result = calcService
+                    .calculateMedian(documentiStat);
+
+                LOGGER.info("Final result: {}", result);
+
+                response = converterResponseiStatCalc.convert(result);
+                response.setStatus(ResponseUtils
+                    .buildResponseStatus(StatusEnum.SUCCESS));
+
+                return ResponseEntity.ok(response);
+            } catch (Exception ex) {
+                LOGGER.error("Unexpected error at calculateMedian:", ex);
+                response.setStatus(ResponseUtils.buildResponseStatus(
+                        StatusEnum.UNEXPECTED, "Error message: %s",
+                        ex));
+                return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(response);
+            }
+        } else {
+            response.setStatus(ResponseUtils.buildResponseStatus(
+                    StatusEnum.UNSUCCESS, "Request object: %s",
+                    request));
+            LOGGER.info("Response {}", response);
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 
     /**
@@ -71,20 +100,47 @@ public class IStatCalc {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/calculateGeometricMean", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public @ResponseBody ResponseiStatCalc calculateGeometricMean(@RequestBody RequestiStatCalc request) {
+    public ResponseEntity<ResponseiStatCalc> calculateGeometricMean(@RequestBody RequestiStatCalc request) {
 
-        DocumentiStat documentiStat = converterRequestiStatCalc
-            .convert(request);
+        ResponseiStatCalc response = new ResponseiStatCalc();
 
-        // FIXME: Need to catch the errors and throw an exception
-        Float result = calcService
-            .calculateGeometricMean(documentiStat);
+        if (Objects.nonNull(request)) {
 
-        ResponseiStatCalc response = converterResponseiStatCalc
-            .convert(result);
-        response.setStatus(StatusEnum.Success);
+            try {
 
-        return response;
+                DocumentiStat documentiStat = converterRequestiStatCalc
+                    .convert(request);
+
+                LOGGER.info("DocumentiStat: {}", documentiStat);
+
+                Float result = calcService
+                    .calculateGeometricMean(documentiStat);
+
+                LOGGER.info("Final result: {}", result);
+
+                response = converterResponseiStatCalc.convert(result);
+                response.setStatus(ResponseUtils
+                    .buildResponseStatus(StatusEnum.SUCCESS));
+
+                return ResponseEntity.ok(response);
+            } catch (Exception ex) {
+                LOGGER.error("Unexpected error at calculateGeometricMean:", ex);
+                response.setStatus(ResponseUtils.buildResponseStatus(
+                        StatusEnum.UNEXPECTED, "Error message: %s",
+                        ex.getMessage()));
+                return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(response);
+            }
+        } else {
+            response.setStatus(ResponseUtils.buildResponseStatus(
+                    StatusEnum.UNSUCCESS, "Request object: %s",
+                    request));
+            LOGGER.info("Response {}", response);
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
     }
 
     /**
@@ -98,19 +154,45 @@ public class IStatCalc {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/calculateMode", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public @ResponseBody ResponseiStatCalc calculateMode(@RequestBody RequestiStatCalc request) {
+    public ResponseEntity<ResponseiStatCalc> calculateMode(@RequestBody RequestiStatCalc request) {
 
-        DocumentiStat documentiStat = converterRequestiStatCalc
-            .convert(request);
+        ResponseiStatCalc response = new ResponseiStatCalc();
 
-        // FIXME: Need to catch the errors and throw an exception
-        Float result = calcService.calculateMode(documentiStat);
+        if (Objects.nonNull(request)) {
 
-        ResponseiStatCalc response = converterResponseiStatCalc
-            .convert(result);
-        response.setStatus(StatusEnum.Success);
+            try {
 
-        return response;
+                DocumentiStat documentiStat = converterRequestiStatCalc
+                    .convert(request);
+
+                LOGGER.info("DocumentiStat: {}", documentiStat);
+
+                Float result = calcService
+                    .calculateMode(documentiStat);
+                LOGGER.info("Final result: {}", result);
+
+                response = converterResponseiStatCalc.convert(result);
+                response.setStatus(ResponseUtils
+                    .buildResponseStatus(StatusEnum.SUCCESS));
+
+                return ResponseEntity.ok(response);
+            } catch (Exception ex) {
+                LOGGER.error("Unexpected error at calculateMode:", ex);
+                response.setStatus(ResponseUtils.buildResponseStatus(
+                        StatusEnum.UNEXPECTED, "Error message: %s",
+                        ex.getMessage()));
+                return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(response);
+            }
+        } else {
+            response.setStatus(ResponseUtils.buildResponseStatus(
+                    StatusEnum.UNSUCCESS, "Request object: %s",
+                    request));
+            LOGGER.info("Response {}", response);
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 
     /**
@@ -124,18 +206,47 @@ public class IStatCalc {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/calculateMidrange", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public @ResponseBody ResponseiStatCalc calculateMidrange(@RequestBody RequestiStatCalc request) {
+    public ResponseEntity<ResponseiStatCalc> calculateMidrange(@RequestBody RequestiStatCalc request) {
 
-        DocumentiStat documentiStat = converterRequestiStatCalc
-            .convert(request);
+        ResponseiStatCalc response = new ResponseiStatCalc();
 
-        // FIXME: Need to catch the errors and throw an exception
-        Float result = calcService.calculateMidrange(documentiStat);
-        ResponseiStatCalc response = converterResponseiStatCalc
-            .convert(result);
-        response.setStatus(StatusEnum.Success);
+        if (Objects.nonNull(request)) {
 
-        return response;
+            try {
+
+                DocumentiStat documentiStat = converterRequestiStatCalc
+                    .convert(request);
+
+                LOGGER.info("DocumentiStat: {}", documentiStat);
+
+                Float result = calcService
+                    .calculateMidrange(documentiStat);
+
+                LOGGER.info("Final result: {}", result);
+
+                response = converterResponseiStatCalc.convert(result);
+                response.setStatus(ResponseUtils
+                    .buildResponseStatus(StatusEnum.SUCCESS));
+
+                return ResponseEntity.ok(response);
+            } catch (Exception ex) {
+                LOGGER.error("Unexpected error at calculateMidrange:", ex);
+                response.setStatus(ResponseUtils.buildResponseStatus(
+                        StatusEnum.UNEXPECTED, "Error message: %s",
+                        ex.getMessage()));
+                return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(response);
+            }
+        } else {
+            response.setStatus(ResponseUtils.buildResponseStatus(
+                    StatusEnum.UNSUCCESS, "Request object: %s",
+                    request));
+            LOGGER.info("Response {}", response);
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
     }
 
     /**
@@ -149,18 +260,45 @@ public class IStatCalc {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/calculateVariance", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public @ResponseBody ResponseiStatCalc calculateVariance(@RequestBody RequestiStatCalc request) {
+    public ResponseEntity<ResponseiStatCalc> calculateVariance(@RequestBody RequestiStatCalc request) {
 
-        DocumentiStat documentiStat = converterRequestiStatCalc
-            .convert(request);
+        ResponseiStatCalc response = new ResponseiStatCalc();
 
-        // FIXME: Need to catch the errors and throw an exception
-        Float result = calcService.calculateVariance(documentiStat);
-        ResponseiStatCalc response = converterResponseiStatCalc
-            .convert(result);
-        response.setStatus(StatusEnum.Success);
+        if (Objects.nonNull(request)) {
 
-        return response;
+            try {
+
+                DocumentiStat documentiStat = converterRequestiStatCalc
+                    .convert(request);
+
+                LOGGER.info("DocumentiStat: {}", documentiStat);
+
+                Float result = calcService
+                    .calculateVariance(documentiStat);
+                LOGGER.info("Final result: {}", result);
+
+                response = converterResponseiStatCalc.convert(result);
+                response.setStatus(ResponseUtils
+                    .buildResponseStatus(StatusEnum.SUCCESS));
+
+                return ResponseEntity.ok(response);
+            } catch (Exception ex) {
+                LOGGER.error("Unexpected error at calculateVariance:", ex);
+                response.setStatus(ResponseUtils.buildResponseStatus(
+                        StatusEnum.UNEXPECTED, "Error message: %s",
+                        ex.getMessage()));
+                return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(response);
+            }
+        } else {
+            response.setStatus(ResponseUtils.buildResponseStatus(
+                    StatusEnum.UNSUCCESS, "Request object: %s",
+                    request));
+            LOGGER.info("Response {}", response);
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 
     /**
@@ -175,18 +313,46 @@ public class IStatCalc {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/calculateStandardDeviation", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public @ResponseBody ResponseiStatCalc calculateStandardDeviation(@RequestBody RequestiStatCalc request) {
-        DocumentiStat documentiStat = converterRequestiStatCalc
-            .convert(request);
+    public ResponseEntity<ResponseiStatCalc> calculateStandardDeviation(@RequestBody RequestiStatCalc request) {
 
-        // FIXME: Need to catch the errors and throw an exception
-        Float result = calcService
-            .calculateStandardDeviation(documentiStat);
-        ResponseiStatCalc response = converterResponseiStatCalc
-            .convert(result);
-        response.setStatus(StatusEnum.Success);
+        ResponseiStatCalc response = new ResponseiStatCalc();
 
-        return response;
+        if (Objects.nonNull(request)) {
+
+            try {
+
+                DocumentiStat documentiStat = converterRequestiStatCalc
+                    .convert(request);
+
+                LOGGER.info("DocumentiStat: {}", documentiStat);
+
+                Float result = calcService
+                    .calculateStandardDeviation(documentiStat);
+
+                LOGGER.info("Final result: {}", result);
+
+                response = converterResponseiStatCalc.convert(result);
+                response.setStatus(ResponseUtils
+                    .buildResponseStatus(StatusEnum.SUCCESS));
+
+                return ResponseEntity.ok(response);
+            } catch (Exception ex) {
+                LOGGER.error("Unexpected error at calculateStandardDeviation:", ex);
+                response.setStatus(ResponseUtils.buildResponseStatus(
+                        StatusEnum.UNEXPECTED, "Error message: %s",
+                        ex.getMessage()));
+                return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(response);
+            }
+        } else {
+            response.setStatus(ResponseUtils.buildResponseStatus(
+                    StatusEnum.UNSUCCESS, "Request object: %s",
+                    request));
+            LOGGER.info("Response {}", response);
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 
     /**
@@ -200,20 +366,45 @@ public class IStatCalc {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/calculateRowColumnTotal", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public @ResponseBody ResponseiStatCalc calculateRowColumnTotal(@RequestBody RequestiStatCalc request) {
+    public ResponseEntity<ResponseiStatCalc> calculateRowColumnTotal(@RequestBody RequestiStatCalc request) {
 
-        DocumentiStat documentiStat = converterRequestiStatCalc
-            .convert(request);
+        ResponseiStatCalc response = new ResponseiStatCalc();
 
-        // FIXME: Need to catch the errors and throw an exception
-        Float result = calcService
-            .calculateRowColumnTotal(documentiStat);
+        if (Objects.nonNull(request)) {
 
-        ResponseiStatCalc response = converterResponseiStatCalc
-            .convert(result);
-        response.setStatus(StatusEnum.Success);
+            try {
 
-        return response;
+                DocumentiStat documentiStat = converterRequestiStatCalc
+                    .convert(request);
+
+                LOGGER.info("DocumentiStat: {}", documentiStat);
+
+                Float result = calcService
+                    .calculateRowColumnTotal(documentiStat);
+                LOGGER.info("Final result: {}", result);
+
+                response = converterResponseiStatCalc.convert(result);
+                response.setStatus(ResponseUtils
+                    .buildResponseStatus(StatusEnum.SUCCESS));
+
+                return ResponseEntity.ok(response);
+            } catch (Exception ex) {
+                LOGGER.error("Unexpected error at calculateRowColumnTotal:", ex);
+                response.setStatus(ResponseUtils.buildResponseStatus(
+                        StatusEnum.UNEXPECTED, "Error message: %s",
+                        ex.getMessage()));
+                return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(response);
+            }
+        } else {
+            response.setStatus(ResponseUtils.buildResponseStatus(
+                    StatusEnum.UNSUCCESS, "Request object: %s",
+                    request));
+            LOGGER.info("Response {}", response);
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 
 }
