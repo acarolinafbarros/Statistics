@@ -2,8 +2,7 @@ iStat.config([ '$routeProvider', '$locationProvider',
 
     function($routeProvider, $locationProvider) {
         $routeProvider.when('/', {
-            templateUrl : 'views/index.html',
-            controller : 'indexController'
+            templateUrl : 'index.html'
         }).otherwise({
             redirectTo : '/'
         });

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,6 +47,7 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/calculateMedian", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatCalc> calculateMedian(@RequestBody RequestiStatCalc request) {
 
@@ -99,6 +101,7 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/calculateGeometricMean", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatCalc> calculateGeometricMean(@RequestBody RequestiStatCalc request) {
 
@@ -153,6 +156,7 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/calculateMode", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatCalc> calculateMode(@RequestBody RequestiStatCalc request) {
 
@@ -205,6 +209,7 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/calculateMidrange", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatCalc> calculateMidrange(@RequestBody RequestiStatCalc request) {
 
@@ -259,6 +264,7 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/calculateVariance", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatCalc> calculateVariance(@RequestBody RequestiStatCalc request) {
 
@@ -312,6 +318,7 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/calculateStandardDeviation", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatCalc> calculateStandardDeviation(@RequestBody RequestiStatCalc request) {
 
@@ -365,6 +372,7 @@ public class IStatCalc {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/calculateRowColumnTotal", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatCalc> calculateRowColumnTotal(@RequestBody RequestiStatCalc request) {
 
