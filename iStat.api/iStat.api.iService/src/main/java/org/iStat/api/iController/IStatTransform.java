@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +48,7 @@ public class IStatTransform {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformTranspose", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatTransform> transformTranspose(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
         ResponseiStatTransform response = new ResponseiStatTransform();
@@ -102,6 +104,7 @@ public class IStatTransform {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformScale", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatTransform> transformScale(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
 
@@ -158,6 +161,7 @@ public class IStatTransform {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformAddScalar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatTransform> transformAddScalar(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
 
@@ -214,6 +218,7 @@ public class IStatTransform {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformAddTwoDatasets", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatTransform> transformAddTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
 
@@ -270,6 +275,7 @@ public class IStatTransform {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformMultiplyTwoDatasets", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatTransform> transformMultiplyTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
 
