@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('iStatControllers').controller('iIOController',
-	['$scope', '$http', 'iIOService',
+angular.module('iStatControllers').controller('iDatasetController',
+	['$scope', '$http', 'iDatasetService',
 
 		function ($scope, $http, iIOController) {
 
@@ -16,8 +16,7 @@ angular.module('iStatControllers').controller('iIOController',
 				$scope.data = $data;
 				callCalculateRowTotal();
 			}
-		
-		
+				
 			function callCalculateRowTotal() {
 
 				var promise = iCalcService.calculateRowTotal($scope.data);

@@ -1,4 +1,4 @@
-package org.iStat.api.iStatIO.request;
+package org.iStat.api.iStatDataset.request;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

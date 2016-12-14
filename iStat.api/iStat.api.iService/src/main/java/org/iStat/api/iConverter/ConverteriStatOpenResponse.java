@@ -7,9 +7,9 @@ import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iDomain.Cell;
 import org.iStat.api.iDomain.Dataset;
 import org.iStat.api.iDomain.DocumentiStat;
-import org.iStat.api.iStatIO.response.ResponseiStatOpen;
-import org.iStat.api.iStatIO.response.ResponseiStatOpenCell;
-import org.iStat.api.iStatIO.response.ResponseiStatOpenDataset;
+import org.iStat.api.iStatDataset.response.ResponseiStatOpen;
+import org.iStat.api.iStatDataset.response.ResponseiStatOpenCell;
+import org.iStat.api.iStatDataset.response.ResponseiStatOpenDataset;
 
 public class ConverteriStatOpenResponse
         implements Converter<DocumentiStat, ResponseiStatOpen> {

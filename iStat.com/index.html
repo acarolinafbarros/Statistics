@@ -32,10 +32,10 @@
 	<script src="app/app.js" type="text/javascript"></script>
 	<script src="app/route.js" type="text/javascript"></script>
 	<script src="app/controllers/iCalcController.js" type="text/javascript"></script>
-	<script src="app/controllers/iIOController.js" type="text/javascript"></script>
+	<script src="app/controllers/iDatasetController.js" type="text/javascript"></script>
 	<script src="app/controllers/iTransformController.js" type="text/javascript"></script>
 	<script src="app/services/iCalcService.js" type="text/javascript"></script>
-	<script src="app/services/iIOService.js" type="text/javascript"></script>
+	<script src="app/services/iDatasetService.js" type="text/javascript"></script>
 	<script src="app/services/iTransformService.js" type="text/javascript"></script>
 	<!-- endbuild -->
 
@@ -59,7 +59,7 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li class="active" ng-controller="iIOController"><a href="#">File <span class="sr-only">(current)</span></a></li>
+						<li class="active" ng-controller="iDatasetController"><a href="#">File <span class="sr-only">(current)</span></a></li>
 						<li class="dropdown" ng-controller="iCalcController"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Calculate <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="#" ng-click="calculateRowColumnTotal(data)">Row's
