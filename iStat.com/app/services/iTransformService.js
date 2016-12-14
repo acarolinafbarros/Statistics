@@ -3,14 +3,14 @@
 angular
 	.module('iStatServices')
 	.factory(
-				'iCalcService',
+				'iTransformService',
 				[
 		'$http',
 		'$q',
 
 		function ($http, $q) {
 
-			var mainRoute = 'http://localhost:8080/iStatCalc';
+			var mainRoute = 'http://localhost:8080/iStatTransform';
 
 			return {
 
