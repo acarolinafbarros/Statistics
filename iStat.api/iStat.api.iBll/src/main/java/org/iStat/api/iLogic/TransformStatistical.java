@@ -340,5 +340,67 @@ public class TransformStatistical {
     	return result;
     }
     
+    public DocumentiStat transformInterpolationLine(DocumentiStat documentiStat) {
+    	DocumentiStat result = null;
+    	
+    	if (ObjectUtils.allNotNull(documentiStat)) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
+            	
+            	Dataset input = documentiStat.getDatasets().get(0);             	
+        		Float [][] matrix = convertListToMatrix(input);
+        		int line_size = matrix.length;
+        		int column_size = matrix[0].length;
+        		
+            	Float [][] matrix_final = new Float[(line_size*2)-1][column_size];
+            	float sum = 0;
+            	
+            	// PT : Preencher matrix final com linhas de intervalo com zeros
+            	int linhasT = (line_size*2)-1;
+            	int colT = column_size;
+            	float value = 0;
+            	
+        		for (int i = 0; i < line_size; i++) { 
+        			int aux = i*2;
+        			for (int j = 0; j < colT; ++j) {    				
+        				if(i==0){
+        					matrix_final[i][j] = input.getValueOfColumnLine(j, i);
+        					matrix_final[i+1][j] = value;
+        				}else if(i == (line_size-1)) {
+        					matrix_final[aux][j] = input.getValueOfColumnLine(j, i);
+        				} else {
+	    					matrix_final[aux][j] = input.getValueOfColumnLine(j, i);        				
+	        				matrix_final[aux+1][j] = value;
+        				} 
+        			}
+        		}
+        		
+        		// PT : Interpolação linear nas linhas
+        		float  result_interpol = 0;
+        		
+        		for (int i = 0; i < linhasT; i++){  
+        			for (int j = 0; j < colT; ++j) {   
+        				if (i%2 ==0 && i!=linhasT-1) {
+        					sum = matrix_final[i][j] + matrix_final[i+2][j];
+    						result_interpol = sum/2;
+    	        			matrix_final[i+1][j] = result_interpol;
+    						result_interpol = 0;
+    	        			sum=0;
+        				}
+        			}
+        		}
+        		
+        		List<Cell<Integer, String>> output = convertMatrixtToList(matrix_final, "A", 1);
+        		DatasetBuilder builderDataset = new DatasetBuilder();
+                builderDataset.withCells(output);
+                Dataset dataset = builderDataset.build();
+                List<Dataset> datasets = new ArrayList<Dataset>();
+                datasets.add(dataset);
+                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
+                builderDocument.withDatasets(datasets);
+                result = builderDocument.build();
+        		}	      		
+            }
+    	return result;
+    }  
     
 }
