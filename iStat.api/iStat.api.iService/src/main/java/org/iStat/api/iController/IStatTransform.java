@@ -371,5 +371,61 @@ public class IStatTransform {
         }
 
     }
+    
+    /**
+     * WebService responsible for linear interpolation on columns.
+     * 
+     * URL example:
+     * http://localhost:8080/iStatTransform/transformInterpolationColumn
+     * 
+     * @param valuesToCalc
+     *            - List of floats separated with ;
+     * @return JSON of status and result
+     */
+    @RequestMapping(value = "/transformInterpolationColumn", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public ResponseEntity<ResponseiStatTransform> transformInterpolationColumn(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+
+        ResponseiStatTransform response = new ResponseiStatTransform();
+
+        if (Objects.nonNull(request)) {
+
+            try {
+                DocumentiStat documentiStat = converterRequestiStatTransform
+                    .convert(request);
+
+                LOGGER.info("DocumentiStat: {}", documentiStat);
+
+                DocumentiStat result = transformService
+                    .transformInterpolationColumn(documentiStat);
+
+                LOGGER.info("Final result: {}", result);
+
+                response = converterResponseiStatTransform
+                    .convert(result);
+                response.setStatus(ResponseUtils
+                    .buildResponseStatus(StatusEnum.SUCCESS));
+
+                return ResponseEntity.ok(response);
+            } catch (Exception ex) {
+                LOGGER.error(
+                        "Unexpected error at transformInterpolationLine:",
+                        ex);
+                response.setStatus(ResponseUtils.buildResponseStatus(
+                        StatusEnum.UNEXPECTED, "Error message: %s",
+                        ex));
+                return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(response);
+            }
+        } else {
+            response.setStatus(ResponseUtils.buildResponseStatus(
+                    StatusEnum.UNSUCCESS, "Request object: %s",
+                    request));
+            LOGGER.info("Response {}", response);
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+    }
 
 }
