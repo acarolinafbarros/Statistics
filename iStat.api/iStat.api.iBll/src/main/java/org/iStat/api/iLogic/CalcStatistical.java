@@ -143,7 +143,7 @@ public class CalcStatistical {
                     for (Cell<Integer, String> value : input) {
                         temp += (value.getValue() - median) * (value.getValue() - median);
                     }
-                    result = temp / ((float) length - 1);
+                    result = temp / ((float) length);
                 }
             }
         }
