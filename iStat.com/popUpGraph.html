@@ -1,0 +1,37 @@
+<div ng-controller="iGraphController">
+	<div class="modal-header">
+		<h3 class="modal-title">Graph - {{graphName}}</h3>
+	</div>
+
+	<div class="form modal-body">
+		<form class="form">
+			<div class="modal-body">
+				<div class="row">
+					<label for="singleSelect"> Input Type: </label><br> <select
+						class="form-control" name="singleSelect" ng-model="data.inputType">
+						<option value="row">Row</option>
+						<option value="column">Column</option>
+						<option value="dataset" ng-if="graphName != 'Pie Chart'">Dataset</option>
+					</select><br>
+				</div>
+				<div class="row" ng-if="data.inputType != 'dataset'">
+					<label for="inputBegin">ID:</label> <input type="text"
+						placeholder="ID of Selected Input" class="form-control"
+						id="inputBeginColumn" ng-model="data.inputID" style="width: 100%" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="ngdialog-buttons">
+						<button type="button"
+							class="ngdialog-button ngdialog-button-secondary"
+							ng-click="closeThisDialog()">Cancel</button>
+						<button type="button"
+							class="ngdialog-button ngdialog-button-primary"
+							ng-click=clickToOpenChart(data,graphName)>Draw</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

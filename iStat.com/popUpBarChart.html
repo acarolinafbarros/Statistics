@@ -1,0 +1,60 @@
+<div ng-controller="iGraphController">
+	<canvas id="barChart" width="400" height="400"></canvas>
+	<script type="text/javascript">
+		var scope = $('[ng-controller="iGraphController"]').scope();
+		console.log(scope);
+		var graphName = scope.graphName;
+		var dados = scope.dataset;
+		console.log(dados);
+		var ctx = document.getElementById("barChart");
+		var myChart = new Chart(ctx, {
+			type : 'bar',
+			data : {
+				labels : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],// FIXME change to dados
+				datasets : [ {
+					label : graphName,
+					data : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],// FIXME change to dados
+					backgroundColor : [ 'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 160, 64, 0.2)',
+							'rgba(255, 100, 132, 0.2)',
+							'rgba(54, 163, 235, 0.2)',
+							'rgba(255, 207, 86, 0.2)',
+							'rgba(75, 193, 192, 0.2)',
+							'rgba(153, 103, 255, 0.2)',
+							'rgba(255, 158, 64, 0.2)',
+							'rgba(255, 98, 132, 0.2)',
+							'rgba(54, 161, 235, 0.2)',
+							'rgba(255, 203, 86, 0.2)',
+							'rgba(75, 191, 192, 0.2)',
+							'rgba(153, 101, 255, 0.2)',
+							'rgba(255, 150, 64, 0.2)',
+							'rgba(255, 90, 132, 0.2)',
+							'rgba(54, 160, 235, 0.2)',
+							'rgba(255, 200, 86, 0.2)',
+							'rgba(75, 190, 192, 0.2)',
+							'rgba(153, 100, 255, 0.2)',
+							'rgba(250, 150, 64, 0.2)',
+							'rgba(250, 90, 132, 0.2)' ],
+					borderColor : [ 'rgba(255,99,132,1)',
+							'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)',
+							'rgba(255, 160, 64, 1)', 'rgba(255,100,132,1)',
+							'rgba(54, 163, 235, 1)', 'rgba(255, 207, 86, 1)',
+							'rgba(75, 193, 192, 1)', 'rgba(153, 103, 255, 1)',
+							'rgba(255, 158, 64, 1)', 'rgba(255,98,132,1)',
+							'rgba(54, 161, 235, 1)', 'rgba(255, 205, 86, 1)',
+							'rgba(75, 191, 192, 1)', 'rgba(153, 101, 255, 1)',
+							'rgba(255, 150, 64, 1)', 'rgba(255,90,132,1)',
+							'rgba(54, 160, 235, 1)', 'rgba(255, 200, 86, 1)',
+							'rgba(75, 190, 192, 1)', 'rgba(153, 100, 255, 1)',
+							'rgba(250, 150, 64, 1)', 'rgba(250,90,132,1)' ],
+					borderWidth : 1
+				} ]
+			}
+		});
+	</script>
+</div>
