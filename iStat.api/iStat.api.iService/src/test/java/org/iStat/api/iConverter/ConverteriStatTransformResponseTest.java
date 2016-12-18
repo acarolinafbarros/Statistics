@@ -22,7 +22,7 @@ public class ConverteriStatTransformResponseTest
     public Converter<DocumentiStat, ResponseiStatTransform> converter = new ConverteriStatTransformResponse();
 
     @Test
-    public void shouldConvertRequestiStatCalToDomain() {
+    public void shouldConvertRequestiStatCalToDomain() throws Exception{
 
         DocumentiStat request = createDomainResponse();
 

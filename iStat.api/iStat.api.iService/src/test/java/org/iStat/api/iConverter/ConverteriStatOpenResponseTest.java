@@ -14,7 +14,7 @@ public class ConverteriStatOpenResponseTest
     public Converter<DocumentiStat, ResponseiStatOpen> converter = new ConverteriStatOpenResponse();
 
     @Test
-    public void shouldConverteriStatOpenResponse() {
+    public void shouldConverteriStatOpenResponse() throws Exception{
 
         String defaultValue = "default";
 

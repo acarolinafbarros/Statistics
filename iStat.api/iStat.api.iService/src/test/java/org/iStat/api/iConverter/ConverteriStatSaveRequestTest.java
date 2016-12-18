@@ -21,7 +21,7 @@ public class ConverteriStatSaveRequestTest {
     public Converter<RequestiStatSave, DocumentiStat> converter = new ConverteriStatSaveRequest();
 
     @Test
-    public void shouldConverteriStatSaveRequest() {
+    public void shouldConverteriStatSaveRequest() throws Exception{
 
         RequestiStatSave request = createRequest();
 

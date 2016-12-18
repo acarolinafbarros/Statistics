@@ -14,7 +14,7 @@ public class ConverteriStatOpenRequestTest {
     public Converter<RequestiStatOpen, DocumentiStat> converter = new ConverteriStatOpenRequest();
     
     @Test
-    public void shouldConverteriStatOpenRequest() {
+    public void shouldConverteriStatOpenRequest() throws Exception{
 
         String fileExpected = "document_1.json";
         

@@ -36,7 +36,6 @@ public class AbstractUtilsiServiceTest {
         return make(a(_documentiStat, with(id, fileName)));
     }
 
-    
     protected DocumentiStat makeDocumentiStat(List<Dataset> iDatasets) {
         return make(a(_documentiStat, with(datasets, iDatasets)));
     }

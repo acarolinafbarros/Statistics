@@ -13,7 +13,7 @@ public class ConverteriStatSaveResponseTest {
     public Converter<Boolean, ResponseiStatSave> converter = new ConverteriStatSaveResponse();
 
     @Test
-    public void shouldConverteriStatSaveResponse() {
+    public void shouldConverteriStatSaveResponse() throws Exception{
 
         ResponseiStatSave response = converter.convert(true);
 

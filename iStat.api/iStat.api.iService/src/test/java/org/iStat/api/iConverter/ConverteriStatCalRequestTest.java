@@ -8,22 +8,25 @@ import static org.junit.Assert.assertTrue;
 import java.util.function.Predicate;
 
 import org.iStat.api.iCommon.converter.Converter;
-import org.iStat.api.iConverter.ConverteriStatCalRequest;
+import org.iStat.api.iCommon.converter.exception.ConvertException;
 import org.iStat.api.iDomain.Dataset;
 import org.iStat.api.iDomain.DocumentiStat;
+import org.iStat.api.iRequest.RequestiStat;
 import org.iStat.api.iStatCalc.request.RequestiStatCalc;
 import org.iStat.api.iStatCalc.request.RequestiStatCalcCell;
 import org.iStat.api.iStatCalc.request.RequestiStatCalcDataset;
 import org.junit.Test;
 
-public class ConverteriStatCalRequestTest {
+public class ConverteriStatCalRequestTest
+        extends AbstractUtilsiServiceTest {
 
     public Converter<RequestiStatCalc, DocumentiStat> converter = new ConverteriStatCalRequest();
 
     @Test
-    public void shouldConvertRequestiStatCalToDomain() {
+    public void shouldConvertRequestiStatCalToDomain()
+            throws Exception {
 
-        RequestiStatCalc request = createRequest();
+        RequestiStatCalc request = (RequestiStatCalc) createRequest();
 
         DocumentiStat document = converter.convert(request);
 
@@ -40,6 +43,34 @@ public class ConverteriStatCalRequestTest {
 
     }
 
+    @Test(expected = ConvertException.class)
+    public void cantConvertRequestiStatCalToDomainNullCells()
+            throws Exception {
+        converter
+            .convert((RequestiStatCalc) createRequestWithNullCells());
+    }
+
+    @Test(expected = ConvertException.class)
+    public void cantConvertRequestiStatCalToDomainNullRows()
+            throws Exception {
+        converter.convert(
+                (RequestiStatCalc) createRequestWithRowsNullValues());
+    }
+
+    @Test(expected = ConvertException.class)
+    public void cantConvertRequestiStatCalToDomainNullColumns()
+            throws Exception {
+        converter.convert(
+                (RequestiStatCalc) createRequestWithColumnsNullValues());
+    }
+
+    @Test(expected = ConvertException.class)
+    public void cantConvertRequestiStatCalToDomainNullValues()
+            throws Exception {
+        converter.convert(
+                (RequestiStatCalc) createRequestWithNullValues());
+    }
+
     private Predicate<Dataset> assertHasCell(Integer line, String column, Float value) {
         return new Predicate<Dataset>() {
 
@@ -54,7 +85,7 @@ public class ConverteriStatCalRequestTest {
         };
     }
 
-    private RequestiStatCalc createRequest() {
+    private RequestiStat createRequest() {
 
         RequestiStatCalcCell cell1A = new RequestiStatCalcCell(2, "A",
                 Float.valueOf(40.5f));
@@ -64,6 +95,81 @@ public class ConverteriStatCalRequestTest {
                 Float.valueOf(20.5f));
         RequestiStatCalcCell cell7B = new RequestiStatCalcCell(7, "B",
                 Float.valueOf(30.5f));
+
+        RequestiStatCalcDataset dataset1 = new RequestiStatCalcDataset(
+                "dataset_1",
+                newArrayList(cell1A, cell2A, cell3A, cell7B));
+
+        RequestiStatCalcDataset dataset2 = new RequestiStatCalcDataset(
+                "dataset_2", newArrayList(cell1A, cell3A));
+
+        return new RequestiStatCalc(newArrayList(dataset1, dataset2));
+
+    }
+
+    private RequestiStat createRequestWithNullValues() {
+
+        RequestiStatCalcCell cell1A = new RequestiStatCalcCell(2, "A",
+                null);
+        RequestiStatCalcCell cell2A = new RequestiStatCalcCell(10,
+                "A", null);
+        RequestiStatCalcCell cell3A = new RequestiStatCalcCell(3, "A",
+                null);
+        RequestiStatCalcCell cell7B = new RequestiStatCalcCell(7, "B",
+                null);
+
+        RequestiStatCalcDataset dataset1 = new RequestiStatCalcDataset(
+                "dataset_1",
+                newArrayList(cell1A, cell2A, cell3A, cell7B));
+
+        RequestiStatCalcDataset dataset2 = new RequestiStatCalcDataset(
+                "dataset_2", newArrayList(cell1A, cell3A));
+
+        return new RequestiStatCalc(newArrayList(dataset1, dataset2));
+
+    }
+
+    private RequestiStat createRequestWithNullCells() {
+
+        RequestiStatCalcDataset dataset1 = new RequestiStatCalcDataset(
+                "dataset_1", newArrayList(null, null, null, null));
+
+        return new RequestiStatCalc(newArrayList(dataset1));
+
+    }
+
+    private RequestiStat createRequestWithColumnsNullValues() {
+
+        RequestiStatCalcCell cell1A = new RequestiStatCalcCell(2,
+                null, Float.valueOf(40.5f));
+        RequestiStatCalcCell cell2A = new RequestiStatCalcCell(10,
+                null, Float.valueOf(40.5f));
+        RequestiStatCalcCell cell3A = new RequestiStatCalcCell(3,
+                null, Float.valueOf(20.5f));
+        RequestiStatCalcCell cell7B = new RequestiStatCalcCell(7,
+                null, Float.valueOf(30.5f));
+
+        RequestiStatCalcDataset dataset1 = new RequestiStatCalcDataset(
+                "dataset_1",
+                newArrayList(cell1A, cell2A, cell3A, cell7B));
+
+        RequestiStatCalcDataset dataset2 = new RequestiStatCalcDataset(
+                "dataset_2", newArrayList(cell1A, cell3A));
+
+        return new RequestiStatCalc(newArrayList(dataset1, dataset2));
+
+    }
+
+    private RequestiStat createRequestWithRowsNullValues() {
+
+        RequestiStatCalcCell cell1A = new RequestiStatCalcCell(null,
+                "A", Float.valueOf(40.5f));
+        RequestiStatCalcCell cell2A = new RequestiStatCalcCell(null,
+                "A", Float.valueOf(40.5f));
+        RequestiStatCalcCell cell3A = new RequestiStatCalcCell(null,
+                "A", Float.valueOf(20.5f));
+        RequestiStatCalcCell cell7B = new RequestiStatCalcCell(null,
+                "B", Float.valueOf(30.5f));
 
         RequestiStatCalcDataset dataset1 = new RequestiStatCalcDataset(
                 "dataset_1",
