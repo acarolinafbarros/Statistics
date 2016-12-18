@@ -73,7 +73,13 @@
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active" ng-controller="iDatasetController"><a
-							href="#">File <span class="sr-only">(current)</span></a></li>
+							href="#">File <span class="sr-only">(current)</span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#" ng-click="clickToOpen('Open Dataset')">Open
+										Dataset</a></li>
+								<li><a href="#" ng-click="clickToOpen('Save Dataset')">Save
+										Dataset</a></li>
+							</ul></li>
 						<li class="dropdown" ng-controller="iCalcController"><a
 							href="#" class="dropdown-toggle" data-toggle="dropdown"
 							role="button" aria-haspopup="true" aria-expanded="false">Calculate
@@ -108,8 +114,9 @@
 								<li><a href="#" ng-click="clickToOpenScale('Scale')">Scale</a></li>
 								<li><a href="#" ng-click="clickToOpenScale('Add a Scalar')">Add
 										a Scalar</a></li>
-								<li><a href="#" ng-click="clickToOpenDatasets('Add Two Datasets')">Add
-										Two Datasets</a></li>
+								<li><a href="#"
+									ng-click="clickToOpenDatasets('Add Two Datasets')">Add Two
+										Datasets</a></li>
 								<li><a href="#"
 									ng-click="clickToOpenDatasets('Multiply Two Datasets')">Multiply
 										Two Datasets</a></li>
