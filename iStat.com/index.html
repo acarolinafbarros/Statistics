@@ -17,6 +17,11 @@
 	rel="stylesheet">
 <link href="bower_components/handsontable/dist/handsontable.full.css"
 	rel="stylesheet">
+<link href="bower_components/ng-dialog/css/ngDialog.css"
+	rel="stylesheet">
+<link href="bower_components/ng-dialog/css/ngDialog-theme-default.css"
+	rel="stylesheet">	
+	
 
 <!-- Custom CSS -->
 
@@ -29,6 +34,7 @@
 	src="bower_components/handsontable/dist/handsontable.full.min.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/ng-dialog/js/ngDialog.js"></script>
 <!-- endbower -->
 
 <!-- build:js app.js -->
@@ -61,13 +67,16 @@
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">File <span class="sr-only">(current)</span></a></li>
-						<li class="dropdown" ng-controller="iCalcController"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false">Calculate <span class="caret"></span></a>
+						<li class="dropdown" ng-controller="iCalcController"><a
+							href="#" class="dropdown-toggle" data-toggle="dropdown"
+							role="button" aria-haspopup="true" aria-expanded="false">Calculate
+								<span class="caret"></span>
+						</a>
 							<ul class="dropdown-menu">
 								<li><a href="#" ng-click="calculateRowTotal(data)">Row's
 										total</a></li>
-								<li><a href="#">Column's total</a></li>
+
+								<li><a href="#"  ng-click="clickToOpen('Column\'s Total')">Column's total</a></li>
 								<li role="separator" class="divider"></li>
 								<li><a href="#">Median</a></li>
 								<li><a href="#">Mode</a></li>
@@ -106,6 +115,9 @@
 	<div id="hot"></div>
 
 	<script>
+		$(window).resize(function(){
+			location.reload();
+		});
 		$('.dropdown-toggle').dropdown();
 		var dataObject = [ {
 			A : ''
@@ -168,25 +180,6 @@
 		}, {
 			A : ''
 		} ];
-		var currencyCodes = [ 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD',
-				'SEK', 'NOK', 'BRL', 'CNY', 'RUB', 'INR', 'TRY', 'THB', 'IDR',
-				'MYR', 'MXN', 'ARS', 'DKK', 'ILS', 'PHP' ];
-		var flagRenderer = function(instance, td, row, col, prop, value,
-				cellProperties) {
-			var currencyCode = value;
-			while (td.firstChild) {
-				td.removeChild(td.firstChild);
-			}
-			if (currencyCodes.indexOf(currencyCode) > -1) {
-				var flagElement = document.createElement('DIV');
-				flagElement.className = 'flag ' + currencyCode.toLowerCase();
-				td.appendChild(flagElement);
-			} else {
-				var textNode = document.createTextNode(value === null ? ''
-						: value);
-				td.appendChild(textNode);
-			}
-		};
 		var hotElement = document.querySelector('#hot');
 		var hotElementContainer = hotElement.parentNode;
 		var hotSettings = {
@@ -318,7 +311,7 @@
 			contextMenu : true
 		};
 		var hot = new Handsontable(hotElement, hotSettings);
-	</script>
+	</script>	
 </body>
 </html>
 
