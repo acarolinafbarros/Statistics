@@ -1,6 +1,7 @@
 package org.iStat.api.iService;
 
 import org.iStat.api.iDomain.DocumentiStat;
+import org.iStat.api.iExceptions.TransformException;
 import org.iStat.api.iLogic.CalcStatistical;
 import org.iStat.api.iLogic.TransformStatistical;
 import org.slf4j.Logger;
@@ -27,12 +28,12 @@ public class TransformService {
         return transformStatistical.transformAddScalar(input,scalar);
 	 }
 	 
-	 public DocumentiStat transformAddTwoDatasets(DocumentiStat input) {
+	 public DocumentiStat transformAddTwoDatasets(DocumentiStat input) throws TransformException {
         TransformStatistical transformStatistical = new TransformStatistical();
         return transformStatistical.transformAddTwoDatasets(input);
 	 }
 	 
-	 public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat input) {
+	 public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat input) throws TransformException {
         TransformStatistical transformStatistical = new TransformStatistical();
         return transformStatistical.transformMultiplyTwoDatasets(input);
 	 }

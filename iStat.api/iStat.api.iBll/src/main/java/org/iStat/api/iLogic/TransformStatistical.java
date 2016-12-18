@@ -13,6 +13,7 @@ import org.iStat.api.iDomain.Dataset;
 import org.iStat.api.iDomain.Dataset.DatasetBuilder;
 import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iDomain.DocumentiStat.DocumentiStatBuilder;
+import org.iStat.api.iExceptions.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -141,12 +142,12 @@ public class TransformStatistical {
 
                 int line_size = matrix.length;
                 int column_size = matrix[0].length;
-                Float[][] matrix_final = new Float[line_size][column_size];
+                Float[][] matrix_final = new Float[column_size][line_size];
 
                 for (int line = 0; line < line_size; ++line) {
                     for (int column = 0; column < column_size; ++column) {
                         matrix_final[column][line] = input
-                            .getValueOfColumnLine(line, column);
+                            .getValueOfColumnLine(column, line);
                     }
                 }
 
@@ -259,7 +260,7 @@ public class TransformStatistical {
         return result;
     }
 
-    public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat) {
+    public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat) throws TransformException {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
@@ -278,6 +279,10 @@ public class TransformStatistical {
                 int column_size = matrix1[0].length;
                 LOGGER.info("----- COLUNA == {}", column_size);
 
+                if(line_size != matrix2.length || column_size != matrix2[0].length){
+                    throw new TransformException();
+                }
+                
                 Float[][] matrix_final = new Float[line_size][column_size];
 
                 for (int line = 0; line < line_size; ++line) {
@@ -315,7 +320,7 @@ public class TransformStatistical {
         return result;
     }
 
-    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat documentiStat) {
+    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat documentiStat) throws TransformException {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
@@ -335,6 +340,7 @@ public class TransformStatistical {
                 if (column_size1 != line_size2) {
                     LOGGER.info(
                             "The number of columns in 1 does not equal the number of rows in 2!");
+                    throw new TransformException();
                 } else {
 
                     Float[][] matrix_final = new Float[line_size1][column_size2];
@@ -374,7 +380,7 @@ public class TransformStatistical {
         return result;
     }
 
-    public DocumentiStat transformInterpolationLine(DocumentiStat documentiStat) {
+    public DocumentiStat transformInterpolationColumn(DocumentiStat documentiStat) {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
@@ -444,7 +450,7 @@ public class TransformStatistical {
         return result;
     }
 
-    public DocumentiStat transformInterpolationColumn(DocumentiStat documentiStat) {
+    public DocumentiStat transformInterpolationLine(DocumentiStat documentiStat) {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {

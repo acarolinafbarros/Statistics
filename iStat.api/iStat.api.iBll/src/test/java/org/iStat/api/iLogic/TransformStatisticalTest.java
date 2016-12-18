@@ -182,11 +182,11 @@ public class TransformStatisticalTest
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(
-                assertHasCell(1, "A", Float.valueOf(20.0f))));
+                assertHasCell(1, "A", Float.valueOf(-20.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(
-                assertHasCell(1, "B", Float.valueOf(6.0f))));
+                assertHasCell(1, "B", Float.valueOf(-6.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(
-                assertHasCell(10, "D", Float.valueOf(-2.0f))));
+                assertHasCell(10, "D", Float.valueOf(2.0f))));
 
     }
 
@@ -263,18 +263,19 @@ public class TransformStatisticalTest
     }
 
     @Test
-    public void shouldTestAddTwoDatasetsWithNull() {
+    public void shouldTestAddTwoDatasetsWithNull() throws Exception {
         assertNull(transformStatisical.transformAddTwoDatasets(null));
     }
 
     @Test
-    public void shouldTestAddTwoDatasetsWithEmpty() {
+    public void shouldTestAddTwoDatasetsWithEmpty() throws Exception {
         assertNull(transformStatisical
             .transformAddTwoDatasets(make(a(_documentiStat))));
     }
 
     @Test(expected = TransformException.class)
-    public void shouldTestAddTwoDatasetsWithDifferentSize() {
+    public void shouldTestAddTwoDatasetsWithDifferentSize()
+            throws Exception {
 
         List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
                 makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
@@ -291,7 +292,8 @@ public class TransformStatisticalTest
     }
 
     @Test
-    public void shouldTestAddTwoDatasetsWithZeroValues() {
+    public void shouldTestAddTwoDatasetsWithZeroValues()
+            throws Exception {
 
         List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
                 makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
@@ -308,7 +310,7 @@ public class TransformStatisticalTest
         DocumentiStat received = transformStatisical
             .transformAddTwoDatasets(documentiStat);
 
-        assertNull(received);
+        assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(
                 assertHasCell(1, "A", Float.valueOf(0.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(
@@ -318,7 +320,8 @@ public class TransformStatisticalTest
     }
 
     @Test
-    public void shouldTestAddTwoDatasetsWithFourValues() {
+    public void shouldTestAddTwoDatasetsWithFourValues()
+            throws Exception {
 
         List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
                 makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
@@ -337,7 +340,7 @@ public class TransformStatisticalTest
         DocumentiStat received = transformStatisical
             .transformAddTwoDatasets(documentiStat);
 
-        assertNull(received);
+        assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(
                 assertHasCell(1, "A", Float.valueOf(6.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(
@@ -358,7 +361,8 @@ public class TransformStatisticalTest
     }
 
     @Test
-    public void shouldTestAddTwoDatasetsWithNegativeValues() {
+    public void shouldTestAddTwoDatasetsWithNegativeValues()
+            throws Exception {
 
         List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
                 makeCell(1, "A", 1.0f), makeCell(1, "B", -2.0f),
@@ -392,18 +396,21 @@ public class TransformStatisticalTest
     }
 
     @Test
-    public void shouldTestMultiplyTwoDatasetsWithNull() {
+    public void shouldTestMultiplyTwoDatasetsWithNull()
+            throws Exception {
         assertNull(transformStatisical.transformAddTwoDatasets(null));
     }
 
     @Test
-    public void shouldTestMultiplyTwoDatasetsWithEmpty() {
+    public void shouldTestMultiplyTwoDatasetsWithEmpty()
+            throws Exception {
         assertNull(transformStatisical
             .transformAddTwoDatasets(make(a(_documentiStat))));
     }
 
     @Test(expected = TransformException.class)
-    public void shouldTestMultiplyTwoDatasetsWithDifferentSize() {
+    public void shouldTestMultiplyTwoDatasetsWithDifferentSize()
+            throws Exception {
 
         List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
                 makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
@@ -421,7 +428,8 @@ public class TransformStatisticalTest
     }
 
     @Test
-    public void shouldTestMultiplyTwoDatasetsWithZeros() {
+    public void shouldTestMultiplyTwoDatasetsWithZeros()
+            throws Exception {
 
         List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
                 makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
@@ -429,15 +437,13 @@ public class TransformStatisticalTest
                 makeCell(2, "B", 0.0f), makeCell(2, "C", 0.0f));
         List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
                 makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
-                makeCell(1, "C", 0.0f));
-        List<Cell<Integer, String>> listOfCellsDataset3 = newArrayList(
-                makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
                 makeCell(1, "C", 0.0f), makeCell(2, "A", 0.0f),
-                makeCell(2, "B", 0.0f), makeCell(2, "C", 0.0f));
+                makeCell(2, "B", 0.0f), makeCell(2, "C", 0.0f),
+                makeCell(3, "A", 0.0f), makeCell(3, "B", 0.0f),
+                makeCell(3, "C", 0.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
                 makeDataset("dataset1", listOfCellsDataset1),
-                makeDataset("dataset2", listOfCellsDataset2),
-                makeDataset("dataset3", listOfCellsDataset3)));
+                makeDataset("dataset2", listOfCellsDataset2)));
 
         DocumentiStat received = transformStatisical
             .transformMultiplyTwoDatasets(documentiStat);
@@ -455,10 +461,18 @@ public class TransformStatisticalTest
                 assertHasCell(2, "B", Float.valueOf(0.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(
                 assertHasCell(2, "C", Float.valueOf(0.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "C", Float.valueOf(0.0f))));
     }
 
     @Test
-    public void shouldTestMultiplyTwoDatasetsWithDifferenteSize() {
+    public void shouldTestMultiplyTwoDatasetsWithDifferenteSize()
+            throws Exception {
 
         List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
                 makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
@@ -491,7 +505,8 @@ public class TransformStatisticalTest
     }
 
     @Test
-    public void shouldTestMultiplyTwoDatasetsWithNegativeValue() {
+    public void shouldTestMultiplyTwoDatasetsWithNegativeValue()
+            throws Exception {
 
         List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
                 makeCell(1, "A", 1.0f), makeCell(1, "B", -2.0f),
