@@ -1,4 +1,4 @@
-package org.iStat.api.iStatIO.response;
+package org.iStat.api.iStatDataset.response;
 
 import java.util.List;
 

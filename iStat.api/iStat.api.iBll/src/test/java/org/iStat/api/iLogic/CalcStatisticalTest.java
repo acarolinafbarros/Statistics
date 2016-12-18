@@ -12,7 +12,7 @@ import java.util.List;
 import org.iStat.api.iDomain.Cell;
 import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iDomain.DocumentiStat.DocumentiStatBuilder;
-import org.junit.Ignore;
+import org.iStat.api.iExceptions.CalcException;
 import org.junit.Test;
 
 public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
@@ -53,17 +53,60 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
     }
 
     @Test
-    public void calculateMedianInputWithNegatives() {
+    public void calculateMedianInputValidWithThreeValues() {
 
         List<Cell<Integer, String>> listOfCells = newArrayList(
-                makeCell(3, "A", -1.0f), makeCell(4, "A", 1.0f));
+                makeCell(3, "A", -10.0f), makeCell(4, "A", 20f),
+                makeCell(4, "A", 5f), makeCell(5, "A", 3f));
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCells)));
 
         Float received = calcStatisical
             .calculateMedian(documentiStat);
-        Float expected = new Float("0");
-        assertEquals(expected, received);
+
+        assertEquals(Float.valueOf(4.5f), received);
+    }
+
+    @Test
+    public void calculateMedianInputValidWithOneValue() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateMedian(documentiStat);
+
+        assertEquals(Float.valueOf(1.0f), received);
+    }
+
+    @Test
+    public void calculateMedianInputValidWithZeroValue() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 0.0f), makeCell(4, "A", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateMedian(documentiStat);
+
+        assertEquals(Float.valueOf(0.0f), received);
+    }
+
+    @Test
+    public void calculateMedianInputWithNegatives() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", -10.0f), makeCell(4, "A", -10.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateMedian(documentiStat);
+
+        assertEquals(Float.valueOf(-10.0f), received);
     }
 
     /*
@@ -73,20 +116,20 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
      */
 
     @Test
-    public void calculateGeometricMeanInputNull() {
+    public void calculateGeometricMeanInputNull() throws Exception {
         Float received = calcStatisical.calculateGeometricMean(null);
         assertNull(received);
     }
 
     @Test
-    public void calculateGeometricMeanInputEmpty() {
+    public void calculateGeometricMeanInputEmpty() throws Exception {
         Float received = calcStatisical
             .calculateGeometricMean(make(a(_documentiStat)));
         assertNull(received);
     }
 
     @Test
-    public void calculateGeometricMeanInputValid() {
+    public void calculateGeometricMeanInputValid() throws Exception {
         List<Cell<Integer, String>> listOfCells = newArrayList(
                 makeCell(3, "A", 4.0f), makeCell(4, "A", 2.0f),
                 makeCell(5, "A", 1.0f));
@@ -96,6 +139,44 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
             .calculateGeometricMean(documentiStat);
         Float expected = new Float("2.0");
         assertEquals(expected, received);
+    }
+
+    @Test
+    public void calculateGeometricMeanInputValidWith3Values()
+            throws Exception {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 3.0f), makeCell(4, "A", 4.0f),
+                makeCell(5, "A", 8.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateGeometricMean(documentiStat);
+
+        assertEquals(Float.valueOf(4.58f), received);
+    }
+
+    @Test
+    public void calculateGeometricMeanInputValidWith1Value()
+            throws Exception {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateGeometricMean(documentiStat);
+
+        assertEquals(Float.valueOf(3.0f), received);
+    }
+
+    @Test(expected = CalcException.class)
+    public void calculateGeometricMeanInputValidWithNegativeValue()
+            throws Exception {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", -20.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateGeometricMean(documentiStat);
     }
 
     /*
@@ -117,7 +198,7 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
         assertNull(received);
     }
 
-    @Ignore
+    @Test
     public void calculateModeInputValid() {
         List<Cell<Integer, String>> listOfCells = newArrayList(
                 makeCell(3, "A", 1.0f), makeCell(4, "A", 4.0f),
@@ -128,6 +209,57 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
         Float received = calcStatisical.calculateMode(documentiStat);
         Float expected = new Float("4.0");
         assertEquals(expected, received);
+    }
+
+    @Test
+    public void calculateModeInputValidWithFiveValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 4.0f), makeCell(4, "A", 5.0f),
+                makeCell(5, "A", 4.0f), makeCell(6, "A", 3.0f),
+                makeCell(7, "A", 5.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical.calculateMode(documentiStat);
+
+        assertEquals(Float.valueOf(4), received);
+    }
+
+    @Test
+    public void calculateModeInputValidWithFourValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 1.0f), makeCell(4, "A", 2.0f),
+                makeCell(5, "A", 3.0f), makeCell(6, "A", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical.calculateMode(documentiStat);
+
+        assertEquals(Float.valueOf(3.0f), received);
+    }
+
+    @Test
+    public void calculateModeInputValidWithNegativeValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 0.0f), makeCell(4, "A", 1.0f),
+                makeCell(5, "A", -10.0f), makeCell(6, "A", -10.0f),
+                makeCell(6, "A", -10.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical.calculateMode(documentiStat);
+
+        assertEquals(Float.valueOf(-10.0f), received);
+    }
+
+    @Test
+    public void calculateModeInputValidWithFiveNegativeValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", -4.0f), makeCell(4, "A", -1.0f),
+                makeCell(5, "A", -1.0f), makeCell(6, "A", -5.0f),
+                makeCell(6, "A", -5.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical.calculateMode(documentiStat);
+
+        assertEquals(Float.valueOf(-5.0f), received);
     }
 
     /*
@@ -162,6 +294,58 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
         assertEquals(expected, received);
     }
 
+    @Test
+    public void calculateMidrangeInputValidWithThreeValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 60.0f), makeCell(4, "A", 70.0f),
+                makeCell(5, "A", 20.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateMidrange(documentiStat);
+
+        assertEquals(Float.valueOf(45.0f), received);
+    }
+
+    @Test
+    public void calculateMidrangeInputValidWithFourValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 0.0f), makeCell(4, "A", 20.0f),
+                makeCell(5, "A", 10.0f), makeCell(5, "A", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateMidrange(documentiStat);
+
+        assertEquals(Float.valueOf(10.0f), received);
+    }
+
+    @Test
+    public void calculateMidrangeInputValidWithNegativeValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", -10.0f), makeCell(4, "A", 10.0f),
+                makeCell(5, "A", 100.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateMidrange(documentiStat);
+
+        assertEquals(Float.valueOf(45.0f), received);
+    }
+
+    @Test
+    public void calculateMidrangeInputValidWithZeroValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 0.0f), makeCell(4, "A", 0.0f),
+                makeCell(5, "A", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateMidrange(documentiStat);
+
+        assertEquals(Float.valueOf(0.0f), received);
+    }
+
     /*
      * ----------------------------------------------------------------------
      * EN - Variance
@@ -193,8 +377,65 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
 
         Float received = calcStatisical
             .calculateVariance(documentiStat);
-        Float expected = new Float("33.2");
+        Float expected = new Float("27.67");
         assertEquals(expected, received);
+    }
+
+    @Test
+    public void calculateVarianceInputValidWithFiveValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 4.0f), makeCell(4, "A", 9.0f),
+                makeCell(5, "A", 10.0f), makeCell(6, "A", 1.0f),
+                makeCell(7, "A", 6.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateVariance(documentiStat);
+
+        assertEquals(Float.valueOf(10.8f), received);
+    }
+    
+    @Test
+    public void calculateVarianceInputValidWithFourValuesPDF() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 68.0f), makeCell(4, "A", 20.0f),
+                makeCell(5, "A", 12.0f), makeCell(6, "A", 58.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateVariance(documentiStat);
+
+        assertEquals(Float.valueOf(572.75f), received);
+    }
+    
+    @Test
+    public void calculateVarianceInputValidWithFourValuesPDF2() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 3.0f), makeCell(4, "A", 11.0f),
+                makeCell(5, "A", 11.0f), makeCell(6, "A", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateVariance(documentiStat);
+
+        assertEquals(Float.valueOf(16.0f), received);
+    }
+
+    @Test
+    public void calculateVarianceInputValidWithZeroValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 0.0f), makeCell(4, "A", 0.0f),
+                makeCell(5, "A", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateVariance(documentiStat);
+
+        assertEquals(Float.valueOf(0.0f), received);
     }
 
     /*
@@ -217,7 +458,7 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
         assertNull(received);
     }
 
-    @Ignore
+    @Test
     public void calculateStandardDeviationInputValid() {
         List<Cell<Integer, String>> listOfCells = newArrayList(
                 makeCell(3, "A", 17.0f), makeCell(4, "A", 15.0f),
@@ -227,8 +468,117 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
                 newArrayList(makeDataset("dataset1", listOfCells)));
         Float received = calcStatisical
             .calculateStandardDeviation(documentiStat);
-        Float expected = new Float("5.76");
+        Float expected = new Float("5.26");
         assertEquals(expected, received);
+    }
+    
+    @Test
+    public void calculateStandardDeviationInputValidWithFourValuesPDF() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 68.0f), makeCell(4, "A", 20.0f),
+                makeCell(5, "A", 12.0f), makeCell(6, "A", 58.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(23.93f), received);
+    }
+    
+    @Test
+    public void calculateStandardDeviationInputValidWithFourValuesPDF2() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 3.0f), makeCell(4, "A", 11.0f),
+                makeCell(5, "A", 11.0f), makeCell(6, "A", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(4.00f), received);
+    }
+
+    @Test
+    public void calculateStandardDeviationInputValidWithSixValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 9.0f), makeCell(4, "A", 2.0f),
+                makeCell(5, "A", 5.0f), makeCell(6, "A", 4.0f),
+                makeCell(7, "A", 12.0f), makeCell(8, "A", 7.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(3.30f), received);
+    }
+
+    @Test
+    public void calculateStandardDeviationInputValidWithSixValues2() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 3.0f), makeCell(4, "A", 2.0f),
+                makeCell(5, "A", 4.0f), makeCell(6, "A", 1.0f),
+                makeCell(7, "A", 4.0f), makeCell(8, "A", 4.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(1.15f), received);
+    }
+
+    @Test
+    public void calculateStandardDeviationInputValidWithNegativeValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", -3.0f), makeCell(4, "A", 2.0f),
+                makeCell(5, "A", -4.0f), makeCell(6, "A", 1.0f),
+                makeCell(7, "A", 4.0f), makeCell(8, "A", 4.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(3.14f), received);
+    }
+
+    @Test
+    public void calculateStandardDeviationInputValidWithFourValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 5.0f), makeCell(4, "A", 5.0f),
+                makeCell(5, "A", 5.0f), makeCell(6, "A", 5.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(0.0f), received);
+    }
+
+    @Test
+    public void calculateStandardDeviationInputValidWithThreeValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", -1.0f), makeCell(4, "A", -1.0f),
+                makeCell(5, "A", -1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(0.0f), received);
+    }
+
+    @Test
+    public void calculateStandardDeviationInputValidWithZeroValues() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 0.0f), makeCell(4, "A", 0.0f),
+                makeCell(5, "A", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(0.0f), received);
     }
 
     /*
@@ -259,8 +609,8 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
                 newArrayList(makeDataset("dataset1", listOfCells)));
         Float received = calcStatisical
             .calculateRowColumnTotal(documentiStat);
-        Float expected = new Float("6.7");
-        assertEquals(expected, received);
+
+        assertEquals(Float.valueOf(6.7f), received);
     }
 
     @Test
@@ -272,7 +622,7 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
                 newArrayList(makeDataset("dataset1", listOfCells)));
         Float received = calcStatisical
             .calculateRowColumnTotal(documentiStat);
-        Float expected = new Float("1.5");
-        assertEquals(expected, received);
+
+        assertEquals(Float.valueOf(1.5f), received);
     }
 }

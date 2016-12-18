@@ -1,10 +1,11 @@
-package org.iStat.api.iStatIO.request;
+package org.iStat.api.iStatDataset.request;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.iStat.api.iRequest.RequestiStat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RequestiStatOpen {
+public class RequestiStatOpen extends RequestiStat {
 
     @JsonProperty(value = "name")
     private String name;

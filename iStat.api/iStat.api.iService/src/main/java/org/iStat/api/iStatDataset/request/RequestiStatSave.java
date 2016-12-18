@@ -1,12 +1,13 @@
-package org.iStat.api.iStatIO.request;
+package org.iStat.api.iStatDataset.request;
 
 import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.iStat.api.iRequest.RequestiStat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RequestiStatSave {
+public class RequestiStatSave extends RequestiStat {
 
     @JsonProperty(value = "datasets")
     private List<RequestiStatSaveDataset> datasets;

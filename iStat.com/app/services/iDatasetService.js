@@ -3,7 +3,7 @@
 angular
 	.module('iStatServices')
 	.factory(
-				'iCalcService',
+				'iDatasetService',
 				[
 		'$http',
 		'$q',

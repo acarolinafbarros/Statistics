@@ -11,9 +11,9 @@ import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iConverter.ConverteriStatSaveRequest;
 import org.iStat.api.iDomain.Dataset;
 import org.iStat.api.iDomain.DocumentiStat;
-import org.iStat.api.iStatIO.request.RequestiStatSave;
-import org.iStat.api.iStatIO.request.RequestiStatSaveCell;
-import org.iStat.api.iStatIO.request.RequestiStatSaveDataset;
+import org.iStat.api.iStatDataset.request.RequestiStatSave;
+import org.iStat.api.iStatDataset.request.RequestiStatSaveCell;
+import org.iStat.api.iStatDataset.request.RequestiStatSaveDataset;
 import org.junit.Test;
 
 public class ConverteriStatSaveRequestTest {
@@ -21,7 +21,7 @@ public class ConverteriStatSaveRequestTest {
     public Converter<RequestiStatSave, DocumentiStat> converter = new ConverteriStatSaveRequest();
 
     @Test
-    public void shouldConverteriStatSaveRequest() {
+    public void shouldConverteriStatSaveRequest() throws Exception{
 
         RequestiStatSave request = createRequest();
 

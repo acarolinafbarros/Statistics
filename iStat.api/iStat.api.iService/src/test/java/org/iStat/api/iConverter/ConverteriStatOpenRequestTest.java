@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iConverter.ConverteriStatOpenRequest;
 import org.iStat.api.iDomain.DocumentiStat;
-import org.iStat.api.iStatIO.request.RequestiStatOpen;
+import org.iStat.api.iStatDataset.request.RequestiStatOpen;
 import org.junit.Test;
 
 public class ConverteriStatOpenRequestTest {
@@ -14,7 +14,7 @@ public class ConverteriStatOpenRequestTest {
     public Converter<RequestiStatOpen, DocumentiStat> converter = new ConverteriStatOpenRequest();
     
     @Test
-    public void shouldConverteriStatOpenRequest() {
+    public void shouldConverteriStatOpenRequest() throws Exception{
 
         String fileExpected = "document_1.json";
         

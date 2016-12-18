@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iConverter.ConverteriStatSaveResponse;
-import org.iStat.api.iStatIO.response.ResponseiStatSave;
+import org.iStat.api.iStatDataset.response.ResponseiStatSave;
 import org.junit.Test;
 
 public class ConverteriStatSaveResponseTest {
@@ -13,7 +13,7 @@ public class ConverteriStatSaveResponseTest {
     public Converter<Boolean, ResponseiStatSave> converter = new ConverteriStatSaveResponse();
 
     @Test
-    public void shouldConverteriStatSaveResponse() {
+    public void shouldConverteriStatSaveResponse() throws Exception{
 
         ResponseiStatSave response = converter.convert(true);
 

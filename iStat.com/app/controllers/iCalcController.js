@@ -159,6 +159,186 @@ angular
 															.log('Error to call callCalculateRowTotal');
 												});
 							}
+
+							function calculateStandardDeviation() {
+
+								console
+										.log("--> Called calculateStandardDeviation!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateStandardDeviation');
+
+								promise
+										.then(
+												function(response) {
+
+													if (response.data != null) {
+
+														$scope.response = response.data;
+														console
+																.log($scope.response);
+
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
+
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateStandardDeviation');
+												});
+
+							}
+
+							function calculateVariance() {
+
+								console.log("--> Called calculateVariance!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateVariance');
+
+								promise
+										.then(
+												function(response) {
+
+													if (response.data != null) {
+
+														$scope.response = response.data;
+														console
+																.log($scope.response);
+
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
+
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateVariance');
+												});
+
+							}
+
+							function calculateMidrange() {
+
+								console.log("--> Called calculateMidrange!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateMidrange');
+
+								promise
+										.then(
+												function(response) {
+
+													if (response.data != null) {
+
+														$scope.response = response.data;
+														console
+																.log($scope.response);
+
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
+
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateMidrange');
+												});
+
+							}
+
+							function calculateMode() {
+
+								console.log("--> Called calculateMode!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateMode');
+
+								promise.then(function(response) {
+
+									if (response.data != null) {
+
+										$scope.response = response.data;
+										console.log($scope.response);
+
+										hot.setDataAtCell(1, 1,
+												$scope.response.value);
+
+									}
+								}, function(response) {
+									console.log('Error to call calculateMode');
+								});
+
+							}
+
+							function calculateGeometricMean() {
+
+								console
+										.log("--> Called calculateGeometricMean!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateGeometricMean');
+
+								promise
+										.then(
+												function(response) {
+
+													if (response.data != null) {
+
+														$scope.response = response.data;
+														console
+																.log($scope.response);
+
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
+
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateGeometricMean');
+												});
+
+							}
+
+							function calculateMedian() {
+
+								console.log("--> Called calculateMedian!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateMedian');
+
+								promise
+										.then(
+												function(response) {
+
+													if (response.data != null) {
+
+														$scope.response = response.data;
+														console
+																.log($scope.response);
+
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
+
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateMedian');
+												});
+
+							}
 						}
 
 				]);

@@ -13,7 +13,7 @@ public class ConverteriStatCalResponseTest {
     public Converter<Float, ResponseiStatCalc> converter = new ConverteriStatCalResponse();
 
     @Test
-    public void shouldConvertDomainToResponseiStatCal() {
+    public void shouldConvertDomainToResponseiStatCal() throws Exception{
 
         ResponseiStatCalc responseExpected = new ResponseiStatCalc(
                 Float.valueOf(10.0f));

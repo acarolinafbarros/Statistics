@@ -3,10 +3,11 @@ package org.iStat.api.iStatCalc.request;
 import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.iStat.api.iRequest.RequestiStat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RequestiStatCalc {
+public class RequestiStatCalc extends RequestiStat {
 
     @JsonProperty(value = "datasets")
     private List<RequestiStatCalcDataset> datasets;

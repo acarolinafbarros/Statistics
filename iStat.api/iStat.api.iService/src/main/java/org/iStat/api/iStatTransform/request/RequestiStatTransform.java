@@ -3,25 +3,28 @@ package org.iStat.api.iStatTransform.request;
 import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.iStat.api.iRequest.RequestiStat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RequestiStatTransform {
+public class RequestiStatTransform extends RequestiStat {
 
     @JsonProperty(value = "datasets")
     private List<RequestiStatTransformDataset> datasets;
-    
+
     @JsonProperty(value = "scalar")
     private Float scalar;
-    
-    public RequestiStatTransform(){
-    }
 
-    public RequestiStatTransform(List<RequestiStatTransformDataset> dataset) {
+    public RequestiStatTransform() {}
+
+    public RequestiStatTransform(
+            List<RequestiStatTransformDataset> dataset) {
         this.datasets = dataset;
     }
-    
-    public RequestiStatTransform(List<RequestiStatTransformDataset> dataset, Float scalar) {
+
+    public RequestiStatTransform(
+            List<RequestiStatTransformDataset> dataset,
+            Float scalar) {
         this.datasets = dataset;
         this.scalar = scalar;
     }
@@ -37,8 +40,8 @@ public class RequestiStatTransform {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-            .append("datasets", datasets)
-            .append("scalar", scalar).build();
+            .append("datasets", datasets).append("scalar", scalar)
+            .build();
     }
 
 }
