@@ -20,8 +20,8 @@
 <link href="bower_components/ng-dialog/css/ngDialog.css"
 	rel="stylesheet">
 <link href="bower_components/ng-dialog/css/ngDialog-theme-default.css"
-	rel="stylesheet">	
-	
+	rel="stylesheet">
+
 
 <!-- Custom CSS -->
 
@@ -73,17 +73,21 @@
 								<span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu">
-								<li><a href="#" ng-click="calculateRowTotal(data)">Row's
+								<li><a href="#" ng-click="clickToOpen('Row\'s Total')">Row's
 										total</a></li>
 
-								<li><a href="#"  ng-click="clickToOpen('Column\'s Total')">Column's total</a></li>
+								<li><a href="#" ng-click="clickToOpen('Column\'s Total')">Column's
+										total</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="#">Median</a></li>
-								<li><a href="#">Mode</a></li>
-								<li><a href="#">Midrange</a></li>
-								<li><a href="#">Variance</a></li>
-								<li><a href="#">Standard deviation</a></li>
-								<li><a href="#">Geometric mean</a></li>
+								<li><a href="#" ng-click="clickToOpen('Median')">Median</a></li>
+								<li><a href="#" ng-click="clickToOpen('Mode')">Mode</a></li>
+								<li><a href="#" ng-click="clickToOpen('Midrange')">Midrange</a></li>
+								<li><a href="#" ng-click="clickToOpen('Variance')">Variance</a></li>
+								<li><a href="#"
+									ng-click="clickToOpen('Standard Deviation')">Standard
+										Deviation</a></li>
+								<li><a href="#" ng-click="clickToOpen('Geometric Mean')">Geometric
+										Mean</a></li>
 
 							</ul></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -115,7 +119,7 @@
 	<div id="hot"></div>
 
 	<script>
-		$(window).resize(function(){
+		$(window).resize(function() {
 			location.reload();
 		});
 		$('.dropdown-toggle').dropdown();
@@ -311,7 +315,7 @@
 			contextMenu : true
 		};
 		var hot = new Handsontable(hotElement, hotSettings);
-	</script>	
+	</script>
 </body>
 </html>
 

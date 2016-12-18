@@ -12,25 +12,53 @@ angular
 
 						function($scope, $http, iCalcService, ngDialog) {
 							$scope.clickToOpen = function($name) {
-								
-								$scope.calculateName = $name;
-								console.log($scope.calculateName);
+
+								var newScope = $scope;
+								newScope.calculateName = $name;
 								ngDialog.open({
-									template : 'Popup.html',
-									className : 'ngdialog-theme-default'
+									template : 'popUpCalculate.html',
+									className : 'ngdialog-theme-default',
+									scope : newScope
 								});
 							};
 
 							$scope.confirm = function($data) {
 								console.log('confirm');
-								console.log($scope.data);
+								console.log($scope.calculateName);
 								convertInputIntoRequest($data);
-								//callCalculateRowTotal();
+								switch ($scope.calculateName) {
+								case 'Column\'s total':
+									callCalculateRowTotal();
+									break;
+								case 'Row\'s Total':
+									break;
+								case 'Median':
+									break;
+								case 'Mode':
+									break;
+								case 'Midrange':
+									break;
+								case 'Variance':
+									break;
+								case 'Standard Deviation':
+									break;
+								case 'Geometric Mean':
+									break;
+								default:
+									break;
+								}
 							};
 
 							$scope.request = '';
 
-							//$scope.data = "{    \"datasets\": [        {            \"name\": \"dataset_1\",            \"cells\": [                {                    \"line\": \"1\",                    \"column\": \"A\",                    \"value\": 100                },                {                    \"line\": \"2\",                    \"column\": \"A\",                    \"value\": 200                }            ]        },        {            \"name\": \"dataset_2\",            \"cells\": [                {                    \"line\": \"1\",                    \"column\": \"A\",                    \"value\": 100                },                {                    \"line\": \"2\",                    \"column\": \"A\",                    \"value\": 200                }            ]        }    ]}";
+							// $scope.data = "{ \"datasets\": [ { \"name\":
+							// \"dataset_1\", \"cells\": [ { \"line\": \"1\",
+							// \"column\": \"A\", \"value\": 100 }, { \"line\":
+							// \"2\", \"column\": \"A\", \"value\": 200 } ] }, {
+							// \"name\": \"dataset_2\", \"cells\": [ { \"line\":
+							// \"1\", \"column\": \"A\", \"value\": 100 }, {
+							// \"line\": \"2\", \"column\": \"A\", \"value\":
+							// 200 } ] } ]}";
 
 							$scope.response = new Object();
 
@@ -38,53 +66,69 @@ angular
 								convertInputIntoRequest($data);
 								callCalculateRowTotal();
 							}
-							
-							function convertInputIntoRequest($data){
-								console.log('convertInputIntoRequest');
-								console.log($data.inputBeginColumn);
-								var columnIndexInputBegin = getColFromName($data.inputBeginColumn);
-								var lineIndexInputBegin = $data.inputBeginLine;
-								var columnIndexInputEnd = getColFromName($data.inputEndColumn);
-								var lineIndexInputEnd = $data.inputEndLine;
-								var datasetData = getValuesDataset(columnIndexInputBegin,lineIndexInputBegin,columnIndexInputEnd,lineIndexInputEnd);
-								console.log(datasetData);
-								//$scope.data = 
-							}
-							
-							function getValuesDataset(columnIndexInputBegin,lineIndexInputBegin,columnIndexInputEnd,lineIndexInputEnd){
-								var sameLine = false;
-								var sameColumn = false;
-								if(columnIndexInputBegin==columnIndexInputEnd){
-									console.log(columnIndexInputBegin);
-									console.log("equal columns");
-									sameColumn = true;
-								}
-								if(lineIndexInputBegin==lineIndexInputEnd){
-									console.log(lineIndexInputBegin);
-									console.log("equal lines");
-									sameLine = true;
-								}
-								if(sameColumn && sameLine){
-									return hot.getDataAtCell(lineIndexInputBegin,columnIndexInputBegin);
-								}
-								return null;
-							}
-							
-							function getColFromName(name)
-							{
-							    var n_cols  =   hot.countCols();
-							    console.log(n_cols);
-							    var i       =   1;     
 
-							    for (i=0; i<=n_cols; i++)
-							    {
-							        if (name.toLowerCase() == hot.getColHeader(i).toLowerCase()) {
-							            return i;
-							        }
-							    }
-							    return -1; //return -1 if nothing can be found
+							function convertInputIntoRequest($data) {
+								console.log('convertInputIntoRequest');
+								var columnIndexInputBegin = getColFromName($data.inputBeginColumn);
+								var lineIndexInputBegin = getLineFromName($data.inputBeginLine);
+								var columnIndexInputEnd = getColFromName($data.inputEndColumn);
+								var lineIndexInputEnd = getLineFromName($data.inputEndLine);
+								var datasetCells = getValuesDataset(
+										columnIndexInputBegin,
+										lineIndexInputBegin,
+										columnIndexInputEnd, lineIndexInputEnd);
+								console.log(datasetCells);
+								// TODO Chamar método do Nuno para converter
+								// para o JSON correto.
+								// $scope.data =
 							}
-							
+
+							function getValuesDataset(columnIndexInputBegin,
+									lineIndexInputBegin, columnIndexInputEnd,
+									lineIndexInputEnd) {
+								var values = new Array();
+								for (var line = lineIndexInputBegin; line <= lineIndexInputEnd; line++) {
+									for (var column = columnIndexInputBegin; column <= columnIndexInputEnd; column++) {
+										var cell = {
+											"line" : hot.getRowHeader(line),
+											"column" : hot.getColHeader(column),
+											"value" : hot.getDataAtCell(line,
+													column)
+										};
+										values.push(cell);
+									}
+								}
+								return values;
+							}
+
+							function getColFromName(name) {
+								var n_cols = hot.countCols();
+								console.log(n_cols);
+								var i = 1;
+
+								for (i = 0; i <= n_cols; i++) {
+									if (name.toLowerCase() == hot.getColHeader(
+											i).toLowerCase()) {
+										return i;
+									}
+								}
+								return -1; // return -1 if nothing can be found
+							}
+
+							function getLineFromName(name) {
+								var n_rows = hot.countRows();
+								console.log(n_rows);
+								var i = 1;
+								name = name.toString();
+								for (i = 0; i <= n_rows; i++) {
+									if (name.toLowerCase() == hot.getRowHeader(
+											i).toString().toLowerCase()) {
+										return i;
+									}
+								}
+								return -1; // return -1 if nothing can be found
+							}
+
 							// Internal function
 							function callCalculateRowTotal() {
 								console.log('calculate')
