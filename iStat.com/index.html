@@ -37,16 +37,18 @@
 <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
 <!-- endbower -->
 
-	<!-- build:js app.js -->
-	<script src="app/app.js" type="text/javascript"></script>
-	<script src="app/route.js" type="text/javascript"></script>
-	<script src="app/controllers/iCalcController.js" type="text/javascript"></script>
-	<script src="app/controllers/iDatasetController.js" type="text/javascript"></script>
-	<script src="app/controllers/iTransformController.js" type="text/javascript"></script>
-	<script src="app/services/iCalcService.js" type="text/javascript"></script>
-	<script src="app/services/iDatasetService.js" type="text/javascript"></script>
-	<script src="app/services/iTransformService.js" type="text/javascript"></script>
-	<!-- endbuild -->
+<!-- build:js app.js -->
+<script src="app/app.js" type="text/javascript"></script>
+<script src="app/route.js" type="text/javascript"></script>
+<script src="app/controllers/iCalcController.js" type="text/javascript"></script>
+<script src="app/controllers/iDatasetController.js"
+	type="text/javascript"></script>
+<script src="app/controllers/iTransformController.js"
+	type="text/javascript"></script>
+<script src="app/services/iCalcService.js" type="text/javascript"></script>
+<script src="app/services/iDatasetService.js" type="text/javascript"></script>
+<script src="app/services/iTransformService.js" type="text/javascript"></script>
+<!-- endbuild -->
 
 </head>
 
@@ -70,7 +72,8 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li class="active" ng-controller="iDatasetController"><a href="#">File <span class="sr-only">(current)</span></a></li>
+						<li class="active" ng-controller="iDatasetController"><a
+							href="#">File <span class="sr-only">(current)</span></a></li>
 						<li class="dropdown" ng-controller="iCalcController"><a
 							href="#" class="dropdown-toggle" data-toggle="dropdown"
 							role="button" aria-haspopup="true" aria-expanded="false">Calculate
@@ -94,25 +97,34 @@
 										Mean</a></li>
 
 							</ul></li>
-						<li class="dropdown" ng-controller="iTransformController"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false">Transform <span class="caret"></span></a>
+						<li class="dropdown" ng-controller="iTransformController"><a
+							href="#" class="dropdown-toggle" data-toggle="dropdown"
+							role="button" aria-haspopup="true" aria-expanded="false">Transform
+								<span class="caret"></span>
+						</a>
 							<ul class="dropdown-menu" style="overflow: visible;">
-								<li><a href="#" ng-click="transformTranspose(data)">Transpose dataset</a></li>
-								<li><a href="#" ng-click="transformScale(data)">Scale</a></li>
-								<li><a href="#" ng-click="transformAddScalar(data)">Add a scalar</a></li>
-								<li><a href="#" ng-click="transformAddTwoDatasets(data)">Add two datasets</a></li>
-								<li><a href="#" ng-click="transformMultiplyTwoDatasets(data)">Multiply two datasets</a></li>
-								<li><a href="#" ng-click="calculateMedian(data)">Linear interpolation</a></li>
-							</ul>
-						</li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Graphics <span class="caret"></span></a>
+								<li><a href="#" ng-click="clickToOpen('Transpose Dataset')">Transpose
+										Dataset</a></li>
+								<li><a href="#" ng-click="clickToOpenScale('Scale')">Scale</a></li>
+								<li><a href="#" ng-click="clickToOpenScale('Add a Scalar')">Add
+										a Scalar</a></li>
+								<li><a href="#" ng-click="clickToOpenDatasets('Add Two Datasets')">Add
+										Two Datasets</a></li>
+								<li><a href="#"
+									ng-click="clickToOpenDatasets('Multiply Two Datasets')">Multiply
+										Two Datasets</a></li>
+								<li><a href="#"
+									ng-click="clickToOpen('Linear Interpolation')">Linear
+										Interpolation</a></li>
+							</ul></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Graphics <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">Pie chart</a></li>
 								<li><a href="#">Line chart</a></li>
 								<li><a href="#">Bar chart</a></li>
-							</ul>
-						</li>
+							</ul></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
