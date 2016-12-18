@@ -37,7 +37,8 @@ angular
 							};
 
 							$scope.confirm = function($data) {
-								console.log($scope.calculateName);
+								$scope.outputBeginLine = $data.outputBeginLine;
+								$scope.outputBeginColumn = $data.outputBeginColumn;
 								convertInputIntoRequest($data);
 								switch ($scope.calculateName) {
 								case 'Column\'s total':
