@@ -11,43 +11,6 @@ angular
 						'ngDialog',
 
 						function($scope, $http, iCalcService, ngDialog) {
-							$scope.clickToOpen = function($name) {
-
-								var newScope = $scope;
-								newScope.calculateName = $name;
-								ngDialog.open({
-									template : 'popUpCalculate.html',
-									className : 'ngdialog-theme-default',
-									scope : newScope
-								});
-							};
-
-							$scope.confirm = function($data) {
-								console.log('confirm');
-								console.log($scope.calculateName);
-								convertInputIntoRequest($data);
-								switch ($scope.calculateName) {
-								case 'Column\'s total':
-									callCalculateRowTotal();
-									break;
-								case 'Row\'s Total':
-									break;
-								case 'Median':
-									break;
-								case 'Mode':
-									break;
-								case 'Midrange':
-									break;
-								case 'Variance':
-									break;
-								case 'Standard Deviation':
-									break;
-								case 'Geometric Mean':
-									break;
-								default:
-									break;
-								}
-							};
 
 							$scope.request = '';
 
@@ -62,10 +25,49 @@ angular
 
 							$scope.response = new Object();
 
-							$scope.calculateRowTotal = function($data) {
+							$scope.clickToOpen = function($name) {
+
+								var newScope = $scope;
+								newScope.calculateName = $name;
+								ngDialog.open({
+									template : 'popUpCalculate.html',
+									className : 'ngdialog-theme-default',
+									scope : newScope
+								});
+							};
+
+							$scope.confirm = function($data) {
+								console.log($scope.calculateName);
 								convertInputIntoRequest($data);
-								callCalculateRowTotal();
-							}
+								switch ($scope.calculateName) {
+								case 'Column\'s total':
+									callCalculateRowTotal();
+									break;
+								case 'Row\'s Total':
+									callCalculateRowTotal();
+									break;
+								case 'Median':
+									callCalculateMedian();
+									break;
+								case 'Mode':
+									callCalculateMode();
+									break;
+								case 'Midrange':
+									callCalculateMidrange();
+									break;
+								case 'Variance':
+									callCalculateVariance();
+									break;
+								case 'Standard Deviation':
+									callCalculateStandardDeviation();
+									break;
+								case 'Geometric Mean':
+									callCalculateGeometricMean();
+									break;
+								default:
+									break;
+								}
+							};
 
 							function convertInputIntoRequest($data) {
 								console.log('convertInputIntoRequest');
@@ -160,7 +162,7 @@ angular
 												});
 							}
 
-							function calculateStandardDeviation() {
+							function callCalculateStandardDeviation() {
 
 								console
 										.log("--> Called calculateStandardDeviation!");
@@ -192,7 +194,7 @@ angular
 
 							}
 
-							function calculateVariance() {
+							function callCalculateVariance() {
 
 								console.log("--> Called calculateVariance!");
 								var promise = iCalcService.execute($scope.data,
@@ -223,7 +225,7 @@ angular
 
 							}
 
-							function calculateMidrange() {
+							function callCalculateMidrange() {
 
 								console.log("--> Called calculateMidrange!");
 								var promise = iCalcService.execute($scope.data,
@@ -254,7 +256,7 @@ angular
 
 							}
 
-							function calculateMode() {
+							function callCalculateMode() {
 
 								console.log("--> Called calculateMode!");
 								var promise = iCalcService.execute($scope.data,
@@ -277,7 +279,7 @@ angular
 
 							}
 
-							function calculateGeometricMean() {
+							function callCalculateGeometricMean() {
 
 								console
 										.log("--> Called calculateGeometricMean!");
@@ -309,7 +311,7 @@ angular
 
 							}
 
-							function calculateMedian() {
+							function callCalculateMedian() {
 
 								console.log("--> Called calculateMedian!");
 								var promise = iCalcService.execute($scope.data,
