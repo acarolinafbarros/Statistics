@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 public class CalcStatistical {
 
-    private final Logger LOG = LoggerFactory
+    private final Logger LOGGER = LoggerFactory
         .getLogger(CalcStatistical.class);
 
     private Function<Cell<Integer, String>, Float> EXTRACT_VALUE_OF_CELL = new Function<Cell<Integer, String>, Float>() {
@@ -53,7 +53,6 @@ public class CalcStatistical {
         return roundResult(result);
     }
 
-    // FIXME: Call the exception when the total result was null
     public Float calculateGeometricMean(DocumentiStat documentiStat)
             throws CalcException {
         Float result = null;
@@ -185,7 +184,7 @@ public class CalcStatistical {
                         temp += (value.getValue() - median)
                                 * (value.getValue() - median);
                     }
-                    result = temp / ((float) length);
+                    result = temp / ((float) length - 1);
                 }
             }
         }

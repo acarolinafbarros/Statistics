@@ -1,151 +1,738 @@
 package org.iStat.api.iLogic;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.natpryce.makeiteasy.MakeItEasy.a;
+import static com.natpryce.makeiteasy.MakeItEasy.make;
+import static org.iStat.api.iDomain.makeit.DocumentiStatMakeIt._documentiStat;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.iStat.api.iDomain.Cell;
-import org.iStat.api.iDomain.Dataset;
+import org.iStat.api.iDomain.DocumentiStat;
+import org.iStat.api.iExceptions.TransformException;
 import org.junit.Test;
 
-public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
+public class TransformStatisticalTest
+        extends AbstractUtilsiLogicTest {
 
     private static TransformStatistical transformStatisical = new TransformStatistical();
 
-    private static Float[][] matrixTransform;
-
-    /*
-     * ----------------------------------------------------------------------
-     * EN -
-     * ----------------------------------------------------------------------
-     */
-    public List<Cell<Integer, String>> fillCells() {
-        List<Cell<Integer, String>> list = new ArrayList<>();
-        Cell<Integer, String> cell7 = makeCell(3, "B", new Float(9));
-        list.add(cell7);
-        Cell<Integer, String> cell2 = makeCell(1, "B", new Float(4));
-        list.add(cell2);
-        Cell<Integer, String> cell1 = makeCell(1, "A", new Float(1));
-        list.add(cell1);
-        Cell<Integer, String> cell3 = makeCell(2, "A", new Float(3));
-        list.add(cell3);
-        Cell<Integer, String> cell5 = makeCell(2, "C", new Float(11));
-        list.add(cell5);
-        Cell<Integer, String> cell4 = makeCell(2, "B", new Float(5));
-        list.add(cell4);;
-        Cell<Integer, String> cell6 = makeCell(3, "A", new Float(7));
-        list.add(cell6);
-        Cell<Integer, String> cell8 = makeCell(4, "A", new Float(13));
-        list.add(cell8);
-        Cell<Integer, String> cell9 = makeCell(4, "B", new Float(12));
-        list.add(cell9);
-        Cell<Integer, String> cell10 = makeCell(4, "C", new Float(15));
-        list.add(cell10);
-        return list;
-    }
-
-    public Float[][] createMatrix() {
-        Float[][] matrix = new Float[4][3];
-        matrix[0][0] = new Float(1);
-        matrix[0][1] = new Float(4);
-        matrix[0][2] = new Float(0);
-        matrix[1][0] = new Float(3);
-        matrix[1][1] = new Float(5);
-        matrix[1][2] = new Float(11);
-        matrix[2][0] = new Float(7);
-        matrix[2][1] = new Float(9);
-        matrix[2][2] = new Float(0);
-        matrix[3][0] = new Float(13);
-        matrix[3][1] = new Float(12);
-        matrix[3][2] = new Float(15);
-        return matrix;
-    }
-
-    public Float[][] createMatrixWithNulls() {
-        Float[][] matrix = new Float[4][3];
-        matrix[0][0] = new Float(1);
-        matrix[0][1] = new Float(4);
-        matrix[0][2] = null;
-        matrix[1][0] = new Float(3);
-        matrix[1][1] = new Float(5);
-        matrix[1][2] = new Float(11);
-        matrix[2][0] = new Float(7);
-        matrix[2][1] = new Float(9);
-        matrix[2][2] = null;
-        matrix[3][0] = new Float(13);
-        matrix[3][1] = new Float(12);
-        matrix[3][2] = new Float(15);
-        return matrix;
+    @Test
+    public void shouldTestTransposeWithNull() {
+        assertNull(transformStatisical.transformTranspose(null));
     }
 
     @Test
-    public void transformListIntoMatrix() {
-        List<Cell<Integer, String>> listCells = fillCells();
-        Dataset dataset = makeDataset("teste", listCells);
-        Float[][] matrixResult = transformStatisical.convertListToMatrix(dataset);
-        Float[][] matrixExpected = createMatrix();
-
-        assertEquals(matrixExpected[0][0], matrixResult[0][0]);
-        assertEquals(matrixExpected[0][2], matrixResult[0][2]);
-        assertEquals(matrixExpected[1][1], matrixResult[1][1]);
-        assertEquals(matrixExpected[3][2], matrixResult[3][2]);
+    public void shouldTestTransposeWithEmpty() {
+        assertNull(transformStatisical
+            .transformTranspose(make(a(_documentiStat))));
     }
 
     @Test
-    public void transformMatrixIntoList() {
-        Float[][] input = createMatrix();
-        String startColumn = "A";
-        Integer startLine = 1;
+    public void shouldTestTransposeWithThreeValues() {
 
-        List<Cell<Integer, String>> cellsResult = transformStatisical.convertMatrixtToList(input, startColumn, startLine);
-        List<Cell<Integer, String>> cellsExpected = fillCells();
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", 2.0f), makeCell(1, "B", 3.0f),
+                makeCell(1, "C", 1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
 
-        assertEquals(cellsExpected.size() + 2, cellsResult.size());
+        DocumentiStat received = transformStatisical
+            .transformTranspose(documentiStat);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(3.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "A", Float.valueOf(1.0f))));
+
     }
 
     @Test
-    public void fillMatrixEmptyValues() {
-        Float[][] matrixResult = transformStatisical.fillMatrixEmptyValues(0, createMatrixWithNulls());
-        Float[][] matrixExpected = createMatrix();
+    public void shouldTestTransposeWithZeroValues() {
 
-        assertEquals(matrixExpected[0][2], matrixResult[0][2]);
-        assertEquals(matrixExpected[2][2], matrixResult[2][2]);
-        assertEquals(new Float(0), matrixResult[2][2]);
-        assertEquals(new Float(0), matrixResult[0][2]);
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        DocumentiStat received = transformStatisical
+            .transformTranspose(documentiStat);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(0.0f))));
+
     }
 
-    /*
-     * @Test
-     * public void transformScaleInputNull() {
-     * Float received = transformStatisical.transformScale(null);
-     * assertNull(received);
-     * }
-     * 
-     * @Test
-     * public void transformScaleInputEmpty() {
-     * Float received = transformStatisical.transformScale(new ArrayList<>());
-     * assertNull(received);
-     * }
-     * 
-     * @Test
-     * public void transformScaleInputValid() {
-     * List<Float> input = new ArrayList<>();
-     * input.add(new Float("1.1"));
-     * input.add(new Float("1.3"));
-     * Float received = transformStatisical.transformTranspose(input);
-     * Float expected = new Float("1.2");
-     * assertEquals(expected, received);
-     * }
-     * 
-     * @Test
-     * public void transformScaleInputWithNegatives() {
-     * List<Float> input = new ArrayList<>();
-     * input.add(new Float("-1.0"));
-     * input.add(new Float("1.0"));
-     * Float received = transformStatisical.transformTranspose(input);
-     * Float expected = new Float("0");
-     * assertEquals(expected, received);
-     * }
-     */
+    @Test
+    public void shouldTestTransposeWithFourValues() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", 2.0f), makeCell(2, "A", 4.0f),
+                makeCell(1, "B", 3.0f), makeCell(1, "C", 1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        DocumentiStat received = transformStatisical
+            .transformTranspose(documentiStat);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(3.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "A", Float.valueOf(1.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(4.0f))));
+
+    }
+
+    @Test
+    public void shouldTestTransposeWithNegativeValues() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", -2.0f), makeCell(2, "A", -4.0f),
+                makeCell(1, "B", -3.0f), makeCell(1, "C", -1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        DocumentiStat received = transformStatisical
+            .transformTranspose(documentiStat);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(-2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(-3.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "A", Float.valueOf(-1.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(-4.0f))));
+
+    }
+
+    @Test
+    public void shouldTestScaleWithNull() {
+        assertNull(transformStatisical.transformScale(null, 0.0f));
+    }
+
+    @Test
+    public void shouldTestScaleWithEmpty() {
+        assertNull(transformStatisical
+            .transformScale(make(a(_documentiStat)), 0.0f));
+    }
+
+    @Test
+    public void shouldTestScaleWithThreeValues() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", 2.0f), makeCell(1, "B", 3.0f),
+                makeCell(1, "C", 1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        DocumentiStat received = transformStatisical
+            .transformScale(documentiStat, 2.0f);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(4.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(6.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(2.0f))));
+
+    }
+
+    @Test
+    public void shouldTestScaleWithZeroValue() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        DocumentiStat received = transformStatisical
+            .transformScale(documentiStat, 10.0f);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(0.0f))));
+
+    }
+
+    @Test
+    public void shouldTestScaleWithNegativeValue() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", -10.0f), makeCell(1, "B", -3.0f),
+                makeCell(10, "D", 1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        DocumentiStat received = transformStatisical
+            .transformScale(documentiStat, 2.0f);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(20.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(6.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(10, "D", Float.valueOf(-2.0f))));
+
+    }
+
+    @Test
+    public void shouldTestAddScaleWithNull() {
+        assertNull(
+                transformStatisical.transformAddScalar(null, 0.0f));
+    }
+
+    @Test
+    public void shouldTestAddScaleWithEmpty() {
+        assertNull(transformStatisical
+            .transformAddScalar(make(a(_documentiStat)), 0.0f));
+    }
+
+    @Test
+    public void shouldTestAddScaleWithThreeValues() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", 2.0f), makeCell(1, "B", 3.0f),
+                makeCell(1, "C", 1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        DocumentiStat received = transformStatisical
+            .transformScale(documentiStat, 2.0f);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(4.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(5.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(3.0f))));
+
+    }
+
+    @Test
+    public void shouldTestAddScaleWithOneValue() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        DocumentiStat received = transformStatisical
+            .transformScale(documentiStat, 2.0f);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(3.0f))));
+
+    }
+
+    @Test
+    public void shouldTestAddScaleWithNegativeValue() {
+
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(1, "A", -10.0f), makeCell(1, "B", -3.0f),
+                makeCell(10, "D", 1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        DocumentiStat received = transformStatisical
+            .transformScale(documentiStat, -2.0f);
+
+        assertNotNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(6.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(-7.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(10, "D", Float.valueOf(11.0f))));
+    }
+
+    @Test
+    public void shouldTestAddTwoDatasetsWithNull() {
+        assertNull(transformStatisical.transformAddTwoDatasets(null));
+    }
+
+    @Test
+    public void shouldTestAddTwoDatasetsWithEmpty() {
+        assertNull(transformStatisical
+            .transformAddTwoDatasets(make(a(_documentiStat))));
+    }
+
+    @Test(expected = TransformException.class)
+    public void shouldTestAddTwoDatasetsWithDifferentSize() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 3.0f), makeCell(2, "A", 3.0f),
+                makeCell(2, "B", 2.0f), makeCell(2, "C", 1.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2)));
+
+        transformStatisical.transformAddTwoDatasets(documentiStat);
+    }
+
+    @Test
+    public void shouldTestAddTwoDatasetsWithZeroValues() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
+                makeCell(1, "C", 0.0f), makeCell(2, "A", 0.0f),
+                makeCell(2, "B", 0.0f), makeCell(2, "C", 0.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
+                makeCell(1, "C", 0.0f), makeCell(2, "A", 0.0f),
+                makeCell(2, "B", 0.0f), makeCell(2, "C", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2)));
+
+        DocumentiStat received = transformStatisical
+            .transformAddTwoDatasets(documentiStat);
+
+        assertNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(0.0f))));
+    }
+
+    @Test
+    public void shouldTestAddTwoDatasetsWithFourValues() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 3.0f), makeCell(1, "D", 4.0f),
+                makeCell(2, "A", 5.0f), makeCell(2, "B", 6.0f),
+                makeCell(2, "C", 7.0f), makeCell(2, "C", 8.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 5.0f), makeCell(1, "B", 6.0f),
+                makeCell(1, "C", 7.0f), makeCell(1, "D", 8.0f),
+                makeCell(2, "A", 1.0f), makeCell(2, "B", 2.0f),
+                makeCell(2, "C", 3.0f), makeCell(2, "D", 4.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2)));
+
+        DocumentiStat received = transformStatisical
+            .transformAddTwoDatasets(documentiStat);
+
+        assertNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(6.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(8.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(10.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "D", Float.valueOf(12.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(6.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(8.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "C", Float.valueOf(10.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "D", Float.valueOf(12.0f))));
+    }
+
+    @Test
+    public void shouldTestAddTwoDatasetsWithNegativeValues() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", -2.0f),
+                makeCell(1, "C", 3.0f), makeCell(2, "A", 5.0f),
+                makeCell(2, "B", 6.0f), makeCell(2, "C", 7.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 5.0f), makeCell(1, "B", 6.0f),
+                makeCell(1, "C", -7.0f), makeCell(2, "A", 1.0f),
+                makeCell(2, "B", 2.0f), makeCell(2, "C", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2)));
+
+        DocumentiStat received = transformStatisical
+            .transformAddTwoDatasets(documentiStat);
+
+        assertNull(received);
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(6.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(4.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(-4.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(6.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(8.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "C", Float.valueOf(10.0f))));
+    }
+
+    @Test
+    public void shouldTestMultiplyTwoDatasetsWithNull() {
+        assertNull(transformStatisical.transformAddTwoDatasets(null));
+    }
+
+    @Test
+    public void shouldTestMultiplyTwoDatasetsWithEmpty() {
+        assertNull(transformStatisical
+            .transformAddTwoDatasets(make(a(_documentiStat))));
+    }
+
+    @Test(expected = TransformException.class)
+    public void shouldTestMultiplyTwoDatasetsWithDifferentSize() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 3.0f), makeCell(2, "A", 3.0f),
+                makeCell(2, "B", 2.0f), makeCell(2, "C", 1.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2)));
+
+        transformStatisical
+            .transformMultiplyTwoDatasets(documentiStat);
+    }
+
+    @Test
+    public void shouldTestMultiplyTwoDatasetsWithZeros() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
+                makeCell(1, "C", 0.0f), makeCell(2, "A", 0.0f),
+                makeCell(2, "B", 0.0f), makeCell(2, "C", 0.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
+                makeCell(1, "C", 0.0f));
+        List<Cell<Integer, String>> listOfCellsDataset3 = newArrayList(
+                makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
+                makeCell(1, "C", 0.0f), makeCell(2, "A", 0.0f),
+                makeCell(2, "B", 0.0f), makeCell(2, "C", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2),
+                makeDataset("dataset3", listOfCellsDataset3)));
+
+        DocumentiStat received = transformStatisical
+            .transformMultiplyTwoDatasets(documentiStat);
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(0.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "C", Float.valueOf(0.0f))));
+    }
+
+    @Test
+    public void shouldTestMultiplyTwoDatasetsWithDifferenteSize() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 3.0f), makeCell(2, "A", 4.0f),
+                makeCell(2, "B", 5.0f), makeCell(2, "C", 6.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 7.0f), makeCell(1, "B", 8.0f),
+                makeCell(2, "A", 9.0f), makeCell(2, "B", 10.0f),
+                makeCell(3, "A", 11.0f), makeCell(3, "B", 12.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2)));
+
+        DocumentiStat received = transformStatisical
+            .transformMultiplyTwoDatasets(documentiStat);
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(0.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "C", Float.valueOf(0.0f))));
+    }
+
+    @Test
+    public void shouldTestMultiplyTwoDatasetsWithNegativeValue() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", -2.0f),
+                makeCell(2, "A", 3.0f), makeCell(2, "B", 4.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 2.0f), makeCell(1, "B", 0.0f),
+                makeCell(2, "A", -1.0f), makeCell(2, "B", 2.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2)));
+
+        DocumentiStat received = transformStatisical
+            .transformMultiplyTwoDatasets(documentiStat);
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(4.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(-4.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(8.0f))));
+    }
+
+    @Test
+    public void shouldTestInterpolationTwoDatasetsWithNull() {
+        assertNull(
+                transformStatisical.transformInterpolationLine(null));
+        assertNull(transformStatisical
+            .transformInterpolationColumn(null));
+    }
+
+    @Test
+    public void shouldTestInterpolationTwoDatasetsWithEmpty() {
+        assertNull(transformStatisical
+            .transformInterpolationLine(make(a(_documentiStat))));
+        assertNull(transformStatisical
+            .transformInterpolationColumn(make(a(_documentiStat))));
+    }
+
+    @Test
+    public void shouldTestInterpolationLineTwoDatasetsWithThreeValues() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 3.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 3.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2)));
+
+        DocumentiStat received = transformStatisical
+            .transformInterpolationLine(documentiStat);
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(1.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(3.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "C", Float.valueOf(2.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "A", Float.valueOf(3.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "B", Float.valueOf(2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "C", Float.valueOf(1.0f))));
+
+    }
+
+    @Test
+    public void shouldTestInterpolationLineTwoDatasetsWithZeroValues() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
+                makeCell(1, "C", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1)));
+
+        DocumentiStat received = transformStatisical
+            .transformInterpolationLine(documentiStat);
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(0.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "C", Float.valueOf(0.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "C", Float.valueOf(0.0f))));
+
+    }
+
+    @Test
+    public void shouldTestInterpolationLineTwoDatasetsWithNegativeValues() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", -2.0f),
+                makeCell(2, "A", -3.0f), makeCell(2, "B", 2.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1)));
+
+        DocumentiStat received = transformStatisical
+            .transformInterpolationLine(documentiStat);
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(1.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(-2.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(-1.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(0.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "A", Float.valueOf(-3.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(3, "B", Float.valueOf(2.0f))));
+
+    }
+
+    @Test
+    public void shouldTestInterpolationColumnTwoDatasetsWithThreeValues() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 3.0f));
+        List<Cell<Integer, String>> listOfCellsDataset2 = newArrayList(
+                makeCell(1, "A", 3.0f), makeCell(1, "B", 2.0f),
+                makeCell(1, "C", 1.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1),
+                makeDataset("dataset2", listOfCellsDataset2)));
+
+        DocumentiStat received = transformStatisical
+            .transformInterpolationColumn(documentiStat);
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(1.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(1.5f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "D", Float.valueOf(2.5f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(3.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(2.5f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "C", Float.valueOf(2.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "D", Float.valueOf(1.5f))));
+
+    }
+
+    @Test
+    public void shouldTestInterpolationColumnTwoDatasetsWithZeroValues() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
+                makeCell(1, "C", 0.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1)));
+
+        DocumentiStat received = transformStatisical
+            .transformInterpolationLine(documentiStat);
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "D", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "E", Float.valueOf(0.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "C", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "D", Float.valueOf(0.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "E", Float.valueOf(0.0f))));
+
+    }
+
+    @Test
+    public void shouldTestInterpolationColumnTwoDatasetsWithNegativeValues() {
+
+        List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
+                makeCell(1, "A", 1.0f), makeCell(1, "B", -2.0f),
+                makeCell(2, "A", -3.0f), makeCell(2, "B", 2.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
+                makeDataset("dataset1", listOfCellsDataset1)));
+
+        DocumentiStat received = transformStatisical
+            .transformInterpolationLine(documentiStat);
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "A", Float.valueOf(1.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "B", Float.valueOf(-0.5f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(1, "C", Float.valueOf(-2.0f))));
+
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "A", Float.valueOf(-3.0f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "B", Float.valueOf(-0.5f))));
+        assertTrue(received.getDatasets().stream().anyMatch(
+                assertHasCell(2, "C", Float.valueOf(2.0f))));
+    }
+
 }
