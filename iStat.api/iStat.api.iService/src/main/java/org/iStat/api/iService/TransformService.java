@@ -36,5 +36,15 @@ public class TransformService {
         TransformStatistical transformStatistical = new TransformStatistical();
         return transformStatistical.transformMultiplyTwoDatasets(input);
 	 }
+	 
+	 public DocumentiStat transformInterpolationLine(DocumentiStat input) {
+	        TransformStatistical transformStatistical = new TransformStatistical();
+	        return transformStatistical.transformInterpolationLine(input);
+		 }
+	 
+	 public DocumentiStat transformInterpolationColumn(DocumentiStat input) {
+	        TransformStatistical transformStatistical = new TransformStatistical();
+	        return transformStatistical.transformInterpolationColumn(input);
+		 }
   
 }

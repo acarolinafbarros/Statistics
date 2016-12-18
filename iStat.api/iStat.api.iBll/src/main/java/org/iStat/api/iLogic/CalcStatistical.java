@@ -185,7 +185,7 @@ public class CalcStatistical {
                         temp += (value.getValue() - median)
                                 * (value.getValue() - median);
                     }
-                    result = temp / ((float) length - 1);
+                    result = temp / ((float) length);
                 }
             }
         }
