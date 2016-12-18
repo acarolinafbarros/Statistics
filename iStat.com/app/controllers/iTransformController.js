@@ -1,271 +1,390 @@
 'use strict';
 
-angular.module('iStatControllers').controller('iTransformController',
-    ['$scope', '$http', 'iTransformService','ngDialog',
+angular
+		.module('iStatControllers')
+		.controller(
+				'iTransformController',
+				[
+						'$scope',
+						'$http',
+						'iTransformService',
+						'ngDialog',
 
-        function($scope, $http, iTransformController,ngDialog) {
+						function($scope, $http, iTransformController, ngDialog) {
 
-            $scope.request = '';
+							$scope.request = '';
 
-            //$scope.data = "{    \"datasets\": [        {            \"name\": \"dataset_1\",            \"cells\": [                {                    \"line\": \"1\",                    \"column\": \"A\",                    \"value\": 100                },                {                    \"line\": \"2\",                    \"column\": \"A\",                    \"value\": 200                }            ]        },        {            \"name\": \"dataset_2\",            \"cells\": [                {                    \"line\": \"1\",                    \"column\": \"A\",                    \"value\": 100                },                {                    \"line\": \"2\",                    \"column\": \"A\",                    \"value\": 200                }            ]        }    ]}";
+							// $scope.data = "{ \"datasets\": [ { \"name\":
+							// \"dataset_1\", \"cells\": [ { \"line\": \"1\",
+							// \"column\": \"A\", \"value\": 100 }, { \"line\":
+							// \"2\", \"column\": \"A\", \"value\": 200 } ] }, {
+							// \"name\": \"dataset_2\", \"cells\": [ { \"line\":
+							// \"1\", \"column\": \"A\", \"value\": 100 }, {
+							// \"line\": \"2\", \"column\": \"A\", \"value\":
+							// 200 } ] } ]}";
 
-            $scope.response = new Object();
-            
-            $scope.clickToOpen = function($name) {
+							$scope.response = new Object();
 
-				var newScope = $scope;
-				newScope.transformName = $name;
-				ngDialog.open({
-					template : 'popUpTransform.html',
-					className : 'ngdialog-theme-default',
-					scope : newScope
-				});
-			};
-			
-            $scope.clickToOpenDatasets = function($name) {
+							$scope.clickToOpen = function($name) {
 
-				var newScope = $scope;
-				newScope.transformName = $name;
-				ngDialog.open({
-					template : 'popUpTransformDatasets.html',
-					className : 'ngdialog-theme-default',
-					scope : newScope
-				});
-			};
-			
-            $scope.clickToOpenScale = function($name) {
+								var newScope = $scope;
+								newScope.transformName = $name;
+								ngDialog.open({
+									template : 'popUpTransform.html',
+									className : 'ngdialog-theme-default',
+									scope : newScope
+								});
+							};
 
-				var newScope = $scope;
-				newScope.transformName = $name;
-				ngDialog.open({
-					template : 'popUpTransformScale.html',
-					className : 'ngdialog-theme-default',
-					scope : newScope
-				});
-			};
+							$scope.clickToOpenDatasets = function($name) {
 
-			$scope.confirm = function($data) {
-				console.log($scope.transformName);
-				convertInputIntoRequest($data);
-				switch ($scope.transformName) {
-				case 'Transpose Dataset':
-					callTransformTranspose();
-					break;
-				case 'Scale':
-					callTransformScale();
-					break;
-				case 'Add a Scalar':
-					callTransformAddScalar();
-					break;
-				case 'Add Two Datasets':
-					callTransformAddTwoDatasets();
-					break;
-				case 'Multiply Two Datasets':
-					callTransformMultiplyTwoDatasets();
-					break;
-				case 'Linear Interpolation':
-					callTransformLinearInterpolation();
-					break;
-				case 'Standard Deviation':
-					callCalculateStandardDeviation();
-					break;
-				case 'Geometric Mean':
-					callCalculateGeometricMean();
-					break;
-				default:
-					break;
-				}
-			};
-			
+								var newScope = $scope;
+								newScope.transformName = $name;
+								ngDialog.open({
+									template : 'popUpTransformDatasets.html',
+									className : 'ngdialog-theme-default',
+									scope : newScope
+								});
+							};
 
-			function convertInputIntoRequest($data) {
-				console.log('convertInputIntoRequest');
-				var columnIndexInputBegin = getColFromName($data.inputBeginColumn);
-				var lineIndexInputBegin = getLineFromName($data.inputBeginLine);
-				var columnIndexInputEnd = getColFromName($data.inputEndColumn);
-				var lineIndexInputEnd = getLineFromName($data.inputEndLine);
-				var datasetCells = getValuesDataset(
-						columnIndexInputBegin,
-						lineIndexInputBegin,
-						columnIndexInputEnd, lineIndexInputEnd);
-				console.log(datasetCells);
-				// TODO Chamar método do Nuno para converter
-				// para o JSON correto.
-				// $scope.data =
-			}
+							$scope.clickToOpenScale = function($name) {
 
-			function getValuesDataset(columnIndexInputBegin,
-					lineIndexInputBegin, columnIndexInputEnd,
-					lineIndexInputEnd) {
-				var values = new Array();
-				for (var line = lineIndexInputBegin; line <= lineIndexInputEnd; line++) {
-					for (var column = columnIndexInputBegin; column <= columnIndexInputEnd; column++) {
-						var cell = {
-							"line" : hot.getRowHeader(line),
-							"column" : hot.getColHeader(column),
-							"value" : hot.getDataAtCell(line,
-									column)
-						};
-						values.push(cell);
-					}
-				}
-				return values;
-			}
+								var newScope = $scope;
+								newScope.transformName = $name;
+								ngDialog.open({
+									template : 'popUpTransformScale.html',
+									className : 'ngdialog-theme-default',
+									scope : newScope
+								});
+							};
 
-			function getColFromName(name) {
-				var n_cols = hot.countCols();
-				console.log(n_cols);
-				var i = 1;
+							$scope.confirm = function($data) {
+								$scope.outputBeginLine = $data.outputBeginLine;
+								$scope.outputBeginColumn = $data.outputBeginColumn;
+								switch ($scope.transformName) {
+								case 'Transpose Dataset':
+									convertInputIntoRequest($data);
+									callTransformTranspose();
+									break;
+								case 'Scale':
+									convertInputIntoRequestScale($data);
+									callTransformScale();
+									break;
+								case 'Add a Scalar':
+									convertInputIntoRequestScale($data);
+									callTransformAddScalar();
+									break;
+								case 'Add Two Datasets':
+									convertInputIntoRequestDatasets($data);
+									callTransformAddTwoDatasets();
+									break;
+								case 'Multiply Two Datasets':
+									convertInputIntoRequestDatasets($data);
+									callTransformMultiplyTwoDatasets();
+									break;
+								case 'Linear Interpolation':
+									convertInputIntoRequest($data);
+									callTransformLinearInterpolation();
+									break;
+								default:
+									break;
+								}
+							};
 
-				for (i = 0; i <= n_cols; i++) {
-					if (name.toLowerCase() == hot.getColHeader(
-							i).toLowerCase()) {
-						return i;
-					}
-				}
-				return -1; // return -1 if nothing can be found
-			}
+							function convertInputIntoRequest($data) {
+								var columnIndexInputBegin = getColFromName($data.inputBeginColumn);
+								var lineIndexInputBegin = getLineFromName($data.inputBeginLine);
+								var columnIndexInputEnd = getColFromName($data.inputEndColumn);
+								var lineIndexInputEnd = getLineFromName($data.inputEndLine);
+								var datasetCells = getValuesDataset(
+										columnIndexInputBegin,
+										lineIndexInputBegin,
+										columnIndexInputEnd, lineIndexInputEnd);
+								console.log(datasetCells);
+								// TODO Chamar método do Nuno para converter
+								// para o JSON correto.
+								// $scope.data =
+							}
 
-			function getLineFromName(name) {
-				var n_rows = hot.countRows();
-				console.log(n_rows);
-				var i = 1;
-				name = name.toString();
-				for (i = 0; i <= n_rows; i++) {
-					if (name.toLowerCase() == hot.getRowHeader(
-							i).toString().toLowerCase()) {
-						return i;
-					}
-				}
-				return -1; // return -1 if nothing can be found
-			}
+							function convertInputIntoRequestScale($data) {
+								var columnIndexInputBegin = getColFromName($data.inputBeginColumn);
+								var lineIndexInputBegin = getLineFromName($data.inputBeginLine);
+								var columnIndexInputEnd = getColFromName($data.inputEndColumn);
+								var lineIndexInputEnd = getLineFromName($data.inputEndLine);
+								var datasetCells = getValuesDataset(
+										columnIndexInputBegin,
+										lineIndexInputBegin,
+										columnIndexInputEnd, lineIndexInputEnd);
+								console.log(datasetCells);
+								var scalar = $data.scalar;
+								console.log(scalar);
+								// TODO Chamar método do Nuno para converter
+								// para o JSON correto.
+								// $scope.data =
+							}
 
-            function callTransformTranspose() {
+							function convertInputIntoRequestDatasets($data) {
+								var matrix1ColumnIndexInputBegin = getColFromName($data.matrix1.inputBeginColumn);
+								var matrix1LineIndexInputBegin = getLineFromName($data.matrix1.inputBeginLine);
+								var matrix1ColumnIndexInputEnd = getColFromName($data.matrix1.inputEndColumn);
+								var matrix1LineIndexInputEnd = getLineFromName($data.matrix1.inputEndLine);
+								var matrix1DatasetCells = getValuesDataset(
+										matrix1ColumnIndexInputBegin,
+										matrix1LineIndexInputBegin,
+										matrix1ColumnIndexInputEnd,
+										matrix1LineIndexInputEnd);
+								console.log(matrix1DatasetCells);
+								var matrix2ColumnIndexInputBegin = getColFromName($data.matrix2.inputBeginColumn);
+								var matrix2LineIndexInputBegin = getLineFromName($data.matrix2.inputBeginLine);
+								var matrix2ColumnIndexInputEnd = getColFromName($data.matrix2.inputEndColumn);
+								var matrix2LineIndexInputEnd = getLineFromName($data.matrix2.inputEndLine);
+								var matrix2DatasetCells = getValuesDataset(
+										matrix2ColumnIndexInputBegin,
+										matrix2LineIndexInputBegin,
+										matrix2ColumnIndexInputEnd,
+										matrix1LineIndexInputEnd);
+								console.log(matrix2DatasetCells);
+								// TODO Chamar método do Nuno para converter
+								// para o JSON correto.
+								// $scope.data =
+							}
 
-                console.log("--> Called transformTranspose!");
-                var promise = iTransformController.execute($scope.data, 'transformTranspose');
+							function getValuesDataset(columnIndexInputBegin,
+									lineIndexInputBegin, columnIndexInputEnd,
+									lineIndexInputEnd) {
+								var values = new Array();
+								for (var line = lineIndexInputBegin; line <= lineIndexInputEnd; line++) {
+									for (var column = columnIndexInputBegin; column <= columnIndexInputEnd; column++) {
+										var cell = {
+											"line" : hot.getRowHeader(line),
+											"column" : hot.getColHeader(column),
+											"value" : hot.getDataAtCell(line,
+													column)
+										};
+										values.push(cell);
+									}
+								}
+								return values;
+							}
 
-                promise.then(function(response) {
+							function getColFromName(name) {
+								var n_cols = hot.countCols();
+								console.log(n_cols);
+								var i = 1;
 
-                    if (response.data != null) {
+								for (i = 0; i <= n_cols; i++) {
+									if (name.toLowerCase() == hot.getColHeader(
+											i).toLowerCase()) {
+										return i;
+									}
+								}
+								return -1; // return -1 if nothing can be found
+							}
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							function getLineFromName(name) {
+								var n_rows = hot.countRows();
+								console.log(n_rows);
+								var i = 1;
+								name = name.toString();
+								for (i = 0; i <= n_rows; i++) {
+									if (name.toLowerCase() == hot.getRowHeader(
+											i).toString().toLowerCase()) {
+										return i;
+									}
+								}
+								return -1; // return -1 if nothing can be found
+							}
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+							function callTransformTranspose() {
 
-                    }
-                }, function(response) {
-                    console.log('Error to call transformTranspose');
-                });
+								console.log("--> Called transformTranspose!");
+								var promise = iTransformController.execute(
+										$scope.data, 'transformTranspose');
 
-            }
+								promise
+										.then(
+												function(response) {
 
+													if (response.data != null) {
 
-            function callTransformScale(){
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                console.log("--> Called transformScale!");
-                var promise = iTransformController.execute($scope.data, 'transformScale');
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
 
-                promise.then(function(response) {
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call transformTranspose');
+												});
 
-                    if (response.data != null) {
+							}
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							function callTransformScale() {
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+								console.log("--> Called transformScale!");
+								var promise = iTransformController.execute(
+										$scope.data, 'transformScale');
 
-                    }
-                }, function(response) {
-                    console.log('Error to call transformScale');
-                });
+								promise
+										.then(
+												function(response) {
 
-            }
+													if (response.data != null) {
 
-            function callTransformAddScalar() {
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                console.log("--> Called transformAddScalar!");
-                var promise = iTransformController.execute($scope.data, 'transformAddScalar');
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
 
-                promise.then(function(response) {
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call transformScale');
+												});
 
-                    if (response.data != null) {
+							}
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							function callTransformAddScalar() {
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+								console.log("--> Called transformAddScalar!");
+								var promise = iTransformController.execute(
+										$scope.data, 'transformAddScalar');
 
-                    }
-                }, function(response) {
-                    console.log('Error to call transformAddScalar');
-                });
+								promise
+										.then(
+												function(response) {
 
-            }
+													if (response.data != null) {
 
-            function callTransformAddTwoDatasets() {
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                console.log("--> Called transformAddTwoDatasets!");
-                var promise = iTransformController.execute($scope.data, 'transformAddTwoDatasets');
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
 
-                promise.then(function(response) {
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call transformAddScalar');
+												});
 
-                    if (response.data != null) {
+							}
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							function callTransformAddTwoDatasets() {
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+								console
+										.log("--> Called transformAddTwoDatasets!");
+								var promise = iTransformController.execute(
+										$scope.data, 'transformAddTwoDatasets');
 
-                    }
-                }, function(response) {
-                    console.log('Error to call transformAddTwoDatasets');
-                });
+								promise
+										.then(
+												function(response) {
 
-            }
+													if (response.data != null) {
 
-            function callTransformMultiplyTwoDatasets() {
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                console.log("--> Called transformMultiplyTwoDatasets!");
-                var promise = iTransformController.execute($scope.data, 'transformMultiplyTwoDatasets');
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
 
-                promise.then(function(response) {
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call transformAddTwoDatasets');
+												});
 
-                    if (response.data != null) {
+							}
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							function callTransformMultiplyTwoDatasets() {
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+								console
+										.log("--> Called transformMultiplyTwoDatasets!");
+								var promise = iTransformController.execute(
+										$scope.data,
+										'transformMultiplyTwoDatasets');
 
-                    }
-                }, function(response) {
-                    console.log('Error to call transformMultiplyTwoDatasets');
-                });
+								promise
+										.then(
+												function(response) {
 
-            }
-            
-            function callTransformLinearInterpolation() {
+													if (response.data != null) {
 
-                console.log("--> Called transformLinearInterpolation!");
-                var promise = iTransformController.execute($scope.data, 'transformLinearInterpolation');
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                promise.then(function(response) {
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
 
-                    if (response.data != null) {
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call transformMultiplyTwoDatasets');
+												});
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							}
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+							function callTransformLinearInterpolation() {
 
-                    }
-                }, function(response) {
-                    console.log('Error to call transformLinearInterpolation');
-                });
+								console
+										.log("--> Called transformLinearInterpolation!");
+								var promise = iTransformController.execute(
+										$scope.data,
+										'transformLinearInterpolation');
 
-            }
-        }
+								promise
+										.then(
+												function(response) {
 
-    ]);
+													if (response.data != null) {
+
+														$scope.response = response.data;
+														console
+																.log($scope.response);
+
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
+
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call transformLinearInterpolation');
+												});
+
+							}
+						}
+
+				]);
