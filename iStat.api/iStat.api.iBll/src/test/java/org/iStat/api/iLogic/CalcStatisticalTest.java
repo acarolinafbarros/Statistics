@@ -377,7 +377,7 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
 
         Float received = calcStatisical
             .calculateVariance(documentiStat);
-        Float expected = new Float("33.2");
+        Float expected = new Float("27.67");
         assertEquals(expected, received);
     }
 
@@ -394,6 +394,34 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
             .calculateVariance(documentiStat);
 
         assertEquals(Float.valueOf(10.8f), received);
+    }
+    
+    @Test
+    public void calculateVarianceInputValidWithFourValuesPDF() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 68.0f), makeCell(4, "A", 20.0f),
+                makeCell(5, "A", 12.0f), makeCell(6, "A", 58.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateVariance(documentiStat);
+
+        assertEquals(Float.valueOf(572.75f), received);
+    }
+    
+    @Test
+    public void calculateVarianceInputValidWithFourValuesPDF2() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 3.0f), makeCell(4, "A", 11.0f),
+                makeCell(5, "A", 11.0f), makeCell(6, "A", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateVariance(documentiStat);
+
+        assertEquals(Float.valueOf(16.0f), received);
     }
 
     @Test
@@ -440,8 +468,36 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
                 newArrayList(makeDataset("dataset1", listOfCells)));
         Float received = calcStatisical
             .calculateStandardDeviation(documentiStat);
-        Float expected = new Float("5.76");
+        Float expected = new Float("5.26");
         assertEquals(expected, received);
+    }
+    
+    @Test
+    public void calculateStandardDeviationInputValidWithFourValuesPDF() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 68.0f), makeCell(4, "A", 20.0f),
+                makeCell(5, "A", 12.0f), makeCell(6, "A", 58.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(23.93f), received);
+    }
+    
+    @Test
+    public void calculateStandardDeviationInputValidWithFourValuesPDF2() {
+        List<Cell<Integer, String>> listOfCells = newArrayList(
+                makeCell(3, "A", 3.0f), makeCell(4, "A", 11.0f),
+                makeCell(5, "A", 11.0f), makeCell(6, "A", 3.0f));
+        DocumentiStat documentiStat = makeDocumentiStat(
+                newArrayList(makeDataset("dataset1", listOfCells)));
+
+        Float received = calcStatisical
+            .calculateStandardDeviation(documentiStat);
+
+        assertEquals(Float.valueOf(4.00f), received);
     }
 
     @Test
@@ -455,7 +511,7 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
         Float received = calcStatisical
             .calculateStandardDeviation(documentiStat);
 
-        assertEquals(Float.valueOf(3.62f), received);
+        assertEquals(Float.valueOf(3.30f), received);
     }
 
     @Test
@@ -469,7 +525,7 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
         Float received = calcStatisical
             .calculateStandardDeviation(documentiStat);
 
-        assertEquals(Float.valueOf(1.26f), received);
+        assertEquals(Float.valueOf(1.15f), received);
     }
 
     @Test
@@ -483,7 +539,7 @@ public class CalcStatisticalTest extends AbstractUtilsiLogicTest {
         Float received = calcStatisical
             .calculateStandardDeviation(documentiStat);
 
-        assertEquals(Float.valueOf(3.45f), received);
+        assertEquals(Float.valueOf(3.14f), received);
     }
 
     @Test
