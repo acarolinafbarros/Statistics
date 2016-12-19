@@ -23,7 +23,7 @@ angular
 								var newScope = $scope;
 								newScope.datasetName = $name;
 								ngDialog.open({
-									template : 'popUpDataset.html',
+									template : 'popUps/popUpDataset.html',
 									className : 'ngdialog-theme-default',
 									scope : newScope
 								});

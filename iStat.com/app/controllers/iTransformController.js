@@ -30,7 +30,7 @@ angular
 								var newScope = $scope;
 								newScope.transformName = $name;
 								ngDialog.open({
-									template : 'popUpTransform.html',
+									template : 'popUps/popUpTransform.html',
 									className : 'ngdialog-theme-default',
 									scope : newScope
 								});
@@ -41,7 +41,7 @@ angular
 								var newScope = $scope;
 								newScope.transformName = $name;
 								ngDialog.open({
-									template : 'popUpTransformDatasets.html',
+									template : 'popUps/popUpTransformDatasets.html',
 									className : 'ngdialog-theme-default',
 									scope : newScope
 								});
@@ -52,7 +52,7 @@ angular
 								var newScope = $scope;
 								newScope.transformName = $name;
 								ngDialog.open({
-									template : 'popUpTransformScale.html',
+									template : 'popUps/popUpTransformScale.html',
 									className : 'ngdialog-theme-default',
 									scope : newScope
 								});

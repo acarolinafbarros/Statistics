@@ -18,7 +18,7 @@ angular
 								var newScope = $scope;
 								newScope.graphName = $name;
 								ngDialog.open({
-									template : 'popUpGraph.html',
+									template : 'popUps/popUpGraph.html',
 									className : 'ngdialog-theme-default',
 									scope : newScope
 								});
@@ -51,21 +51,21 @@ angular
 								switch ($name) {
 								case 'Pie Chart':
 									ngDialog.open({
-										template : 'popUpPieChart.html',
+										template : 'popUps/popUpPieChart.html',
 										className : 'ngdialog-theme-default',
 										scope : newScopeChart,
 									});
 									break;
 								case 'Bar Chat':
 									ngDialog.open({
-										template : 'popUpBarChart.html',
+										template : 'popUps/popUpBarChart.html',
 										className : 'ngdialog-theme-default',
 										scope : newScopeChart
 									});
 									break;
 								case 'Line Chart':
 									ngDialog.open({
-										template : 'popUpLineChart.html',
+										template : 'popUps/popUpLineChart.html',
 										className : 'ngdialog-theme-default',
 										scope : newScopeChart
 									});

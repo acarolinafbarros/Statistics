@@ -30,7 +30,7 @@ angular
 								var newScope = $scope;
 								newScope.calculateName = $name;
 								ngDialog.open({
-									template : 'popUpCalculate.html',
+									template : 'popUps/popUpCalculate.html',
 									className : 'ngdialog-theme-default',
 									scope : newScope
 								});
