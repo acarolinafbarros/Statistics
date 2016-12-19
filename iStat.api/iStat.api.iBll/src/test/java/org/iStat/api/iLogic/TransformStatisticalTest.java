@@ -379,7 +379,7 @@ public class TransformStatisticalTest
         DocumentiStat received = transformStatisical
             .transformAddTwoDatasets(documentiStat);
 
-        assertNull(received);
+        assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(
                 assertHasCell(1, "A", Float.valueOf(6.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(
@@ -592,7 +592,8 @@ public class TransformStatisticalTest
 
         List<Cell<Integer, String>> listOfCellsDataset1 = newArrayList(
                 makeCell(1, "A", 0.0f), makeCell(1, "B", 0.0f),
-                makeCell(1, "C", 0.0f));
+                makeCell(1, "C", 0.0f),makeCell(2, "A", 0.0f), makeCell(2, "B", 0.0f),
+                makeCell(2, "C", 0.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(
                 makeDataset("dataset1", listOfCellsDataset1)));
 
