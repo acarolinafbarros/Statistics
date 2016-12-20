@@ -1,6 +1,5 @@
 ﻿############## Informações ##############
 
-
 ***** Segunda-feira, 19 de Dezembro de 2016 *****
 
 - Documento SAD
@@ -45,6 +44,33 @@
 
 -- Autor : Carolina Barros --
 
+***** Terça-feira, 20 de Dezembro de 2016 *****
+
+- Documento SAD
+
+	- Capitulo 3 - Functional View
+
+	3.1.2 Primary Representation (Atualizado)
+
+	3.1.3.1	Elements
+
+			- User : Our application user
+			- Calculate dataset : The use case for applying different calculations on a dataset
+			- Transform dataset : The use case for applying different transformations on a dataset
+			- Chart dataset : The use case for applying different charts on a dataset
+			- Save dataset : The use case for saving a dataset in a database
+			- Import/Export dataset : The use case for importing/exporting a dataset
+
+	Nota : 
+			- Pode-se remover os pontos 3.1.4 , 3.1.5 e 3.1.6
+			- Falta atualizar esta secção do SAD com as informações acima
+
+	###############################################################################################
+
+	
+
+
+-- Autor : Manuel Correia --
 
 
 
