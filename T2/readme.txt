@@ -98,6 +98,31 @@
 					- Pode-se remover os pontos 3.3.4 , 3.3.5 e 3.3.6
 					- Falta atualizar esta secção do SAD com as informações acima
 
+			###############################################################################################	
+
+		- Secção 3.5 ) Module Layer View
+
+			3.2.2 Primary Representation 
+
+			3.2.3.1 Elements
+
+					- iService : Contains the interfaces consumed by the services 
+ 					
+ 					Notes : Consult the subsection 3.5.4 Other Diagrams for more detailed information about the structure
+
+			3.5.4 Other Diagrams
+
+					- Diagrama representativo do componente iStat.com (Em falta)
+					- Diagrama representativo do componente iStatDB (Em falta)
+					- Diagrama representativo do componente iStat.com/api (Feito)
+						- iService (Feito)
+						- iBLL (Feito)
+						- iDAL (Feito)
+			Nota :
+
+					- Pode-se remover os pontos 3.5.5 e 3.5.6
+					- Falta atualizar esta secção do SAD com as informações acima
+
 			###############################################################################################		
 
 -- Autor : Manuel Correia --
@@ -118,7 +143,7 @@
 4 - No context diagram, as bibliotecas não se representam (FEITO)
 5 - É preciso definir API porque é diferente a das bibliotecas e a do backend (FEITO)
 6 - No deployment falta identificar se a nossa API não vai correr num Tomcat ou assim (Em falta)
-7 - O layer diagram tem de ser mais detalhado porque ele quer ver o que contém cada componente (Em falta)
+7 - O layer diagram tem de ser mais detalhado porque ele quer ver o que contém cada componente (METADE FEITO)
 8 - No Calculate, temos de explicar melhor a parte da chamada do método que depois recebe um json e a cell (FEITO)
 9 - Temos de explicar porque estamos a fazer um export para o server (Em falta)
 
