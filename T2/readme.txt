@@ -82,6 +82,24 @@
 					- Pode-se remover os pontos 3.2.4 , 3.2.5 e 3.2.6
 					- Falta atualizar esta secção do SAD com as informações acima
 
+			###############################################################################################
+
+		- Secção 3.3 ) Module Decomposition & Uses View
+
+			3.2.2 Primary Representation (Atualizado)
+
+			3.2.3.1 Elements
+
+					- API : Our application programming interface
+					- External API : An external application programming interface, one for draw graphs and other to import/export data files
+
+			Nota :
+
+					- Pode-se remover os pontos 3.3.4 , 3.3.5 e 3.3.6
+					- Falta atualizar esta secção do SAD com as informações acima
+
+			###############################################################################################		
+
 -- Autor : Manuel Correia --
 
 
@@ -98,7 +116,7 @@
 2 - Nos Goals and Objectives estamos a descrever a solução e não a dizer os objetivos (Em falta)
 3 - Na primeira view, faltou identificar os use case como elementos (FEITO)
 4 - No context diagram, as bibliotecas não se representam (FEITO)
-5 - É preciso definir API porque é diferente a das bibliotecas e a do backend (Em falta)
+5 - É preciso definir API porque é diferente a das bibliotecas e a do backend (FEITO)
 6 - No deployment falta identificar se a nossa API não vai correr num Tomcat ou assim (Em falta)
 7 - O layer diagram tem de ser mais detalhado porque ele quer ver o que contém cada componente (Em falta)
 8 - No Calculate, temos de explicar melhor a parte da chamada do método que depois recebe um json e a cell (FEITO)
