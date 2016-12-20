@@ -48,27 +48,39 @@
 
 - Documento SAD
 
-	- Capitulo 3 - Functional View
+	- Capitulo 3 
 
-	3.1.2 Primary Representation (Atualizado)
+		- Secção 3.1 ) Functional View
 
-	3.1.3.1	Elements
+			3.1.2 Primary Representation (Atualizado)
 
-			- User : Our application user
-			- Calculate dataset : The use case for applying different calculations on a dataset
-			- Transform dataset : The use case for applying different transformations on a dataset
-			- Chart dataset : The use case for applying different charts on a dataset
-			- Save dataset : The use case for saving a dataset in a database
-			- Import/Export dataset : The use case for importing/exporting a dataset
+			3.1.3.1	Elements
 
-	Nota : 
-			- Pode-se remover os pontos 3.1.4 , 3.1.5 e 3.1.6
-			- Falta atualizar esta secção do SAD com as informações acima
+					- User : Our application user
+					- Calculate dataset : The use case for applying different calculations on a dataset
+					- Transform dataset : The use case for applying different transformations on a dataset
+					- Chart dataset : The use case for applying different charts on a dataset
+					- Save dataset : The use case for saving a dataset in a database
+					- Import/Export dataset : The use case for importing/exporting a dataset
 
-	###############################################################################################
+			Nota : 
+					- Pode-se remover os pontos 3.1.4 , 3.1.5 e 3.1.6
+					- Falta atualizar esta secção do SAD com as informações acima
 
-	
+			###############################################################################################
+		
+		- Secção 3.2 ) Context Diagram View
 
+			3.2.2 Primary Representation (Atualizado)
+
+			3.2.3.1 Elements
+
+					- Remover UtilsGraph e UtilsInOut
+
+			Nota :
+
+					- Pode-se remover os pontos 3.2.4 , 3.2.5 e 3.2.6
+					- Falta atualizar esta secção do SAD com as informações acima
 
 -- Autor : Manuel Correia --
 
@@ -78,5 +90,17 @@
 
 -- Autor(a) : <nome> --
 
+												############################################
+												Melhorias relativamente à primeira entrega :
+												############################################
 
+1 - Limpar do documento aquelas infos e estrutura que não se usou (FEITO)
+2 - Nos Goals and Objectives estamos a descrever a solução e não a dizer os objetivos (Em falta)
+3 - Na primeira view, faltou identificar os use case como elementos (FEITO)
+4 - No context diagram, as bibliotecas não se representam (FEITO)
+5 - É preciso definir API porque é diferente a das bibliotecas e a do backend (Em falta)
+6 - No deployment falta identificar se a nossa API não vai correr num Tomcat ou assim (Em falta)
+7 - O layer diagram tem de ser mais detalhado porque ele quer ver o que contém cada componente (Em falta)
+8 - No Calculate, temos de explicar melhor a parte da chamada do método que depois recebe um json e a cell (FEITO)
+9 - Temos de explicar porque estamos a fazer um export para o server (Em falta)
 
