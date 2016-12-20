@@ -48,6 +48,25 @@
 
 - Documento SAD
 
+	- Capitulo 2
+
+		- Secção 2.1.2 ) Goals and Context
+
+				The goal for the iStat architecture is to spare it in three concerns: user interface, logic and persistence. The purpose of this separation is to have more flexibility on the application. 
+
+				In order to ensure better accessibility, performance and availability a good option would be the use of RIA as user interface, since it garantees a great user experience by only making requests to the server on more complex operations and allowing the user to work while the data is being transferred.
+
+				The logic part should respect the principle of responsibility, which allows to have extensibility. Dividing it in three layers(iServices, iBLL and iDAL), maintaining the logic part away from the user interface, garantees more security to the system and it also allows to make modifications on each part without having to do big changes on the other, like for example the implementation for mobile devices.
+
+				About other topics ans assumptions, the objective is to:
+					* Use external libraries for import/export datasets and graphics design.
+					* Run the web application only in online mode:
+						The goal is to ensure that the user is always online and he has access to all the business logic.
+					* Use non-relational database :
+						Given the lack of business rules and the simplicity of data manipulation (inserts, updates,
+						and readings). Also, is a good choice if we want to improve the performance of data manipulation and simplify the
+						database management.
+
 	- Capitulo 3 
 
 		- Secção 3.1 ) Functional View
@@ -149,7 +168,7 @@
 												############################################
 
 1 - Limpar do documento aquelas infos e estrutura que não se usou (FEITO)
-2 - Nos Goals and Objectives estamos a descrever a solução e não a dizer os objetivos (Em falta)
+2 - Nos Goals and Objectives estamos a descrever a solução e não a dizer os objetivos (FEITO)
 3 - Na primeira view, faltou identificar os use case como elementos (FEITO)
 4 - No context diagram, as bibliotecas não se representam (FEITO)
 5 - É preciso definir API porque é diferente a das bibliotecas e a do backend (FEITO)
