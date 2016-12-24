@@ -40,9 +40,9 @@ angular
 											hot.countRows(), null, null);
 								}
 								$scope.dataset = values;
-								console.log($scope.dataset);
+								console.log("dataset: "+ $scope.dataset);
 
-								var newScopeChart = $scope;
+								var newScopeChart = new Object();
 								newScopeChart.graphName = $name;
 								// FIXME scope.dataset not changing
 								newScopeChart.dataset = values;

@@ -6,16 +6,11 @@ import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iDomain.DocumentiStat.DocumentiStatBuilder;
 import org.iStat.api.iEntity.DocumentIStatEntity;
 import org.iStat.api.iManage.ManageDocumentIStat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DatasetService {
-
-    private final Logger LOG = LoggerFactory.getLogger(DatasetService.class);
-    // @TODO
 
     @Autowired
     private Converter<DocumentiStat, DocumentIStatEntity> converterDocumentiStatModel;
