@@ -4,7 +4,9 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.iStat.api.iCommon.converter.Converter;
+import org.iStat.api.iCommon.converter.exception.ConvertException;
 import org.iStat.api.iDomain.Cell;
 import org.iStat.api.iDomain.Dataset;
 import org.iStat.api.iDomain.DocumentiStat;
@@ -34,6 +36,10 @@ public class ConverteriStatTransformResponse implements Converter<DocumentiStat,
 
 			@Override
 			public ResponseiStatTransformCell apply(Cell<Integer, String> cell) {
+				
+            	Objects.requireNonNull(cell.getLine(), "line must be not null!");
+            	Objects.requireNonNull(cell.getColumn(), "column must be not null!");
+            	Objects.requireNonNull(cell.getValue(), "value must be not null!");
 
 				ResponseiStatTransformCell response = new ResponseiStatTransformCell();
 				response.setColumn(cell.getColumn());
@@ -46,15 +52,20 @@ public class ConverteriStatTransformResponse implements Converter<DocumentiStat,
 	}
 
 	@Override
-	public ResponseiStatTransform convert(DocumentiStat from) {
+	public ResponseiStatTransform convert(DocumentiStat from) throws ConvertException {
 
-		Objects.requireNonNull(from, "from must be not null!");
-		Objects.requireNonNull(from.getDatasets(), "getDatasets must be not null!");
+		if (!ObjectUtils.allNotNull(from, from.getDatasets())) {
+			throw new ConvertException("'operation=convert', 'from=" + from + "'");
+		}
 
-		ResponseiStatTransform response = new ResponseiStatTransform();
-		response.setDatasets(from.getDatasets().stream().map(API_TO_DATASET).collect(Collectors.toList()));
+		try {
+			ResponseiStatTransform response = new ResponseiStatTransform();
+			response.setDatasets(from.getDatasets().stream().map(API_TO_DATASET).collect(Collectors.toList()));
 
-		return response;
+			return response;
+		} catch (NullPointerException ex) {
+			throw new ConvertException("'operation=convert', 'from=" + from + "'", ex);
+		}
 
 	}
 

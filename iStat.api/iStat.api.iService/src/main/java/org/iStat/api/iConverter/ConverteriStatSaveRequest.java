@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iCommon.converter.exception.ConvertException;
@@ -36,6 +37,11 @@ public class ConverteriStatSaveRequest implements Converter<RequestiStatSave, Do
 
 			@Override
 			public Cell<Integer, String> apply(RequestiStatSaveCell cell) {
+				
+            	Objects.requireNonNull(cell.getLine(), "line must be not null!");
+            	Objects.requireNonNull(cell.getColumn(), "column must be not null!");
+            	Objects.requireNonNull(cell.getValue(), "value must be not null!");
+				
 				return new CellBuilder<Integer, String>().withLine(Integer.valueOf(cell.getLine()))
 						.withColumn(cell.getColumn()).withValue(cell.getValue()).withParentDatasetName(datasetName)
 						.build();
@@ -46,16 +52,20 @@ public class ConverteriStatSaveRequest implements Converter<RequestiStatSave, Do
 	@Override
 	public DocumentiStat convert(RequestiStatSave from) throws ConvertException {
 
-		Objects.requireNonNull(from, "from must be not null!");
-		Objects.requireNonNull(from.getName(), "name must be not null!");
-		Objects.requireNonNull(from.getDatasets(), "dataset must be not null!");
+		if (!ObjectUtils.allNotNull(from, from.getDatasets(), from.getName())) {
+			throw new ConvertException("'operation=convert', 'from=" + from + "'");
+		}
 
 		if (StringUtils.isEmpty(from.getName())) {
 			throw new ConvertException("Missing the name of document!");
 		}
 
-		return new DocumentiStatBuilder().withId(from.getName())
-				.withDatasets(from.getDatasets().stream().map(API_TO_DATASET).collect(Collectors.toList())).build();
+		try {
+			return new DocumentiStatBuilder().withId(from.getName())
+					.withDatasets(from.getDatasets().stream().map(API_TO_DATASET).collect(Collectors.toList())).build();
+		} catch (NullPointerException ex) {
+			throw new ConvertException("'operation=convert', 'from=" + from + "'", ex);
+		}
 
 	}
 
