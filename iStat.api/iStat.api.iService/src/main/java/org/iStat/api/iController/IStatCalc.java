@@ -59,12 +59,12 @@ public class IStatCalc {
                 DocumentiStat documentiStat = converterRequestiStatCalc
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=calculateMedian', 'documentiStat={}'", documentiStat);
 
                 Float result = calcService
                     .calculateMedian(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=calculateMedian', 'result={}'", result);
 
                 response = converterResponseiStatCalc.convert(result);
                 response.setStatus(ResponseUtils
@@ -72,7 +72,6 @@ public class IStatCalc {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at calculateMedian:", ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -84,7 +83,7 @@ public class IStatCalc {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=calculateMedian', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -114,12 +113,12 @@ public class IStatCalc {
                 DocumentiStat documentiStat = converterRequestiStatCalc
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=calculateGeometricMean', 'documentiStat={}'", documentiStat);
 
                 Float result = calcService
                     .calculateGeometricMean(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=calculateGeometricMean', 'result={}'", result);
 
                 response = converterResponseiStatCalc.convert(result);
                 response.setStatus(ResponseUtils
@@ -127,7 +126,6 @@ public class IStatCalc {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at calculateGeometricMean:", ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex.getMessage()));
@@ -139,7 +137,7 @@ public class IStatCalc {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=calculateGeometricMean', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -169,11 +167,11 @@ public class IStatCalc {
                 DocumentiStat documentiStat = converterRequestiStatCalc
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=calculateMode', 'documentiStat={}'", documentiStat);
 
                 Float result = calcService
                     .calculateMode(documentiStat);
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=calculateMode', 'result={}'", result);
 
                 response = converterResponseiStatCalc.convert(result);
                 response.setStatus(ResponseUtils
@@ -181,7 +179,6 @@ public class IStatCalc {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at calculateMode:", ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex.getMessage()));
@@ -193,7 +190,7 @@ public class IStatCalc {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=calculateMode', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -221,13 +218,13 @@ public class IStatCalc {
 
                 DocumentiStat documentiStat = converterRequestiStatCalc
                     .convert(request);
-
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                
+                LOGGER.info("'operation=calculateMidrange', 'documentiStat={}'", documentiStat);
 
                 Float result = calcService
                     .calculateMidrange(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=calculateMidrange', 'result={}'", result);
 
                 response = converterResponseiStatCalc.convert(result);
                 response.setStatus(ResponseUtils
@@ -235,7 +232,6 @@ public class IStatCalc {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at calculateMidrange:", ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex.getMessage()));
@@ -247,7 +243,7 @@ public class IStatCalc {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=calculateMidrange', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -277,20 +273,19 @@ public class IStatCalc {
                 DocumentiStat documentiStat = converterRequestiStatCalc
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
-
+                LOGGER.info("'operation=calculateVariance', 'documentiStat={}'", documentiStat);
+                
                 Float result = calcService
                     .calculateVariance(documentiStat);
-                LOGGER.info("Final result: {}", result);
-
+                LOGGER.info("'operation=calculateVariance', 'result={}'", result);
+               
                 response = converterResponseiStatCalc.convert(result);
                 response.setStatus(ResponseUtils
                     .buildResponseStatus(StatusEnum.SUCCESS));
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at calculateVariance:", ex);
-                response.setStatus(ResponseUtils.buildResponseStatus(
+            	response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex.getMessage()));
                 return ResponseEntity
@@ -301,7 +296,7 @@ public class IStatCalc {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=calculateVariance', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -331,12 +326,12 @@ public class IStatCalc {
                 DocumentiStat documentiStat = converterRequestiStatCalc
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=calculateStandardDeviation', 'documentiStat={}'", documentiStat);
 
                 Float result = calcService
                     .calculateStandardDeviation(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=calculateStandardDeviation', 'result={}'", result);
 
                 response = converterResponseiStatCalc.convert(result);
                 response.setStatus(ResponseUtils
@@ -344,7 +339,6 @@ public class IStatCalc {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at calculateStandardDeviation:", ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex.getMessage()));
@@ -356,7 +350,7 @@ public class IStatCalc {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=calculateStandardDeviation', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -385,11 +379,11 @@ public class IStatCalc {
                 DocumentiStat documentiStat = converterRequestiStatCalc
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=calculateRowColumnTotal', 'documentiStat={}'", documentiStat);
 
                 Float result = calcService
                     .calculateRowColumnTotal(documentiStat);
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=calculateRowColumnTotal', 'result={}'", result);
 
                 response = converterResponseiStatCalc.convert(result);
                 response.setStatus(ResponseUtils
@@ -397,7 +391,6 @@ public class IStatCalc {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at calculateRowColumnTotal:", ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex.getMessage()));
@@ -409,7 +402,7 @@ public class IStatCalc {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=calculateRowColumnTotal', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }

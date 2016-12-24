@@ -59,12 +59,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
-
+                LOGGER.info("'operation=transformTranspose', 'documentiStat={}'", documentiStat);
+                
                 DocumentiStat result = transformService
                     .transformTranspose(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformTranspose', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -73,9 +73,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformTranspose:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -87,7 +84,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformTranspose', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -116,13 +113,13 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformScale', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
                     .transformScale(documentiStat,
                             request.getScalar());
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformScale', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -131,8 +128,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at transformScale:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -144,7 +139,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformScale', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -173,13 +168,13 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformAddScalar', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
                     .transformAddScalar(documentiStat,
                             request.getScalar());
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformAddScalar', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -188,8 +183,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at transformScale:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -201,7 +194,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformAddScalar', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -230,12 +223,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformAddTwoDatasets', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
                     .transformAddTwoDatasets(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformAddTwoDatasets', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -244,9 +237,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformAddTwoDatasets:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -258,7 +248,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformAddTwoDatasets', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -287,12 +277,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformMultiplyTwoDatasets', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
                     .transformMultiplyTwoDatasets(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformMultiplyTwoDatasets', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -301,9 +291,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformMultiplyTwoDatasets:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -315,7 +302,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformMultiplyTwoDatasets', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -343,12 +330,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformInterpolationLine', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
                     .transformInterpolationLine(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformInterpolationLine', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -357,9 +344,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformInterpolationLine:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -371,7 +355,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformInterpolationLine', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -399,12 +383,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformInterpolationColumn', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
                     .transformInterpolationColumn(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformInterpolationColumn', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -413,9 +397,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformInterpolationLine:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -427,7 +408,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformInterpolationColumn', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
