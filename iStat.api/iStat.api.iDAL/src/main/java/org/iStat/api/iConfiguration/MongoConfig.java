@@ -1,6 +1,6 @@
 package org.iStat.api.iConfiguration;
 
-import org.iStat.api.iManage.ManageDocumentIStat;
+import org.iStat.api.iManage.ManageDocumentiStat;
 import org.iStat.api.iRepository.DatasetRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class MongoConfig {
 
     @Bean
-    public ManageDocumentIStat manageDocumentIStat() {
-        return new ManageDocumentIStat();
+    public ManageDocumentiStat manageDocumentIStat() {
+        return new ManageDocumentiStat();
     }
 }

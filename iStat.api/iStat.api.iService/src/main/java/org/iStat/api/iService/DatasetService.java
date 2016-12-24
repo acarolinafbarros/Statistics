@@ -5,7 +5,7 @@ import org.iStat.api.iCommon.converter.exception.ConvertException;
 import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iDomain.DocumentiStat.DocumentiStatBuilder;
 import org.iStat.api.iEntity.DocumentIStatEntity;
-import org.iStat.api.iManage.ManageDocumentIStat;
+import org.iStat.api.iManage.ManageDocumentiStat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class DatasetService {
     private Converter<DocumentIStatEntity, DocumentiStat> converterDocumentiStatEntity;
 
     @Autowired
-    private ManageDocumentIStat manageDocumentIStat;
+    private ManageDocumentiStat manageDocumentIStat;
 
     public Boolean saveDataset(DocumentiStat input) throws ConvertException {
         DocumentIStatEntity document = converterDocumentiStatModel.convert(input);

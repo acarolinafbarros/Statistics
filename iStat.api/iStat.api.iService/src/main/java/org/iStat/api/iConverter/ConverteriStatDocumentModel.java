@@ -1,5 +1,6 @@
 package org.iStat.api.iConverter;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,10 @@ public class ConverteriStatDocumentModel implements Converter<DocumentiStat, Doc
 
     @Override
     public DocumentIStatEntity convert(DocumentiStat from) {
+    	
+		Objects.requireNonNull(from, "from must be not null!");
+		Objects.requireNonNull(from.getDatasets(), "getDatasets must be not null!");
+    	
         return new DocumentIStatEntity(from.getId(), from.getDatasets().stream().map(API_TO_DATASET).collect(Collectors.toList()));
     }
 

@@ -1,9 +1,12 @@
 package org.iStat.api.iConverter;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.iStat.api.iCommon.converter.Converter;
+import org.iStat.api.iCommon.converter.exception.ConvertException;
 import org.iStat.api.iDomain.Cell;
 import org.iStat.api.iDomain.Dataset;
 import org.iStat.api.iDomain.DocumentiStat;
@@ -48,6 +51,10 @@ public class ConverteriStatCalRequest
 
     @Override
     public DocumentiStat convert(RequestiStatCalc from) {
+    	
+		Objects.requireNonNull(from, "from must be not null!");
+		Objects.requireNonNull(from.getDatasets(), "getDatasets must be not null!");
+		
         return new DocumentiStatBuilder()
             .withDatasets(from
                 .getDatasets().stream().map(API_TO_DATASET)

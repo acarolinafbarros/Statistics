@@ -1,5 +1,6 @@
 package org.iStat.api.iConverter;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -49,6 +50,9 @@ public class ConverteriStatOpenResponse
     @Override
     public ResponseiStatOpen convert(DocumentiStat from) {
 
+		Objects.requireNonNull(from, "from must be not null!");
+		Objects.requireNonNull(from.getDatasets(), "getDatasets must be not null!");
+    	
         ResponseiStatOpen response = new ResponseiStatOpen();
         response.setDatasets(from
             .getDatasets().stream().map(API_TO_DATASET)

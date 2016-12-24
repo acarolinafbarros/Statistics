@@ -5,6 +5,6 @@ import org.iStat.api.iCommon.converter.exception.ConvertException;
 @FunctionalInterface
 public interface Converter<From, To> {
 
-    public To convert(From from) throws ConvertException;
+	public To convert(From from) throws ConvertException;
 
 }

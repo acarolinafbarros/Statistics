@@ -2,8 +2,8 @@ package org.iStat.api.iEntity;
 
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -39,7 +39,7 @@ public class DatasetEntity {
 
     @Override
     public String toString() {
-        return "DatasetModel [name=" + name + ", cells=" + cells + "]";
+        return new ToStringBuilder(this).append("name", name).append("cells", cells).build();
     }
 
 }

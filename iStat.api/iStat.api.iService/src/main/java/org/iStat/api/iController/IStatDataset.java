@@ -3,6 +3,7 @@ package org.iStat.api.iController;
 import java.util.Objects;
 
 import org.iStat.api.iCommon.converter.Converter;
+import org.iStat.api.iCommon.converter.exception.ConvertException;
 import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iResponse.StatusEnum;
 import org.iStat.api.iService.DatasetService;
@@ -67,20 +68,28 @@ public class IStatDataset {
                 DocumentiStat documentiStat = converterRequestiStatSave
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=saveDataset', 'documentiStat={}'", documentiStat);
 
                 Boolean result = datasetService
                     .saveDataset(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=saveDataset', 'result={}'", result);
 
                 response = converterResponseiStatSave.convert(result);
                 response.setStatus(ResponseUtils
                     .buildResponseStatus(StatusEnum.SUCCESS));
 
                 return ResponseEntity.ok(response);
+            } catch(ConvertException ex){
+            	LOGGER.error("'operation=saveDataset'", ex);
+                response.setStatus(ResponseUtils.buildResponseStatus(
+                        StatusEnum.UNEXPECTED, "Error message: %s",
+                        ex));
+                return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at saveDataset:", ex);
+                LOGGER.error("'operation=saveDataset'", ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -93,7 +102,7 @@ public class IStatDataset {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=saveDataset', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -122,12 +131,12 @@ public class IStatDataset {
                 DocumentiStat documentiStat = converterRequestiStatOpen
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=openDataset', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = datasetService
                     .openDataset(documentiStat);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=openDataset', 'result={}'", result);
 
                 response = converterResponseiStatOpen.convert(result);
                 response.setStatus(ResponseUtils
@@ -135,7 +144,8 @@ public class IStatDataset {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at openDataset:", ex);
+            	LOGGER.info("'operation=openDataset'", ex);
+                
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -148,7 +158,8 @@ public class IStatDataset {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=openDataset', 'response={}'", response);
+           
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
