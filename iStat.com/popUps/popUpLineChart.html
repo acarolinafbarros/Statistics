@@ -3,56 +3,21 @@
 	<script type="text/javascript">
 		var scope = $('[ng-controller="iGraphController"]').scope();
 		var graphName = scope.graphName;
-		var data = valuesChart;
 		var labels = labelsChart;
+		var datasetChart = datasetChart;
 		var ctx = document.getElementById("lineChart");
 		var myChart = new Chart(ctx, {
 			type : 'line',
 			data : {
-				labels : labels,// FIXME change to dados
-				datasets : [ {
-					label : graphName,
-					data : data,// FIXME change to dados
-					backgroundColor : [ 'rgba(255, 99, 132, 0.2)',
-							'rgba(54, 162, 235, 0.2)',
-							'rgba(255, 206, 86, 0.2)',
-							'rgba(75, 192, 192, 0.2)',
-							'rgba(153, 102, 255, 0.2)',
-							'rgba(255, 160, 64, 0.2)',
-							'rgba(255, 100, 132, 0.2)',
-							'rgba(54, 163, 235, 0.2)',
-							'rgba(255, 207, 86, 0.2)',
-							'rgba(75, 193, 192, 0.2)',
-							'rgba(153, 103, 255, 0.2)',
-							'rgba(255, 158, 64, 0.2)',
-							'rgba(255, 98, 132, 0.2)',
-							'rgba(54, 161, 235, 0.2)',
-							'rgba(255, 203, 86, 0.2)',
-							'rgba(75, 191, 192, 0.2)',
-							'rgba(153, 101, 255, 0.2)',
-							'rgba(255, 150, 64, 0.2)',
-							'rgba(255, 90, 132, 0.2)',
-							'rgba(54, 160, 235, 0.2)',
-							'rgba(255, 200, 86, 0.2)',
-							'rgba(75, 190, 192, 0.2)',
-							'rgba(153, 100, 255, 0.2)',
-							'rgba(250, 150, 64, 0.2)',
-							'rgba(250, 90, 132, 0.2)' ],
-					borderColor : [ 'rgba(255,99,132,1)',
-							'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)',
-							'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)',
-							'rgba(255, 160, 64, 1)', 'rgba(255,100,132,1)',
-							'rgba(54, 163, 235, 1)', 'rgba(255, 207, 86, 1)',
-							'rgba(75, 193, 192, 1)', 'rgba(153, 103, 255, 1)',
-							'rgba(255, 158, 64, 1)', 'rgba(255,98,132,1)',
-							'rgba(54, 161, 235, 1)', 'rgba(255, 205, 86, 1)',
-							'rgba(75, 191, 192, 1)', 'rgba(153, 101, 255, 1)',
-							'rgba(255, 150, 64, 1)', 'rgba(255,90,132,1)',
-							'rgba(54, 160, 235, 1)', 'rgba(255, 200, 86, 1)',
-							'rgba(75, 190, 192, 1)', 'rgba(153, 100, 255, 1)',
-							'rgba(250, 150, 64, 1)', 'rgba(250,90,132,1)' ],
-					borderWidth : 1
-				} ]
+				labels : labels,
+				datasets : datasetChart
+			},
+			options : {
+				title : {
+					display : true,
+					text : graphName
+				},
+				responsive : true
 			}
 		});
 	</script>
