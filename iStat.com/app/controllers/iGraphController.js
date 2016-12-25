@@ -1,5 +1,6 @@
 'use strict';
-
+var valuesChart = '';
+var labelsChart = '';
 angular
 		.module('iStatControllers')
 		.controller(
@@ -26,34 +27,33 @@ angular
 
 							$scope.clickToOpenChart = function($data, $name) {
 								var inputType = $data.inputType;
-								var values = null;
+								var result = null;
 								if (inputType == 'row') {
 									var rowIndex = getLineFromName($data.inputID);
-									values = getValuesDataset(hot.countCols(),
+									result = getValuesDataset(hot.countCols(),
 											null, rowIndex, null);
 								} else if (inputType == 'column') {
 									var columnIndex = getColFromName($data.inputID);
-									values = getValuesDataset(null, hot
+									result = getValuesDataset(null, hot
 											.countRows(), null, columnIndex);
 								} else if (inputType == 'dataset') {
-									values = getValuesDataset(hot.countCols(),
+									result = getValuesDataset(hot.countCols(),
 											hot.countRows(), null, null);
 								}
-								$scope.dataset = values;
-								console.log("dataset: "+ $scope.dataset);
-
-								var newScopeChart = new Object();
+								valuesChart = result[1];
+								labelsChart = result[0];
+								console.log(valuesChart);
+								console.log(labelsChart);
+								$scope.closeThisDialog();
+								var newScopeChart = $scope;
 								newScopeChart.graphName = $name;
-								// FIXME scope.dataset not changing
-								newScopeChart.dataset = values;
-								console.log(newScopeChart);
 
 								switch ($name) {
 								case 'Pie Chart':
 									ngDialog.open({
 										template : 'popUps/popUpPieChart.html',
 										className : 'ngdialog-theme-default',
-										scope : newScopeChart,
+										scope : newScopeChart
 									});
 									break;
 								case 'Bar Chat':
@@ -64,11 +64,12 @@ angular
 									});
 									break;
 								case 'Line Chart':
-									ngDialog.open({
-										template : 'popUps/popUpLineChart.html',
-										className : 'ngdialog-theme-default',
-										scope : newScopeChart
-									});
+									ngDialog
+											.open({
+												template : 'popUps/popUpLineChart.html',
+												className : 'ngdialog-theme-default',
+												scope : newScopeChart
+											});
 									break;
 								default:
 									break;
@@ -79,13 +80,15 @@ angular
 							function getValuesDataset(maxColumn, maxRow,
 									rowIndex, columnIndex) {
 								var values = new Array();
+								var labels = new Array();
 								console.log(rowIndex);
 								if (rowIndex != null && columnIndex == null) {
 									console.log('rows only');
 									for (var column = 0; column <= maxColumn; column++) {
 										var value = hot.getDataAtCell(rowIndex,
 												column);
-										if (value != null || value != '') {
+										if (value != null && value != '') {
+											labels.push(hot.getColHeader(column));
 											values.push(value);
 										}
 									}
@@ -96,7 +99,8 @@ angular
 									for (var row = 0; row <= maxRow; row++) {
 										var value = hot.getDataAtCell(row,
 												columnIndex);
-										if (value != null || value != '') {
+										if (value != null && value != '') {
+											labels.push(hot.getRowHeader(row));
 											values.push(value);
 										}
 									}
@@ -114,7 +118,10 @@ angular
 									}
 
 								}
-								return values;
+								var result = new Array();
+								result.push(labels);
+								result.push(values);
+								return result;
 							}
 
 							function getColFromName(name) {
