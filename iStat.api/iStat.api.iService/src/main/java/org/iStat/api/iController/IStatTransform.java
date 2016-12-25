@@ -50,7 +50,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformTranspose", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformTranspose(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformTranspose(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
         ResponseiStatTransform response = new ResponseiStatTransform();
 
         if (Objects.nonNull(request)) {
@@ -62,7 +62,7 @@ public class IStatTransform {
                 LOGGER.info("'operation=transformTranspose', 'documentiStat={}'", documentiStat);
                 
                 DocumentiStat result = transformService
-                    .transformTranspose(documentiStat);
+                    .transformTranspose(documentiStat, finalColumn, finalLine);
 
                 LOGGER.info("'operation=transformTranspose', 'result={}'", result);
 
@@ -103,7 +103,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformScale", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformScale(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformScale(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Float scale, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -115,9 +115,11 @@ public class IStatTransform {
 
                 LOGGER.info("'operation=transformScale', 'documentiStat={}'", documentiStat);
 
+                Objects.requireNonNull(scale, "scale must be not null!");
+                
                 DocumentiStat result = transformService
                     .transformScale(documentiStat,
-                            request.getScalar());
+                            scale);
 
                 LOGGER.info("'operation=transformScale', 'result={}'", result);
 
@@ -158,7 +160,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformAddScalar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformAddScalar(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformAddScalar(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Float scale, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -170,9 +172,11 @@ public class IStatTransform {
 
                 LOGGER.info("'operation=transformAddScalar', 'documentiStat={}'", documentiStat);
 
+                Objects.requireNonNull(scale, "scale must be not null!");
+                
                 DocumentiStat result = transformService
                     .transformAddScalar(documentiStat,
-                            request.getScalar());
+                            scale);
 
                 LOGGER.info("'operation=transformAddScalar', 'result={}'", result);
 
@@ -213,7 +217,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformAddTwoDatasets", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformAddTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformAddTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -226,7 +230,7 @@ public class IStatTransform {
                 LOGGER.info("'operation=transformAddTwoDatasets', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
-                    .transformAddTwoDatasets(documentiStat);
+                    .transformAddTwoDatasets(documentiStat, finalColumn, finalLine);
 
                 LOGGER.info("'operation=transformAddTwoDatasets', 'result={}'", result);
 
@@ -267,7 +271,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformMultiplyTwoDatasets", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformMultiplyTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformMultiplyTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -280,7 +284,7 @@ public class IStatTransform {
                 LOGGER.info("'operation=transformMultiplyTwoDatasets', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
-                    .transformMultiplyTwoDatasets(documentiStat);
+                    .transformMultiplyTwoDatasets(documentiStat, finalColumn, finalLine);
 
                 LOGGER.info("'operation=transformMultiplyTwoDatasets', 'result={}'", result);
 
@@ -320,7 +324,7 @@ public class IStatTransform {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/transformInterpolationLine", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformInterpolationLine(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformInterpolationLine(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -333,7 +337,7 @@ public class IStatTransform {
                 LOGGER.info("'operation=transformInterpolationLine', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
-                    .transformInterpolationLine(documentiStat);
+                    .transformInterpolationLine(documentiStat, finalColumn, finalLine);
 
                 LOGGER.info("'operation=transformInterpolationLine', 'result={}'", result);
 
@@ -373,7 +377,7 @@ public class IStatTransform {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/transformInterpolationColumn", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformInterpolationColumn(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformInterpolationColumn(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -386,7 +390,7 @@ public class IStatTransform {
                 LOGGER.info("'operation=transformInterpolationColumn', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
-                    .transformInterpolationColumn(documentiStat);
+                    .transformInterpolationColumn(documentiStat, finalColumn, finalLine);
 
                 LOGGER.info("'operation=transformInterpolationColumn', 'result={}'", result);
 

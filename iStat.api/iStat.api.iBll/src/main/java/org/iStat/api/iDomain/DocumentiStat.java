@@ -12,11 +12,9 @@ public class DocumentiStat {
 
     private List<Dataset> datasets;
 
-    private Float scalar;
 
     private DocumentiStat(DocumentiStatBuilder builder) {
         this.datasets = builder.datasets;
-        this.scalar = builder.scalar;
         this.id = builder.id;
     }
 
@@ -29,14 +27,6 @@ public class DocumentiStat {
 
     public void setDatasets(List<Dataset> datasets) {
         this.datasets = datasets;
-    }
-
-    public Float getScalar() {
-        return scalar;
-    }
-
-    public void setScalar(Float scalar) {
-        this.scalar = scalar;
     }
     
     public String getId() {
@@ -51,7 +41,7 @@ public class DocumentiStat {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-            .append("id", id).append("scalar", scalar)
+            .append("id", id)
             .append("datasets", datasets).build();
     }
 
@@ -59,17 +49,10 @@ public class DocumentiStat {
 
         private List<Dataset> datasets;
 
-        private Float scalar;
-
         private String id;
 
         public DocumentiStatBuilder withDatasets(List<Dataset> datasets) {
             this.datasets = datasets;
-            return this;
-        }
-
-        public DocumentiStatBuilder withScalar(Float scalar) {
-            this.scalar = scalar;
             return this;
         }
 

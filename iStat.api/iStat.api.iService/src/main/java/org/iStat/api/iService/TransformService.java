@@ -16,8 +16,8 @@ public class TransformService {
         transformStatistical = new TransformStatistical();
     }
 
-    public DocumentiStat transformTranspose(DocumentiStat input) throws DomainException {
-        return transformStatistical.transformTranspose(input);
+    public DocumentiStat transformTranspose(DocumentiStat input, String finalColumn, int finalLine) throws DomainException {
+        return transformStatistical.transformTranspose(input, finalLine, finalColumn);
     }
 
     public DocumentiStat transformScale(DocumentiStat input, Float scalar) {
@@ -28,20 +28,20 @@ public class TransformService {
         return transformStatistical.transformAddScalar(input, scalar);
     }
 
-    public DocumentiStat transformAddTwoDatasets(DocumentiStat input) throws TransformException, DomainException {
-        return transformStatistical.transformAddTwoDatasets(input);
+    public DocumentiStat transformAddTwoDatasets(DocumentiStat input, String finalColumn, int finalLine) throws TransformException, DomainException {
+        return transformStatistical.transformAddTwoDatasets(input, finalLine, finalColumn);
     }
 
-    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat input) throws TransformException, DomainException {
-        return transformStatistical.transformMultiplyTwoDatasets(input);
+    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat input, String finalColumn, int finalLine) throws TransformException, DomainException {
+        return transformStatistical.transformMultiplyTwoDatasets(input, finalLine, finalColumn);
     }
 
-    public DocumentiStat transformInterpolationLine(DocumentiStat input) throws Exception {
-        return transformStatistical.transformInterpolation(input, TransformType.LINE);
+    public DocumentiStat transformInterpolationLine(DocumentiStat input, String finalColumn, int finalLine) throws Exception {
+        return transformStatistical.transformInterpolation(input, TransformType.LINE, finalLine, finalColumn);
     }
 
-    public DocumentiStat transformInterpolationColumn(DocumentiStat input) throws Exception {
-        return transformStatistical.transformInterpolation(input, TransformType.COLUMN);
+    public DocumentiStat transformInterpolationColumn(DocumentiStat input, String finalColumn, int finalLine) throws Exception {
+        return transformStatistical.transformInterpolation(input, TransformType.COLUMN, finalLine, finalColumn);
     }
 
 }

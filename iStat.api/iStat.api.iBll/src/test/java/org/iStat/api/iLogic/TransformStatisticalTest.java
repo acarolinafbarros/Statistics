@@ -22,12 +22,12 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
 
     @Test
     public void shouldTestTransposeWithNull() throws Exception {
-        assertNull(transformStatisical.transformTranspose(null));
+        assertNull(transformStatisical.transformTranspose(null, 0, null));
     }
 
     @Test
     public void shouldTestTransposeWithEmpty() throws Exception {
-        assertNull(transformStatisical.transformTranspose(make(a(_documentiStat))));
+        assertNull(transformStatisical.transformTranspose(make(a(_documentiStat)), 0, null));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(1, "C", 1.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCells)));
 
-        DocumentiStat received = transformStatisical.transformTranspose(documentiStat);
+        DocumentiStat received = transformStatisical.transformTranspose(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(2.0f))));
@@ -52,7 +52,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         List<Cell<Integer, String>> listOfCells = newArrayList(makeCell(1, "A", 0.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCells)));
 
-        DocumentiStat received = transformStatisical.transformTranspose(documentiStat);
+        DocumentiStat received = transformStatisical.transformTranspose(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(0.0f))));
@@ -66,7 +66,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(1, "C", -3.0f), makeCell(1, "D", -1.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCells)));
 
-        DocumentiStat received = transformStatisical.transformTranspose(documentiStat);
+        DocumentiStat received = transformStatisical.transformTranspose(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(-2.0f))));
@@ -84,7 +84,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(2, "C", -3.0f), makeCell(2, "D", -1.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCells)));
 
-        DocumentiStat received = transformStatisical.transformTranspose(documentiStat);
+        DocumentiStat received = transformStatisical.transformTranspose(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(-2.0f))));
@@ -106,7 +106,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(3, "A", 1.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCells)));
 
-        DocumentiStat received = transformStatisical.transformTranspose(documentiStat);
+        DocumentiStat received = transformStatisical.transformTranspose(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(2.0f))));
@@ -121,7 +121,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         List<Cell<Integer, String>> listOfCells = newArrayList(makeCell(1, "A", 0.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCells)));
 
-        DocumentiStat received = transformStatisical.transformTranspose(documentiStat);
+        DocumentiStat received = transformStatisical.transformTranspose(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(0.0f))));
@@ -135,7 +135,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(3, "A", -3.0f), makeCell(4, "A", -1.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCells)));
 
-        DocumentiStat received = transformStatisical.transformTranspose(documentiStat);
+        DocumentiStat received = transformStatisical.transformTranspose(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(-2.0f))));
@@ -153,7 +153,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(3, "B", -3.0f), makeCell(4, "B", -1.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCells)));
 
-        DocumentiStat received = transformStatisical.transformTranspose(documentiStat);
+        DocumentiStat received = transformStatisical.transformTranspose(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(-2.0f))));
@@ -317,12 +317,12 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
 
     @Test
     public void shouldTestAddTwoDatasetsWithNull() throws Exception {
-        assertNull(transformStatisical.transformAddTwoDatasets(null));
+        assertNull(transformStatisical.transformAddTwoDatasets(null, 0, null));
     }
 
     @Test
     public void shouldTestAddTwoDatasetsWithEmpty() throws Exception {
-        assertNull(transformStatisical.transformAddTwoDatasets(make(a(_documentiStat))));
+        assertNull(transformStatisical.transformAddTwoDatasets(make(a(_documentiStat)), 0, null));
     }
 
     @Test(expected = TransformException.class)
@@ -335,7 +335,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCellsDataset1), makeDataset("dataset2", listOfCellsDataset2)));
 
-        transformStatisical.transformAddTwoDatasets(documentiStat);
+        transformStatisical.transformAddTwoDatasets(documentiStat, 1, "A");
     }
 
     @Test
@@ -348,7 +348,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCellsDataset1), makeDataset("dataset2", listOfCellsDataset2)));
 
-        DocumentiStat received = transformStatisical.transformAddTwoDatasets(documentiStat);
+        DocumentiStat received = transformStatisical.transformAddTwoDatasets(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(0.0f))));
@@ -368,7 +368,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCellsDataset1), makeDataset("dataset2", listOfCellsDataset2)));
 
-        DocumentiStat received = transformStatisical.transformAddTwoDatasets(documentiStat);
+        DocumentiStat received = transformStatisical.transformAddTwoDatasets(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(6.0f))));
@@ -392,7 +392,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCellsDataset1), makeDataset("dataset2", listOfCellsDataset2)));
 
-        DocumentiStat received = transformStatisical.transformAddTwoDatasets(documentiStat);
+        DocumentiStat received = transformStatisical.transformAddTwoDatasets(documentiStat, 1, "A");
 
         assertNotNull(received);
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(6.0f))));
@@ -406,12 +406,12 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
 
     @Test
     public void shouldTestMultiplyTwoDatasetsWithNull() throws Exception {
-        assertNull(transformStatisical.transformAddTwoDatasets(null));
+        assertNull(transformStatisical.transformAddTwoDatasets(null, 0, null));
     }
 
     @Test
     public void shouldTestMultiplyTwoDatasetsWithEmpty() throws Exception {
-        assertNull(transformStatisical.transformAddTwoDatasets(make(a(_documentiStat))));
+        assertNull(transformStatisical.transformAddTwoDatasets(make(a(_documentiStat)), 0, null));
     }
 
     @Test(expected = TransformException.class)
@@ -424,7 +424,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCellsDataset1), makeDataset("dataset2", listOfCellsDataset2)));
 
-        transformStatisical.transformMultiplyTwoDatasets(documentiStat);
+        transformStatisical.transformMultiplyTwoDatasets(documentiStat, 1, "A");
     }
 
     @Test
@@ -438,7 +438,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCellsDataset1), makeDataset("dataset2", listOfCellsDataset2)));
 
-        DocumentiStat received = transformStatisical.transformMultiplyTwoDatasets(documentiStat);
+        DocumentiStat received = transformStatisical.transformMultiplyTwoDatasets(documentiStat, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(0.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(0.0f))));
@@ -460,7 +460,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCellsDataset1), makeDataset("dataset2", listOfCellsDataset2)));
 
-        DocumentiStat received = transformStatisical.transformMultiplyTwoDatasets(documentiStat);
+        DocumentiStat received = transformStatisical.transformMultiplyTwoDatasets(documentiStat, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(58.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(64.0f))));
@@ -479,7 +479,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
         DocumentiStat documentiStat = makeDocumentiStat(
                 newArrayList(makeDataset("dataset1", listOfCellsDataset1), makeDataset("dataset2", listOfCellsDataset2)));
 
-        DocumentiStat received = transformStatisical.transformMultiplyTwoDatasets(documentiStat);
+        DocumentiStat received = transformStatisical.transformMultiplyTwoDatasets(documentiStat, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(4.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(-4.0f))));
@@ -490,14 +490,14 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
 
     @Test
     public void shouldTestInterpolationTwoDatasetsWithNull() throws Exception {
-        assertNull(transformStatisical.transformInterpolation(null, TransformType.LINE));
-        assertNull(transformStatisical.transformInterpolation(null, TransformType.COLUMN));
+        assertNull(transformStatisical.transformInterpolation(null, TransformType.LINE, 0, null));
+        assertNull(transformStatisical.transformInterpolation(null, TransformType.COLUMN, 0, null));
     }
 
     @Test
     public void shouldTestInterpolationTwoDatasetsWithEmpty() throws Exception {
-        assertNull(transformStatisical.transformInterpolation(make(a(_documentiStat)), TransformType.LINE));
-        assertNull(transformStatisical.transformInterpolation(make(a(_documentiStat)), TransformType.COLUMN));
+        assertNull(transformStatisical.transformInterpolation(make(a(_documentiStat)), TransformType.LINE, 0, null));
+        assertNull(transformStatisical.transformInterpolation(make(a(_documentiStat)), TransformType.COLUMN, 0, null));
     }
 
     @Test
@@ -508,7 +508,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
 
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCellsDataset1)));
 
-        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.LINE);
+        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.LINE, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(1.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(2.0f))));
@@ -533,7 +533,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
 
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCellsDataset1)));
 
-        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.LINE);
+        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.LINE, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(1.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(2.0f))));
@@ -564,7 +564,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(1, "C", 0.0f), makeCell(2, "A", 0.0f), makeCell(2, "B", 0.0f), makeCell(2, "C", 0.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCellsDataset1)));
 
-        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.LINE);
+        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.LINE, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(0.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(0.0f))));
@@ -587,7 +587,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(2, "A", -3.0f), makeCell(2, "B", 2.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCellsDataset1)));
 
-        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.LINE);
+        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.LINE, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(1.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(-2.0f))));
@@ -608,7 +608,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
 
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCellsDataset1)));
 
-        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.COLUMN);
+        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.COLUMN, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(1.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(1.5f))));
@@ -629,7 +629,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(1, "C", 0.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCellsDataset1)));
 
-        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.COLUMN);
+        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.COLUMN, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(0.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(0.0f))));
@@ -646,7 +646,7 @@ public class TransformStatisticalTest extends AbstractUtilsiLogicTest {
                 makeCell(2, "A", -3.0f), makeCell(2, "B", 2.0f));
         DocumentiStat documentiStat = makeDocumentiStat(newArrayList(makeDataset("dataset1", listOfCellsDataset1)));
 
-        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.COLUMN);
+        DocumentiStat received = transformStatisical.transformInterpolation(documentiStat, TransformType.COLUMN, 1, "A");
 
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "A", Float.valueOf(1.0f))));
         assertTrue(received.getDatasets().stream().anyMatch(assertHasCell(1, "B", Float.valueOf(-0.5f))));

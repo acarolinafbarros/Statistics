@@ -23,7 +23,7 @@ public class TransformStatistical {
         LINE, COLUMN;
     }
 
-    public DocumentiStat transformTranspose(DocumentiStat documentiStat) throws DomainException {
+    public DocumentiStat transformTranspose(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
@@ -42,7 +42,7 @@ public class TransformStatistical {
                     }
                 }
 
-                List<Cell<Integer, String>> output = dataset.convertMatrixtToList(matrixFinal, "A", 1);
+                List<Cell<Integer, String>> output = dataset.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
 
                 result = new DocumentiStatBuilder()
                     .withId("document")
@@ -135,7 +135,7 @@ public class TransformStatistical {
         return result;
     }
 
-    public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat) throws DomainException, TransformException {
+    public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException, TransformException {
 
         DocumentiStat result = null;
 
@@ -171,7 +171,7 @@ public class TransformStatistical {
                         }
                     }
 
-                    List<Cell<Integer, String>> output = dataset1.convertMatrixtToList(matrixFinal, "A", 1);
+                    List<Cell<Integer, String>> output = dataset1.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
 
                     result = new DocumentiStatBuilder()
                         .withId("document")
@@ -184,7 +184,7 @@ public class TransformStatistical {
         return result;
     }
 
-    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat documentiStat) throws DomainException, TransformException {
+    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException, TransformException {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
@@ -220,7 +220,7 @@ public class TransformStatistical {
                         }
                     }
 
-                    List<Cell<Integer, String>> output = dataset1.convertMatrixtToList(matrixFinal, "A", 1);
+                    List<Cell<Integer, String>> output = dataset1.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
 
                     result = new DocumentiStatBuilder()
                         .withId("document")
@@ -233,18 +233,18 @@ public class TransformStatistical {
         return result;
     }
 
-    public DocumentiStat transformInterpolation(DocumentiStat documentiStat, TransformType type) throws Exception {
+    public DocumentiStat transformInterpolation(DocumentiStat documentiStat, TransformType type, int finalLine, String finalColumn) throws Exception {
         switch (type) {
             case LINE:
-                return transformInterpolationLine(documentiStat);
+                return transformInterpolationLine(documentiStat, finalLine, finalColumn);
             case COLUMN:
-                return transformInterpolationColumn(documentiStat);
+                return transformInterpolationColumn(documentiStat, finalLine, finalColumn);
             default:
                 throw new IllegalArgumentException();
         }
     }
 
-    private DocumentiStat transformInterpolationLine(DocumentiStat documentiStat) throws DomainException {
+    private DocumentiStat transformInterpolationLine(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
@@ -283,7 +283,7 @@ public class TransformStatistical {
                     }
                 }
 
-                List<Cell<Integer, String>> output = input.convertMatrixtToList(matrixFinal, "A", 1);
+                List<Cell<Integer, String>> output = input.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
 
                 result = new DocumentiStatBuilder()
                     .withId("document")
@@ -294,7 +294,7 @@ public class TransformStatistical {
         return result;
     }
 
-    private DocumentiStat transformInterpolationColumn(DocumentiStat documentiStat) throws DomainException {
+    private DocumentiStat transformInterpolationColumn(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
@@ -334,7 +334,7 @@ public class TransformStatistical {
                     }
                 }
 
-                List<Cell<Integer, String>> output = dataset1.convertMatrixtToList(matrixFinal, "A", 1);
+                List<Cell<Integer, String>> output = dataset1.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
 
                 result = new DocumentiStatBuilder()
                     .withId("document")

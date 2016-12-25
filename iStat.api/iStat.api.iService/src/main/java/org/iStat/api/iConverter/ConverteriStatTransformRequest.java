@@ -57,8 +57,9 @@ public class ConverteriStatTransformRequest implements Converter<RequestiStatTra
 
 		try {
 			return new DocumentiStatBuilder()
-					.withDatasets(from.getDatasets().stream().map(API_TO_DATASET).collect(Collectors.toList()))
-					.withScalar(from.getScalar()).build();
+					.withDatasets(from.getDatasets()
+							.stream().map(API_TO_DATASET).collect(Collectors.toList()))
+					.build();
 		} catch (NullPointerException ex) {
 			throw new ConvertException("'operation=convert', 'from=" + from + "'", ex);
 		}
