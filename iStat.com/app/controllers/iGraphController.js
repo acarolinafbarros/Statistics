@@ -56,7 +56,7 @@ angular
 										scope : newScopeChart
 									});
 									break;
-								case 'Bar Chat':
+								case 'Bar Chart':
 									ngDialog.open({
 										template : 'popUps/popUpBarChart.html',
 										className : 'ngdialog-theme-default',

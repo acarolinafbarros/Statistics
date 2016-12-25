@@ -2,18 +2,17 @@
 	<canvas id="barChart" width="400" height="400"></canvas>
 	<script type="text/javascript">
 		var scope = $('[ng-controller="iGraphController"]').scope();
-		console.log(scope);
 		var graphName = scope.graphName;
-		var dados = scope.dataset;
-		console.log(dados);
+		var data = valuesChart;
+		var labels = labelsChart;
 		var ctx = document.getElementById("barChart");
 		var myChart = new Chart(ctx, {
 			type : 'bar',
 			data : {
-				labels : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],// FIXME change to dados
+				labels : labels,
 				datasets : [ {
 					label : graphName,
-					data : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],// FIXME change to dados
+					data : data,
 					backgroundColor : [ 'rgba(255, 99, 132, 0.2)',
 							'rgba(54, 162, 235, 0.2)',
 							'rgba(255, 206, 86, 0.2)',
