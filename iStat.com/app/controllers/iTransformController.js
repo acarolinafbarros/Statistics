@@ -40,27 +40,30 @@ angular
 
 								var newScope = $scope;
 								newScope.transformName = $name;
-								ngDialog.open({
-									template : 'popUps/popUpTransformDatasets.html',
-									className : 'ngdialog-theme-default',
-									scope : newScope
-								});
+								ngDialog
+										.open({
+											template : 'popUps/popUpTransformDatasets.html',
+											className : 'ngdialog-theme-default',
+											scope : newScope
+										});
 							};
 
 							$scope.clickToOpenScale = function($name) {
 
 								var newScope = $scope;
 								newScope.transformName = $name;
-								ngDialog.open({
-									template : 'popUps/popUpTransformScale.html',
-									className : 'ngdialog-theme-default',
-									scope : newScope
-								});
+								ngDialog
+										.open({
+											template : 'popUps/popUpTransformScale.html',
+											className : 'ngdialog-theme-default',
+											scope : newScope
+										});
 							};
 
 							$scope.confirm = function($data) {
 								$scope.outputBeginLine = $data.outputBeginLine;
 								$scope.outputBeginColumn = $data.outputBeginColumn;
+								$scope.closeThisDialog();
 								switch ($scope.transformName) {
 								case 'Transpose Dataset':
 									convertInputIntoRequest($data);
@@ -101,9 +104,8 @@ angular
 										lineIndexInputBegin,
 										columnIndexInputEnd, lineIndexInputEnd);
 								console.log(datasetCells);
-								// TODO Chamar método do Nuno para converter
-								// para o JSON correto.
-								// $scope.data =
+								// TODO Output cell ?!
+								$scope.data = datasetCells;
 							}
 
 							function convertInputIntoRequestScale($data) {
@@ -118,8 +120,7 @@ angular
 								console.log(datasetCells);
 								var scalar = $data.scalar;
 								console.log(scalar);
-								// TODO Chamar método do Nuno para converter
-								// para o JSON correto.
+								// TODO Chamada com scalar?!
 								// $scope.data =
 							}
 
@@ -144,27 +145,23 @@ angular
 										matrix2ColumnIndexInputEnd,
 										matrix1LineIndexInputEnd);
 								console.log(matrix2DatasetCells);
-								// TODO Chamar método do Nuno para converter
-								// para o JSON correto.
+								// TODO Chamada com 2 datasets?!
 								// $scope.data =
 							}
 
 							function getValuesDataset(columnIndexInputBegin,
 									lineIndexInputBegin, columnIndexInputEnd,
 									lineIndexInputEnd) {
-								var values = new Array();
+								var dataset = DocumentiStat.createNew();
 								for (var line = lineIndexInputBegin; line <= lineIndexInputEnd; line++) {
 									for (var column = columnIndexInputBegin; column <= columnIndexInputEnd; column++) {
-										var cell = {
-											"line" : hot.getRowHeader(line),
-											"column" : hot.getColHeader(column),
-											"value" : hot.getDataAtCell(line,
-													column)
-										};
-										values.push(cell);
+										dataset.addCell('dataset_100', hot
+												.getRowHeader(line), hot
+												.getColHeader(column), hot
+												.getDataAtCell(line, column));
 									}
 								}
-								return values;
+								return dataset;
 							}
 
 							function getColFromName(name) {

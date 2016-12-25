@@ -9,10 +9,14 @@ angular
 						'$http',
 						'iCalcService',
 						'ngDialog',
+						'DocumentiStat',
 
-						function($scope, $http, iCalcService, ngDialog) {
+						function($scope, $http, iCalcService, ngDialog,
+								DocumentiStat) {
 
 							$scope.request = '';
+							var outputBeginLine = '';
+							var outputBeginColumn = '';
 
 							// $scope.data = "{ \"datasets\": [ { \"name\":
 							// \"dataset_1\", \"cells\": [ { \"line\": \"1\",
@@ -37,9 +41,10 @@ angular
 							};
 
 							$scope.confirm = function($data) {
-								$scope.outputBeginLine = $data.outputBeginLine;
-								$scope.outputBeginColumn = $data.outputBeginColumn;
+								outputBeginLine = $data.outputBeginLine;
+								outputBeginColumn = $data.outputBeginColumn;
 								convertInputIntoRequest($data);
+								$scope.closeThisDialog();
 								switch ($scope.calculateName) {
 								case 'Column\'s total':
 									callCalculateRowTotal();
@@ -81,27 +86,23 @@ angular
 										lineIndexInputBegin,
 										columnIndexInputEnd, lineIndexInputEnd);
 								console.log(datasetCells);
-								// TODO Chamar método do Nuno para converter
-								// para o JSON correto.
-								// $scope.data =
+								$scope.data = datasetCells;
 							}
 
 							function getValuesDataset(columnIndexInputBegin,
 									lineIndexInputBegin, columnIndexInputEnd,
 									lineIndexInputEnd) {
-								var values = new Array();
+								var dataset = DocumentiStat.createNew();
+
 								for (var line = lineIndexInputBegin; line <= lineIndexInputEnd; line++) {
 									for (var column = columnIndexInputBegin; column <= columnIndexInputEnd; column++) {
-										var cell = {
-											"line" : hot.getRowHeader(line),
-											"column" : hot.getColHeader(column),
-											"value" : hot.getDataAtCell(line,
-													column)
-										};
-										values.push(cell);
+										dataset.addCell('dataset_100', hot
+												.getRowHeader(line), hot
+												.getColHeader(column), hot
+												.getDataAtCell(line, column));
 									}
 								}
-								return values;
+								return dataset;
 							}
 
 							function getColFromName(name) {
@@ -134,10 +135,11 @@ angular
 
 							// Internal function
 							function callCalculateRowTotal() {
-								console.log('calculate')
-
-								var promise = iCalcService
-										.calculateRowTotal($scope.data);
+								console
+										.log("--> Called calculateRowColumnTotal!");
+								console.log($scope.data);
+								var promise = iCalcService.execute($scope.data,
+										'calculateRowColumnTotal');
 
 								promise
 										.then(
@@ -151,15 +153,17 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		outputBeginLine,
+																		outputBeginColumn,
 																		$scope.response.value);
 
 													}
 												},
 												function(response) {
 													console
-															.log('Error to call callCalculateRowTotal');
+															.log('Error to call calculateRowColumnTotal');
+													console.log(response);
+													alert(response);
 												});
 							}
 

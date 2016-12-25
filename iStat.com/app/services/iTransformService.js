@@ -35,8 +35,14 @@ angular
 							def.resolve(response);
 						},
 						function error(response, status) {
-							console.log(status);
-							def.reject("Reject");
+							var errorMessage = 'Error!';
+							var errorCode = response.data.status.code;
+							if(errorCode == '9999'){
+								errorMessage = 'Service temporarily unavailable. Please try again later!'
+							}else if(errorCode== '1001'){
+								errorMessage = 'Invalid input!'
+							}
+							def.reject(errorMessage);
 						});
 
 					return def.promise;

@@ -32,6 +32,7 @@ angular
 								});*/
 							};
 							$scope.confirm = function($data,$name) {
+								$scope.closeThisDialog();
 								switch ($name) {
 								case 'Export Dataset':
 									console.log('export...');

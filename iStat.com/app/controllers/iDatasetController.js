@@ -31,6 +31,7 @@ angular
 
 							$scope.confirm = function($data) {
 								convertInputIntoRequest($data);
+								$scope.closeThisDialog();
 								switch ($scope.datasetName) {
 								case 'Open Dataset':
 									callOpenDataset();
@@ -45,29 +46,24 @@ angular
 
 							function convertInputIntoRequest($data) {
 								console.log('convertInputIntoRequest');
-								var datasetCells = getValuesDataset();
-								console.log(datasetCells);
 								var datasetName = $data.datasetName;
-								// TODO Chamar método do Nuno para converter
-								// para o JSON correto.
-								// $scope.data =
+								var datasetCells = getValuesDataset(datasetName);
+								console.log(datasetCells);
+								$scope.data = datasetCells;
 							}
 
-							function getValuesDataset() {
-								var values = new Array();
+							function getValuesDataset($datasetName) {
+								var dataset = DocumentiStat.createNew();
 								for (var line = 0; line < hot.countRows(); line++) {
 									for (var column = 0; column < hot
 											.countCols(); column++) {
-										var cell = {
-											"line" : hot.getRowHeader(line),
-											"column" : hot.getColHeader(column),
-											"value" : hot.getDataAtCell(line,
-													column)
-										};
-										values.push(cell);
+										dataset.addCell($datasetName, hot
+												.getRowHeader(line), hot
+												.getColHeader(column), hot
+												.getDataAtCell(line, column));
 									}
 								}
-								return values;
+								return dataset;
 							}
 
 							function getColFromName(name) {
