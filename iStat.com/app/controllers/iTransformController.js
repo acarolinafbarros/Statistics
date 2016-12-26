@@ -109,7 +109,7 @@ angular
 										lineIndexInputBegin,
 										columnIndexInputEnd, lineIndexInputEnd);
 								console.log(datasetCells);
-								var scalar = $data.scalar;
+								var scalar = $data.inputScalar;
 								console.log(scalar);
 								$scope.data = datasetCells.data;
 								$scope.scalar = scalar;
@@ -232,13 +232,15 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for(var cellIndex=0;cellIndex < resultCells.length;cellIndex++){
+															hot
+															.setDataAtCell(
+																	getLineFromName(resultCells[cellIndex].line),
+																	getColFromName(resultCells[cellIndex].column),
+																	resultCells[cellIndex].value);
+														}
 
 													}
 												},
@@ -263,14 +265,15 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
-
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for(var cellIndex=0;cellIndex < resultCells.length;cellIndex++){
+															hot
+															.setDataAtCell(
+																	getLineFromName(resultCells[cellIndex].line),
+																	getColFromName(resultCells[cellIndex].column),
+																	resultCells[cellIndex].value);
+														}
 													}
 												},
 												function(response) {

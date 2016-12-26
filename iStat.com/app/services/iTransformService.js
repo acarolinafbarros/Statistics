@@ -18,7 +18,7 @@ angular
 					var urlRequest = '';
 					console.log($scalar);
 					if($scalar){
-						urlRequest = mainRoute + "/" + $nameOfMethod+"?scale="+$scalar+"&finalLine="+$outputBeginLine+"&finalColumn="+$outputBeginColumn;
+						urlRequest = mainRoute + "/" + $nameOfMethod+"?scale="+$scalar;
 					}else{
 						urlRequest = mainRoute + "/" + $nameOfMethod+"?finalLine="+$outputBeginLine+"&finalColumn="+$outputBeginColumn;
 					}
