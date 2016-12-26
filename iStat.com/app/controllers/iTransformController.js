@@ -105,7 +105,7 @@ angular
 										columnIndexInputEnd, lineIndexInputEnd);
 								console.log(datasetCells);
 								// TODO Output cell ?!
-								$scope.data = datasetCells;
+								$scope.data = datasetCells.data;
 							}
 
 							function convertInputIntoRequestScale($data) {

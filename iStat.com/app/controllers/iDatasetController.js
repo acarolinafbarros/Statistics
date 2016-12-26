@@ -49,7 +49,7 @@ angular
 								var datasetName = $data.datasetName;
 								var datasetCells = getValuesDataset(datasetName);
 								console.log(datasetCells);
-								$scope.data = datasetCells;
+								$scope.data = datasetCells.data;
 							}
 
 							function getValuesDataset($datasetName) {

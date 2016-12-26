@@ -86,7 +86,7 @@ angular
 										lineIndexInputBegin,
 										columnIndexInputEnd, lineIndexInputEnd);
 								console.log(datasetCells);
-								$scope.data = datasetCells;
+								$scope.data = datasetCells.data;
 							}
 
 							function getValuesDataset(columnIndexInputBegin,
