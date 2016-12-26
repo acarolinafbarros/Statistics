@@ -46,11 +46,11 @@ angular
 								convertInputIntoRequest($data);
 								$scope.closeThisDialog();
 								switch ($scope.calculateName) {
-								case 'Column\'s total':
-									callCalculateRowTotal();
+								case 'Column\'s Total':
+									callCalculateRowColumnTotal();
 									break;
 								case 'Row\'s Total':
-									callCalculateRowTotal();
+									callCalculateRowColumnTotal();
 									break;
 								case 'Median':
 									callCalculateMedian();
@@ -134,7 +134,7 @@ angular
 							}
 
 							// Internal function
-							function callCalculateRowTotal() {
+							function callCalculateRowColumnTotal() {
 								console
 										.log("--> Called calculateRowColumnTotal!");
 								console.log($scope.data);
@@ -153,8 +153,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		outputBeginLine,
-																		outputBeginColumn,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -186,8 +186,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -217,8 +217,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -248,8 +248,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -267,20 +267,28 @@ angular
 								var promise = iCalcService.execute($scope.data,
 										'calculateMode');
 
-								promise.then(function(response) {
+								promise
+										.then(
+												function(response) {
 
-									if (response.data != null) {
+													if (response.data != null) {
 
-										$scope.response = response.data;
-										console.log($scope.response);
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-										hot.setDataAtCell(1, 1,
-												$scope.response.value);
+														hot
+																.setDataAtCell(
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
+																		$scope.response.value);
 
-									}
-								}, function(response) {
-									console.log('Error to call calculateMode');
-								});
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateMode');
+												});
 
 							}
 
@@ -303,8 +311,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -334,8 +342,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
