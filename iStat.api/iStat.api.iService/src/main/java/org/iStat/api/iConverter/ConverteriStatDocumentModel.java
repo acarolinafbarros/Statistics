@@ -33,7 +33,6 @@ public class ConverteriStatDocumentModel implements Converter<DocumentiStat, Doc
 				
             	Objects.requireNonNull(cell.getLine(), "line must be not null!");
             	Objects.requireNonNull(cell.getColumn(), "column must be not null!");
-            	Objects.requireNonNull(cell.getValue(), "value must be not null!");
 				
 				return new CellEntity(datasetName, Integer.valueOf(cell.getLine()), cell.getColumn(), cell.getValue());
 			}

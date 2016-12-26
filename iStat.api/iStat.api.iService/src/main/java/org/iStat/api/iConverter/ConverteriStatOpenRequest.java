@@ -12,7 +12,7 @@ public class ConverteriStatOpenRequest implements Converter<RequestiStatOpen, Do
 	@Override
 	public DocumentiStat convert(RequestiStatOpen from) throws ConvertException {
 
-		if (!ObjectUtils.allNotNull(from, from.getName())) {
+		if (!ObjectUtils.allNotNull(from)) {
 			throw new ConvertException("'operation=convert', 'from=" + from + "'");
 		}
 		try {

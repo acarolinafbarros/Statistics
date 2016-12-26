@@ -10,13 +10,13 @@ angular
 
 		function ($http, $q) {
 
-			var mainRoute = 'http://localhost:8080/iStatCalc';
+			var mainRoute = 'http://localhost:8080/iStatDataset';
 
 			return {
 
-				execute: function ($data, $nameOfMethod) {
+				execute: function ($data,$datasetName, $nameOfMethod) {
 
-					var urlRequest = mainRoute + "/" + $nameOfMethod;
+					var urlRequest = mainRoute + "/" + $nameOfMethod+"?documentName="+$datasetName;
 
 					var request = {
 						method: "POST",
