@@ -32,37 +32,50 @@ angular
 							};
 
 							$scope.confirm = function($data) {
-								outputBeginLine = $data.outputBeginLine;
-								outputBeginColumn = $data.outputBeginColumn;
-								convertInputIntoRequest($data);
-								$scope.closeThisDialog();
-								switch ($scope.calculateName) {
-								case 'Column\'s Total':
-									callCalculateRowColumnTotal();
-									break;
-								case 'Row\'s Total':
-									callCalculateRowColumnTotal();
-									break;
-								case 'Median':
-									callCalculateMedian();
-									break;
-								case 'Mode':
-									callCalculateMode();
-									break;
-								case 'Midrange':
-									callCalculateMidrange();
-									break;
-								case 'Variance':
-									callCalculateVariance();
-									break;
-								case 'Standard Deviation':
-									callCalculateStandardDeviation();
-									break;
-								case 'Geometric Mean':
-									callCalculateGeometricMean();
-									break;
-								default:
-									break;
+								if ($data) {
+									if ($data.outputBeginLine
+											&& $data.outputBeginColumn
+											&& $data.inputBeginColumn
+											&& $data.inputEndColumn
+											&& $data.inputBeginLine
+											&& $data.inputEndLine) {
+										outputBeginLine = $data.outputBeginLine;
+										outputBeginColumn = $data.outputBeginColumn;
+										convertInputIntoRequest($data);
+										$scope.closeThisDialog();
+										switch ($scope.calculateName) {
+										case 'Column\'s Total':
+											callCalculateRowColumnTotal();
+											break;
+										case 'Row\'s Total':
+											callCalculateRowColumnTotal();
+											break;
+										case 'Median':
+											callCalculateMedian();
+											break;
+										case 'Mode':
+											callCalculateMode();
+											break;
+										case 'Midrange':
+											callCalculateMidrange();
+											break;
+										case 'Variance':
+											callCalculateVariance();
+											break;
+										case 'Standard Deviation':
+											callCalculateStandardDeviation();
+											break;
+										case 'Geometric Mean':
+											callCalculateGeometricMean();
+											break;
+										default:
+											break;
+										}
+									} else {
+										alert("Invalid input! All the fields must be fill!");
+									}
+								} else {
+									alert("Invalid input! All the fields must be fill!");
 								}
 							};
 

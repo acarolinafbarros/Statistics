@@ -8,9 +8,11 @@ angular
 						'$scope',
 						'$http',
 						'iDatasetService',
-						'ngDialog','DocumentiStat',
+						'ngDialog',
+						'DocumentiStat',
 
-						function($scope, $http, iDatasetController, ngDialog,DocumentiStat) {
+						function($scope, $http, iDatasetController, ngDialog,
+								DocumentiStat) {
 
 							$scope.request = '';
 
@@ -98,28 +100,35 @@ angular
 
 								console.log("--> Called openDataset!");
 								var promise = iDatasetController.execute(
-										$scope.data,$scope.datasetName, 'openDataset');
+										$scope.data, $scope.datasetName,
+										'openDataset');
 
-								promise.then(function(response) {
+								promise
+										.then(
+												function(response) {
 
-									if (response.data != null) {
+													if (response.data != null) {
 
-										$scope.response = response.data;
-										console
-												.log($scope.response.datasets[0].cells);
-										var resultCells = $scope.response.datasets[0].cells;
-										for(var cellIndex=0;cellIndex < resultCells.length;cellIndex++){
-											hot
-											.setDataAtCell(
-													getLineFromName(resultCells[cellIndex].line),
-													getColFromName(resultCells[cellIndex].column),
-													resultCells[cellIndex].value);
-										}
+														$scope.response = response.data;
+														if ($scope.response.datasets.length > 0) {
+															var resultCells = $scope.response.datasets[0].cells;
+															for (var cellIndex = 0; cellIndex < resultCells.length; cellIndex++) {
+																hot
+																		.setDataAtCell(
+																				getLineFromName(resultCells[cellIndex].line),
+																				getColFromName(resultCells[cellIndex].column),
+																				resultCells[cellIndex].value);
+															}
+														} else {
+															alert('Dataset not found!');
+														}
 
-									}
-								}, function(response) {
-									console.log('Error to call openDataset');
-								});
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call openDataset');
+												});
 
 							}
 
@@ -127,7 +136,8 @@ angular
 
 								console.log("--> Called saveDataset!");
 								var promise = iDatasetController.execute(
-										$scope.data,$scope.datasetName, 'saveDataset');
+										$scope.data, $scope.datasetName,
+										'saveDataset');
 
 								promise.then(function(response) {
 

@@ -12,18 +12,18 @@
 					<div class="input-group" id="inputBegin">
 						<input type="number" class="form-control" placeholder="Line"
 							id="inputBeginLine" ng-model="data.inputBeginLine" style="width: 23%"
-							min="1" /> <input type="text" placeholder="Column"
+							min="1" required/> <input type="text" placeholder="Column"
 							class="form-control" id="inputBeginColumn"
-							ng-model="data.inputBeginColumn" style="width: 23%" />
+							ng-model="data.inputBeginColumn" style="width: 23%" required/>
 
 					</div>
 					<label for="inputEnd">Input End Cell:</label>
 					<div class="input-group" id="inputEnd">
 						<input type="number" class="form-control" placeholder="Line"
 							id="inputEndLine" ng-model="data.inputEndLine" style="width: 23%"
-							min="1" /> <input type="text" class="form-control"
+							min="1" required/> <input type="text" class="form-control"
 							placeholder="Column" id="inputEndColumn"
-							ng-model="data.inputEndColumn" style="width: 23%" />
+							ng-model="data.inputEndColumn" style="width: 23%" required/>
 					</div>
 				</div>
 				<div class="row">
@@ -31,9 +31,9 @@
 					<div class="input-group" id="outputBegin">
 						<input type="number" class="form-control" placeholder="Line"
 							id="outputBeginLine" ng-model="data.outputBeginLine"
-							style="width: 23%" min="1" /> <input type="text"
+							style="width: 23%" min="1" required/> <input type="text"
 							placeholder="Column" class="form-control" id="outputBeginColumn"
-							ng-model="data.outputBeginColumn" style="width: 23%" />
+							ng-model="data.outputBeginColumn" style="width: 23%" required/>
 					</div>
 				</div>
 			</div>

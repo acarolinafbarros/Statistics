@@ -39,7 +39,6 @@ public class ConverteriStatDocumentEntity implements Converter<DocumentIStatEnti
 				
             	Objects.requireNonNull(cell.getLine(), "line must be not null!");
             	Objects.requireNonNull(cell.getColumn(), "column must be not null!");
-            	Objects.requireNonNull(cell.getValue(), "value must be not null!");
 				
 				return new CellBuilder<Integer, String>().withLine(Integer.valueOf(cell.getLine()))
 						.withColumn(cell.getColumn()).withValue(cell.getValue()).withParentDatasetName(datasetName)
