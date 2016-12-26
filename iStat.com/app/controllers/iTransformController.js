@@ -9,19 +9,12 @@ angular
 						'$http',
 						'iTransformService',
 						'ngDialog',
+						'DocumentiStat',
 
-						function($scope, $http, iTransformController, ngDialog) {
+						function($scope, $http, iTransformController, ngDialog,
+								DocumentiStat) {
 
 							$scope.request = '';
-
-							// $scope.data = "{ \"datasets\": [ { \"name\":
-							// \"dataset_1\", \"cells\": [ { \"line\": \"1\",
-							// \"column\": \"A\", \"value\": 100 }, { \"line\":
-							// \"2\", \"column\": \"A\", \"value\": 200 } ] }, {
-							// \"name\": \"dataset_2\", \"cells\": [ { \"line\":
-							// \"1\", \"column\": \"A\", \"value\": 100 }, {
-							// \"line\": \"2\", \"column\": \"A\", \"value\":
-							// 200 } ] } ]}";
 
 							$scope.response = new Object();
 
@@ -34,6 +27,18 @@ angular
 									className : 'ngdialog-theme-default',
 									scope : newScope
 								});
+							};
+
+							$scope.clickToOpenInterpolation = function($name) {
+
+								var newScope = $scope;
+								newScope.transformName = $name;
+								ngDialog
+										.open({
+											template : 'popUps/popUpTransformInterpolation.html',
+											className : 'ngdialog-theme-default',
+											scope : newScope
+										});
 							};
 
 							$scope.clickToOpenDatasets = function($name) {
@@ -61,38 +66,181 @@ angular
 							};
 
 							$scope.confirm = function($data) {
-								$scope.outputBeginLine = $data.outputBeginLine;
-								$scope.outputBeginColumn = $data.outputBeginColumn;
-								$scope.closeThisDialog();
-								switch ($scope.transformName) {
-								case 'Transpose Dataset':
-									convertInputIntoRequest($data);
-									callTransformTranspose();
-									break;
-								case 'Scale':
-									convertInputIntoRequestScale($data);
-									callTransformScale();
-									break;
-								case 'Add a Scalar':
-									convertInputIntoRequestScale($data);
-									callTransformAddScalar();
-									break;
-								case 'Add Two Datasets':
-									convertInputIntoRequestDatasets($data);
-									callTransformAddTwoDatasets();
-									break;
-								case 'Multiply Two Datasets':
-									convertInputIntoRequestDatasets($data);
-									callTransformMultiplyTwoDatasets();
-									break;
-								case 'Linear Interpolation':
-									convertInputIntoRequest($data);
-									callTransformLinearInterpolation();
-									break;
-								default:
-									break;
+								var validInput = validateInput($data);
+								if (validInput) {
+									$scope.outputBeginLine = $data.outputBeginLine;
+									$scope.outputBeginColumn = $data.outputBeginColumn;
+									$scope.closeThisDialog();
+									switch ($scope.transformName) {
+									case 'Transpose Dataset':
+										convertInputIntoRequest($data);
+										callTransformTranspose();
+										break;
+									case 'Scale':
+										convertInputIntoRequestScale($data);
+										callTransformScale();
+										break;
+									case 'Add a Scalar':
+										convertInputIntoRequestScale($data);
+										callTransformAddScalar();
+										break;
+									case 'Add Two Datasets':
+										convertInputIntoRequestDatasets($data);
+										callTransformAddTwoDatasets();
+										break;
+									case 'Multiply Two Datasets':
+										convertInputIntoRequestDatasets($data);
+										callTransformMultiplyTwoDatasets();
+										break;
+									case 'Linear Interpolation':
+										convertInputIntoRequest($data);
+										$scope.inputType = $data.inputType;
+										$scope.outputBeginColumn = $data.inputBeginColumn;
+										$scope.outputBeginLine = $data.inputBeginLine;
+										callTransformLinearInterpolation();
+										break;
+									default:
+										break;
+									}
 								}
 							};
+
+							function validateInput($data) {
+								if ($data) {
+									switch ($scope.transformName) {
+									case 'Transpose Dataset':
+										if ($data.outputBeginLine
+												&& $data.outputBeginColumn
+												&& $data.inputBeginColumn
+												&& $data.inputEndColumn
+												&& $data.inputBeginLine
+												&& $data.inputEndLine) {
+											var matchedPosition = $data.outputBeginColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid output begin column! Must be a letter from A to Z!");
+												return false;
+											}
+											var matchedPosition = $data.inputBeginColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input begin column! Must be a letter from A to Z!");
+												return false;
+											}
+											var matchedPosition = $data.inputEndColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input end column! Must be a letter from A to Z!");
+												return false;
+											}
+										} else {
+											alert("Invalid input! All the fields must be fill!");
+											return false;
+										}
+										break;
+									case 'Scale':
+									case 'Add a Scalar':
+										if ($data.inputScalar
+												&& $data.inputBeginColumn
+												&& $data.inputEndColumn
+												&& $data.inputBeginLine
+												&& $data.inputEndLine) {
+											var matchedPosition = $data.inputBeginColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input begin column! Must be a letter from A to Z!");
+												return false;
+											}
+											var matchedPosition = $data.inputEndColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input end column! Must be a letter from A to Z!");
+												return false;
+											}
+										} else {
+											alert("Invalid input! All the fields must be fill!");
+											return false;
+										}
+										break;
+									case 'Add Two Datasets':
+									case 'Multiply Two Datasets':
+										if ($data.outputBeginLine
+												&& $data.outputBeginColumn
+												&& $data.matrix1.inputBeginColumn
+												&& $data.matrix1.inputEndColumn
+												&& $data.matrix1.inputBeginLine
+												&& $data.matrix1.inputEndLine
+												&& $data.matrix2.inputBeginColumn
+												&& $data.matrix2.inputEndColumn
+												&& $data.matrix2.inputBeginLine
+												&& $data.matrix2.inputEndLine) {
+											var matchedPosition = $data.outputBeginColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid output begin column! Must be a letter from A to Z!");
+												return false;
+											}
+											var matchedPosition = $data.matrix1.inputBeginColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input matrix1 begin column! Must be a letter from A to Z!");
+												return false;
+											}
+											var matchedPosition = $data.matrix1.inputEndColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input matriz1 end column! Must be a letter from A to Z!");
+												return false;
+											}
+											var matchedPosition = $data.matrix2.inputBeginColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input matrix2 begin column! Must be a letter from A to Z!");
+												return false;
+											}
+											var matchedPosition = $data.matrix2.inputEndColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input matriz2 end column! Must be a letter from A to Z!");
+												return false;
+											}
+										} else {
+											alert("Invalid input! All the fields must be fill!");
+											return false;
+										}
+										break;
+									case 'Linear Interpolation':
+										if ($data.inputType
+												&& $data.inputBeginColumn
+												&& $data.inputEndColumn
+												&& $data.inputBeginLine
+												&& $data.inputEndLine) {
+											var matchedPosition = $data.inputBeginColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input begin column! Must be a letter from A to Z!");
+												return false;
+											}
+											var matchedPosition = $data.inputEndColumn
+													.search(/[a-zA-Z]/i);
+											if (matchedPosition == -1) {
+												alert("Invalid input end column! Must be a letter from A to Z!");
+												return false;
+											}
+										} else {
+											alert("Invalid input! All the fields must be fill!");
+											return false;
+										}
+										break;
+									default:
+										break;
+									}
+									return true;
+								} else {
+									alert("Invalid input! All the fields must be fill!");
+									return false;
+								}
+							}
 
 							function convertInputIntoRequest($data) {
 								var columnIndexInputBegin = getColFromName($data.inputBeginColumn);
@@ -104,7 +252,6 @@ angular
 										lineIndexInputBegin,
 										columnIndexInputEnd, lineIndexInputEnd);
 								console.log(datasetCells);
-								// TODO Output cell ?!
 								$scope.data = datasetCells.data;
 							}
 
@@ -118,10 +265,10 @@ angular
 										lineIndexInputBegin,
 										columnIndexInputEnd, lineIndexInputEnd);
 								console.log(datasetCells);
-								var scalar = $data.scalar;
+								var scalar = $data.inputScalar;
 								console.log(scalar);
-								// TODO Chamada com scalar?!
-								// $scope.data =
+								$scope.data = datasetCells.data;
+								$scope.scalar = scalar;
 							}
 
 							function convertInputIntoRequestDatasets($data) {
@@ -129,24 +276,21 @@ angular
 								var matrix1LineIndexInputBegin = getLineFromName($data.matrix1.inputBeginLine);
 								var matrix1ColumnIndexInputEnd = getColFromName($data.matrix1.inputEndColumn);
 								var matrix1LineIndexInputEnd = getLineFromName($data.matrix1.inputEndLine);
-								var matrix1DatasetCells = getValuesDataset(
-										matrix1ColumnIndexInputBegin,
-										matrix1LineIndexInputBegin,
-										matrix1ColumnIndexInputEnd,
-										matrix1LineIndexInputEnd);
-								console.log(matrix1DatasetCells);
 								var matrix2ColumnIndexInputBegin = getColFromName($data.matrix2.inputBeginColumn);
 								var matrix2LineIndexInputBegin = getLineFromName($data.matrix2.inputBeginLine);
 								var matrix2ColumnIndexInputEnd = getColFromName($data.matrix2.inputEndColumn);
 								var matrix2LineIndexInputEnd = getLineFromName($data.matrix2.inputEndLine);
-								var matrix2DatasetCells = getValuesDataset(
+								var matrixDatasetCells = getValuesDatasetMatrixs(
+										matrix1ColumnIndexInputBegin,
+										matrix1LineIndexInputBegin,
+										matrix1ColumnIndexInputEnd,
+										matrix1LineIndexInputEnd,
 										matrix2ColumnIndexInputBegin,
 										matrix2LineIndexInputBegin,
 										matrix2ColumnIndexInputEnd,
 										matrix1LineIndexInputEnd);
-								console.log(matrix2DatasetCells);
-								// TODO Chamada com 2 datasets?!
-								// $scope.data =
+								console.log(matrixDatasetCells);
+								$scope.data = matrixDatasetCells.data;
 							}
 
 							function getValuesDataset(columnIndexInputBegin,
@@ -156,6 +300,35 @@ angular
 								for (var line = lineIndexInputBegin; line <= lineIndexInputEnd; line++) {
 									for (var column = columnIndexInputBegin; column <= columnIndexInputEnd; column++) {
 										dataset.addCell('dataset_100', hot
+												.getRowHeader(line), hot
+												.getColHeader(column), hot
+												.getDataAtCell(line, column));
+									}
+								}
+								return dataset;
+							}
+
+							function getValuesDatasetMatrixs(
+									matrix1ColumnIndexInputBegin,
+									matrix1LineIndexInputBegin,
+									matrix1ColumnIndexInputEnd,
+									matrix1LineIndexInputEnd,
+									matrix2ColumnIndexInputBegin,
+									matrix2LineIndexInputBegin,
+									matrix2ColumnIndexInputEnd,
+									matrix2LineIndexInputEnd) {
+								var dataset = DocumentiStat.createNew();
+								for (var line = matrix1LineIndexInputBegin; line <= matrix1LineIndexInputEnd; line++) {
+									for (var column = matrix1ColumnIndexInputBegin; column <= matrix1ColumnIndexInputEnd; column++) {
+										dataset.addCell('dataset_1', hot
+												.getRowHeader(line), hot
+												.getColHeader(column), hot
+												.getDataAtCell(line, column));
+									}
+								}
+								for (var line = matrix2LineIndexInputBegin; line <= matrix2LineIndexInputEnd; line++) {
+									for (var column = matrix2ColumnIndexInputBegin; column <= matrix2ColumnIndexInputEnd; column++) {
+										dataset.addCell('dataset_2', hot
 												.getRowHeader(line), hot
 												.getColHeader(column), hot
 												.getDataAtCell(line, column));
@@ -196,7 +369,10 @@ angular
 
 								console.log("--> Called transformTranspose!");
 								var promise = iTransformController.execute(
-										$scope.data, 'transformTranspose');
+										$scope.data, $scope.scalar,
+										$scope.outputBeginLine,
+										$scope.outputBeginColumn,
+										'transformTranspose');
 
 								promise
 										.then(
@@ -206,19 +382,23 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for (var cellIndex = 0; cellIndex < resultCells.length; cellIndex++) {
+															hot
+																	.setDataAtCell(
+																			getLineFromName(resultCells[cellIndex].line),
+																			getColFromName(resultCells[cellIndex].column),
+																			resultCells[cellIndex].value);
+														}
 
 													}
 												},
 												function(response) {
 													console
 															.log('Error to call transformTranspose');
+													console.log(response);
+													alert(response);
 												});
 
 							}
@@ -227,7 +407,10 @@ angular
 
 								console.log("--> Called transformScale!");
 								var promise = iTransformController.execute(
-										$scope.data, 'transformScale');
+										$scope.data, $scope.scalar,
+										$scope.outputBeginLine,
+										$scope.outputBeginColumn,
+										'transformScale');
 
 								promise
 										.then(
@@ -237,19 +420,23 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for (var cellIndex = 0; cellIndex < resultCells.length; cellIndex++) {
+															hot
+																	.setDataAtCell(
+																			getLineFromName(resultCells[cellIndex].line),
+																			getColFromName(resultCells[cellIndex].column),
+																			resultCells[cellIndex].value);
+														}
 
 													}
 												},
 												function(response) {
 													console
 															.log('Error to call transformScale');
+													console.log(response);
+													alert(response);
 												});
 
 							}
@@ -258,7 +445,10 @@ angular
 
 								console.log("--> Called transformAddScalar!");
 								var promise = iTransformController.execute(
-										$scope.data, 'transformAddScalar');
+										$scope.data, $scope.scalar,
+										$scope.outputBeginLine,
+										$scope.outputBeginColumn,
+										'transformAddScalar');
 
 								promise
 										.then(
@@ -268,19 +458,22 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
-
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for (var cellIndex = 0; cellIndex < resultCells.length; cellIndex++) {
+															hot
+																	.setDataAtCell(
+																			getLineFromName(resultCells[cellIndex].line),
+																			getColFromName(resultCells[cellIndex].column),
+																			resultCells[cellIndex].value);
+														}
 													}
 												},
 												function(response) {
 													console
 															.log('Error to call transformAddScalar');
+													console.log(response);
+													alert(response);
 												});
 
 							}
@@ -290,7 +483,10 @@ angular
 								console
 										.log("--> Called transformAddTwoDatasets!");
 								var promise = iTransformController.execute(
-										$scope.data, 'transformAddTwoDatasets');
+										$scope.data, $scope.scalar,
+										$scope.outputBeginLine,
+										$scope.outputBeginColumn,
+										'transformAddTwoDatasets');
 
 								promise
 										.then(
@@ -300,19 +496,23 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for (var cellIndex = 0; cellIndex < resultCells.length; cellIndex++) {
+															hot
+																	.setDataAtCell(
+																			getLineFromName(resultCells[cellIndex].line),
+																			getColFromName(resultCells[cellIndex].column),
+																			resultCells[cellIndex].value);
+														}
 
 													}
 												},
 												function(response) {
 													console
 															.log('Error to call transformAddTwoDatasets');
+													console.log(response);
+													alert(response);
 												});
 
 							}
@@ -322,7 +522,9 @@ angular
 								console
 										.log("--> Called transformMultiplyTwoDatasets!");
 								var promise = iTransformController.execute(
-										$scope.data,
+										$scope.data, $scope.scalar,
+										$scope.outputBeginLine,
+										$scope.outputBeginColumn,
 										'transformMultiplyTwoDatasets');
 
 								promise
@@ -333,19 +535,23 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for (var cellIndex = 0; cellIndex < resultCells.length; cellIndex++) {
+															hot
+																	.setDataAtCell(
+																			getLineFromName(resultCells[cellIndex].line),
+																			getColFromName(resultCells[cellIndex].column),
+																			resultCells[cellIndex].value);
+														}
 
 													}
 												},
 												function(response) {
 													console
 															.log('Error to call transformMultiplyTwoDatasets');
+													console.log(response);
+													alert(response);
 												});
 
 							}
@@ -354,9 +560,19 @@ angular
 
 								console
 										.log("--> Called transformLinearInterpolation!");
+								var typeOfInterpolation = '';
+								if ($scope.inputType) {
+									if ($scope.inputType == 'row') {
+										typeOfInterpolation = 'transformInterpolationLine';
+									} else {
+										typeOfInterpolation = 'transformInterpolationColumn';
+									}
+								}
 								var promise = iTransformController.execute(
-										$scope.data,
-										'transformLinearInterpolation');
+										$scope.data, $scope.scalar,
+										$scope.outputBeginLine,
+										$scope.outputBeginColumn,
+										typeOfInterpolation);
 
 								promise
 										.then(
@@ -366,19 +582,23 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for (var cellIndex = 0; cellIndex < resultCells.length; cellIndex++) {
+															hot
+																	.setDataAtCell(
+																			getLineFromName(resultCells[cellIndex].line),
+																			getColFromName(resultCells[cellIndex].column),
+																			resultCells[cellIndex].value);
+														}
 
 													}
 												},
 												function(response) {
 													console
 															.log('Error to call transformLinearInterpolation');
+													console.log(response);
+													alert(response);
 												});
 
 							}

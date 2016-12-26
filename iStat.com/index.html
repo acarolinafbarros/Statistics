@@ -36,6 +36,9 @@
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
+<script src="bower_components/abdmob/x2js/xml2json.min.js"></script>
+<script src="bower_components/papaparse/papaparse.js"></script>
+<script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 <!-- endbower -->
 
 <!-- build:js app.js -->
@@ -87,9 +90,9 @@
 								<li ng-controller="iDatasetController"><a href="#" ng-click="clickToOpen('Save Dataset')">Save
 										Dataset</a></li>
 								<li role="separator" class="divider"></li>
-								<li ng-controller="iIOController"><a href="#" ng-click="clickToOpen('Export Dataset')">Export
+								<li ng-controller="iIOController"><a href="#" ng-click="clickToExport('Export Dataset')">Export
 										Dataset</a></li>
-								<li ng-controller="iIOController"><a href="#" ng-click="clickToOpen('Import Dataset')">Import
+								<li ng-controller="iIOController"><a href="#" ngf-select="clickToImport($file, $invalidFiles)">Import
 										Dataset</a></li>
 							</ul></li>
 						<li class="dropdown" ng-controller="iCalcController"><a
@@ -133,7 +136,7 @@
 									ng-click="clickToOpenDatasets('Multiply Two Datasets')">Multiply
 										Two Datasets</a></li>
 								<li><a href="#"
-									ng-click="clickToOpen('Linear Interpolation')">Linear
+									ng-click="clickToOpenInterpolation('Linear Interpolation')">Linear
 										Interpolation</a></li>
 							</ul></li>
 						<li class="dropdown" ng-controller="iGraphController"><a

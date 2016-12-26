@@ -5,7 +5,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.iStat.api.iCommon.converter.Converter;
 import org.iStat.api.iCommon.converter.exception.ConvertException;
 import org.iStat.api.iDomain.Cell;
@@ -40,7 +39,7 @@ public class ConverteriStatSaveRequest implements Converter<RequestiStatSave, Do
 				
             	Objects.requireNonNull(cell.getLine(), "line must be not null!");
             	Objects.requireNonNull(cell.getColumn(), "column must be not null!");
-            	Objects.requireNonNull(cell.getValue(), "value must be not null!");
+            	//Objects.requireNonNull(cell.getValue(), "value must be not null!");
 				
 				return new CellBuilder<Integer, String>().withLine(Integer.valueOf(cell.getLine()))
 						.withColumn(cell.getColumn()).withValue(cell.getValue()).withParentDatasetName(datasetName)
@@ -52,12 +51,8 @@ public class ConverteriStatSaveRequest implements Converter<RequestiStatSave, Do
 	@Override
 	public DocumentiStat convert(RequestiStatSave from) throws ConvertException {
 
-		if (!ObjectUtils.allNotNull(from, from.getDatasets(), from.getName())) {
+		if (!ObjectUtils.allNotNull(from, from.getDatasets())) {
 			throw new ConvertException("'operation=convert', 'from=" + from + "'");
-		}
-
-		if (StringUtils.isEmpty(from.getName())) {
-			throw new ConvertException("Missing the name of document!");
 		}
 
 		try {

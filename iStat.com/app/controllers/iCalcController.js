@@ -18,15 +18,6 @@ angular
 							var outputBeginLine = '';
 							var outputBeginColumn = '';
 
-							// $scope.data = "{ \"datasets\": [ { \"name\":
-							// \"dataset_1\", \"cells\": [ { \"line\": \"1\",
-							// \"column\": \"A\", \"value\": 100 }, { \"line\":
-							// \"2\", \"column\": \"A\", \"value\": 200 } ] }, {
-							// \"name\": \"dataset_2\", \"cells\": [ { \"line\":
-							// \"1\", \"column\": \"A\", \"value\": 100 }, {
-							// \"line\": \"2\", \"column\": \"A\", \"value\":
-							// 200 } ] } ]}";
-
 							$scope.response = new Object();
 
 							$scope.clickToOpen = function($name) {
@@ -41,39 +32,80 @@ angular
 							};
 
 							$scope.confirm = function($data) {
-								outputBeginLine = $data.outputBeginLine;
-								outputBeginColumn = $data.outputBeginColumn;
-								convertInputIntoRequest($data);
-								$scope.closeThisDialog();
-								switch ($scope.calculateName) {
-								case 'Column\'s total':
-									callCalculateRowTotal();
-									break;
-								case 'Row\'s Total':
-									callCalculateRowTotal();
-									break;
-								case 'Median':
-									callCalculateMedian();
-									break;
-								case 'Mode':
-									callCalculateMode();
-									break;
-								case 'Midrange':
-									callCalculateMidrange();
-									break;
-								case 'Variance':
-									callCalculateVariance();
-									break;
-								case 'Standard Deviation':
-									callCalculateStandardDeviation();
-									break;
-								case 'Geometric Mean':
-									callCalculateGeometricMean();
-									break;
-								default:
-									break;
+								var validInput = validateInput($data);
+								if (validInput) {
+									outputBeginLine = $data.outputBeginLine;
+									outputBeginColumn = $data.outputBeginColumn;
+									convertInputIntoRequest($data);
+									$scope.closeThisDialog();
+									switch ($scope.calculateName) {
+									case 'Column\'s Total':
+										callCalculateRowColumnTotal();
+										break;
+									case 'Row\'s Total':
+										callCalculateRowColumnTotal();
+										break;
+									case 'Median':
+										callCalculateMedian();
+										break;
+									case 'Mode':
+										callCalculateMode();
+										break;
+									case 'Midrange':
+										callCalculateMidrange();
+										break;
+									case 'Variance':
+										callCalculateVariance();
+										break;
+									case 'Standard Deviation':
+										callCalculateStandardDeviation();
+										break;
+									case 'Geometric Mean':
+										callCalculateGeometricMean();
+										break;
+									default:
+										break;
+									}
 								}
+
 							};
+
+							function validateInput($data) {
+								if ($data) {
+									if ($data.outputBeginLine
+											&& $data.outputBeginColumn
+											&& $data.inputBeginColumn
+											&& $data.inputEndColumn
+											&& $data.inputBeginLine
+											&& $data.inputEndLine) {
+										var matchedPosition = $data.outputBeginColumn
+												.search(/[a-zA-Z]/i);
+										if (matchedPosition == -1) {
+											alert("Invalid output begin column! Must be a letter from A to Z!");
+											return false;
+										}
+										var matchedPosition = $data.inputBeginColumn
+												.search(/[a-zA-Z]/i);
+										if (matchedPosition == -1) {
+											alert("Invalid input begin column! Must be a letter from A to Z!");
+											return false;
+										}
+										var matchedPosition = $data.inputEndColumn
+												.search(/[a-zA-Z]/i);
+										if (matchedPosition == -1) {
+											alert("Invalid input end column! Must be a letter from A to Z!");
+											return false;
+										}
+										return true;
+									} else {
+										alert("Invalid input! All the fields must be fill!");
+										return false;
+									}
+								} else {
+									alert("Invalid input! All the fields must be fill!");
+									return false;
+								}
+							}
 
 							function convertInputIntoRequest($data) {
 								console.log('convertInputIntoRequest');
@@ -134,7 +166,7 @@ angular
 							}
 
 							// Internal function
-							function callCalculateRowTotal() {
+							function callCalculateRowColumnTotal() {
 								console
 										.log("--> Called calculateRowColumnTotal!");
 								console.log($scope.data);
@@ -153,8 +185,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		outputBeginLine,
-																		outputBeginColumn,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -186,8 +218,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -195,6 +227,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateStandardDeviation');
+													alert(response);
 												});
 
 							}
@@ -217,8 +250,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -226,6 +259,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateVariance');
+													alert(response);
 												});
 
 							}
@@ -248,8 +282,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -257,6 +291,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateMidrange');
+													alert(response);
 												});
 
 							}
@@ -267,20 +302,29 @@ angular
 								var promise = iCalcService.execute($scope.data,
 										'calculateMode');
 
-								promise.then(function(response) {
+								promise
+										.then(
+												function(response) {
 
-									if (response.data != null) {
+													if (response.data != null) {
 
-										$scope.response = response.data;
-										console.log($scope.response);
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-										hot.setDataAtCell(1, 1,
-												$scope.response.value);
+														hot
+																.setDataAtCell(
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
+																		$scope.response.value);
 
-									}
-								}, function(response) {
-									console.log('Error to call calculateMode');
-								});
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateMode');
+													alert(response);
+												});
 
 							}
 
@@ -303,8 +347,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -312,6 +356,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateGeometricMean');
+													alert(response);
 												});
 
 							}
@@ -334,8 +379,8 @@ angular
 
 														hot
 																.setDataAtCell(
-																		1,
-																		1,
+																		getLineFromName(outputBeginLine),
+																		getColFromName(outputBeginColumn),
 																		$scope.response.value);
 
 													}
@@ -343,6 +388,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateMedian');
+													alert(response);
 												});
 
 							}

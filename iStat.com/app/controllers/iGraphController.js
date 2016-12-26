@@ -26,62 +26,95 @@ angular
 							};
 
 							$scope.clickToOpenChart = function($data, $name) {
-								var inputType = $data.inputType;
-								var result = null;
-								if (inputType == 'row') {
-									var rowIndex = getLineFromName($data.inputID);
-									result = getValuesDataset(hot.countCols(),
-											null, rowIndex, null);
-								} else if (inputType == 'column') {
-									var columnIndex = getColFromName($data.inputID);
-									result = getValuesDataset(null, hot
-											.countRows(), null, columnIndex);
-								} else if (inputType == 'dataset') {
-									result = getValuesDataset(hot.countCols(),
-											hot.countRows(), null, null);
-								}
-								labelsChart = result[0];
-								datasetChart = result[1];
-								$scope.closeThisDialog();
-								var newScopeChart = $scope;
-								newScopeChart.graphName = $name;
-
-								switch ($name) {
-								case 'Pie Chart':
-									ngDialog.open({
-										template : 'popUps/popUpPieChart.html',
-										className : 'ngdialog-theme-default',
-										scope : newScopeChart
-									});
-									break;
-								case 'Bar Chart':
-									if (datasetChart.length == 1) {
-										datasetChart[0].backgroundColor = datasetChart[0].backgroundColor[0];
-										datasetChart[0].borderColor = datasetChart[0].borderColor[0];
+								var validInput = validateInput($data);
+								if (validInput) {
+									var inputType = $data.inputType;
+									var result = null;
+									if (inputType == 'row') {
+										var rowIndex = getLineFromName($data.inputID);
+										result = getValuesDataset(hot
+												.countCols(), null, rowIndex,
+												null);
+									} else if (inputType == 'column') {
+										var columnIndex = getColFromName($data.inputID);
+										result = getValuesDataset(null, hot
+												.countRows(), null, columnIndex);
+									} else if (inputType == 'dataset') {
+										result = getValuesDataset(hot
+												.countCols(), hot.countRows(),
+												null, null);
 									}
-									ngDialog.open({
-										template : 'popUps/popUpBarChart.html',
-										className : 'ngdialog-theme-default',
-										scope : newScopeChart
-									});
-									break;
-								case 'Line Chart':
-									for (var datasetIndex = 0; datasetIndex < datasetChart.length; datasetIndex++) {
-										datasetChart[datasetIndex].backgroundColor = datasetChart[datasetIndex].backgroundColor[0];
-										datasetChart[datasetIndex].borderColor = datasetChart[datasetIndex].borderColor[0];
-									}
-									ngDialog
-											.open({
-												template : 'popUps/popUpLineChart.html',
-												className : 'ngdialog-theme-default',
-												scope : newScopeChart
-											});
-									break;
-								default:
-									break;
-								}
+									labelsChart = result[0];
+									datasetChart = result[1];
+									$scope.closeThisDialog();
+									var newScopeChart = $scope;
+									newScopeChart.graphName = $name;
 
+									switch ($name) {
+									case 'Pie Chart':
+										ngDialog
+												.open({
+													template : 'popUps/popUpPieChart.html',
+													className : 'ngdialog-theme-default',
+													scope : newScopeChart
+												});
+										break;
+									case 'Bar Chart':
+										if (datasetChart.length == 1) {
+											datasetChart[0].backgroundColor = datasetChart[0].backgroundColor[0];
+											datasetChart[0].borderColor = datasetChart[0].borderColor[0];
+										}
+										ngDialog
+												.open({
+													template : 'popUps/popUpBarChart.html',
+													className : 'ngdialog-theme-default',
+													scope : newScopeChart
+												});
+										break;
+									case 'Line Chart':
+										for (var datasetIndex = 0; datasetIndex < datasetChart.length; datasetIndex++) {
+											datasetChart[datasetIndex].backgroundColor = datasetChart[datasetIndex].backgroundColor[0];
+											datasetChart[datasetIndex].borderColor = datasetChart[datasetIndex].borderColor[0];
+										}
+										ngDialog
+												.open({
+													template : 'popUps/popUpLineChart.html',
+													className : 'ngdialog-theme-default',
+													scope : newScopeChart
+												});
+										break;
+									default:
+										break;
+									}
+								}
 							};
+							
+							function validateInput($data) {
+								if ($data) {
+									if ($data.inputType) {
+										switch ($data.inputType) {
+										case 'row':
+										case 'column':
+											if(!$data.inputID){
+												alert("Invalid input! You must fill the field ID!");
+												return false;
+											}
+											break;
+										case 'dataset':
+											break;
+										default:
+											break;
+										}
+									} else {
+										alert("Invalid input! You must select a input type!");
+										return false;
+									}
+									return true;
+								} else {
+									alert("Invalid input! All the fields must be fill!");
+									return false;
+								}
+							}
 
 							function getValuesDataset(maxColumn, maxRow,
 									rowIndex, columnIndex) {

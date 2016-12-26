@@ -39,7 +39,6 @@ public class ConverteriStatOpenResponse implements Converter<DocumentiStat, Resp
 
             	Objects.requireNonNull(cell.getLine(), "line must be not null!");
             	Objects.requireNonNull(cell.getColumn(), "column must be not null!");
-            	Objects.requireNonNull(cell.getValue(), "value must be not null!");
 				
 				ResponseiStatOpenCell response = new ResponseiStatOpenCell();
 				response.setColumn(cell.getColumn());

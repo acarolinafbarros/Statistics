@@ -7,6 +7,13 @@
 		<form class="form">
 			<div class="modal-body">
 				<div class="row">
+					<label for="singleSelect"> Input Type: </label><br> <select
+						class="form-control" name="singleSelect" ng-model="data.inputType">
+						<option value="row">Row</option>
+						<option value="column">Column</option>
+					</select><br>
+				</div>
+				<div class="row">
 					<label for="inputBegin">Input Begin Cell:</label>
 
 					<div class="input-group" id="inputBegin">
@@ -26,11 +33,13 @@
 							ng-model="data.inputEndColumn" style="width: 23%" />
 					</div>
 				</div>
+				<br/>
 				<div class="row">
-					<label for="inputScalar">Scalar:</label> <input type="number"
-						class="form-control" placeholder="Scalar" id="inputScalar"
-						ng-model="data.inputScalar" style="width: 23%" min="1" />
-
+					<div class="alert alert-warning" role="alert">
+						<span class="glyphicon glyphicon-alert" aria-hidden="true"> The
+							output will be generated starting on the input begin cell, so the
+							data from some cells can be replaced!</span>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -41,7 +50,7 @@
 							ng-click="closeThisDialog()">Cancel</button>
 						<button type="button"
 							class="ngdialog-button ngdialog-button-primary"
-							ng-click=confirm(data,transformName)>Transform</button>
+							ng-click="confirm(data,transformName)">Transform</button>
 					</div>
 				</div>
 			</div>

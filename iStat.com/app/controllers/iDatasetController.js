@@ -9,19 +9,19 @@ angular
 						'$http',
 						'iDatasetService',
 						'ngDialog',
+						'DocumentiStat',
 
-						function($scope, $http, iDatasetController, ngDialog) {
+						function($scope, $http, iDatasetController, ngDialog,
+								DocumentiStat) {
 
 							$scope.request = '';
-
-							$scope.data = "{    \"datasets\": [        {            \"name\": \"dataset_1\",            \"cells\": [                {                    \"line\": \"1\",                    \"column\": \"A\",                    \"value\": 100                },                {                    \"line\": \"2\",                    \"column\": \"A\",                    \"value\": 200                }            ]        },        {            \"name\": \"dataset_2\",            \"cells\": [                {                    \"line\": \"1\",                    \"column\": \"A\",                    \"value\": 100                },                {                    \"line\": \"2\",                    \"column\": \"A\",                    \"value\": 200                }            ]        }    ]}";
 
 							$scope.response = new Object();
 
 							$scope.clickToOpen = function($name) {
 
 								var newScope = $scope;
-								newScope.datasetName = $name;
+								newScope.dtName = $name;
 								ngDialog.open({
 									template : 'popUps/popUpDataset.html',
 									className : 'ngdialog-theme-default',
@@ -30,25 +30,44 @@ angular
 							};
 
 							$scope.confirm = function($data) {
-								convertInputIntoRequest($data);
-								$scope.closeThisDialog();
-								switch ($scope.datasetName) {
-								case 'Open Dataset':
-									callOpenDataset();
-									break;
-								case 'Save Dataset':
-									callSaveDataset();
-									break;
-								default:
-									break;
+								var validInput = validateInput($data);
+								if (validInput) {
+									convertInputIntoRequest($data);
+									$scope.closeThisDialog();
+									console.log($scope.dtName);
+									switch ($scope.dtName) {
+									case 'Open Dataset':
+										callOpenDataset();
+										break;
+									case 'Save Dataset':
+										callSaveDataset();
+										break;
+									default:
+										break;
+									}
 								}
 							};
+
+							function validateInput($data) {
+								if ($data) {
+									if ($data.datasetName) {
+										return true;
+									} else {
+										alert("Invalid input! All the fields must be fill!");
+										return false;
+									}
+								} else {
+									alert("Invalid input! All the fields must be fill!");
+									return false;
+								}
+							}
 
 							function convertInputIntoRequest($data) {
 								console.log('convertInputIntoRequest');
 								var datasetName = $data.datasetName;
 								var datasetCells = getValuesDataset(datasetName);
 								console.log(datasetCells);
+								$scope.datasetName = datasetName;
 								$scope.data = datasetCells.data;
 							}
 
@@ -97,41 +116,51 @@ angular
 							function callOpenDataset() {
 
 								console.log("--> Called openDataset!");
-								var promise = iDatasetService.execute(
-										$scope.data, 'openDataset');
+								var promise = iDatasetController.execute(
+										$scope.data, $scope.datasetName,
+										'openDataset');
 
-								promise.then(function(response) {
+								promise
+										.then(
+												function(response) {
 
-									if (response.data != null) {
+													if (response.data != null) {
 
-										$scope.response = response.data;
-										console.log($scope.response);
+														$scope.response = response.data;
+														if ($scope.response.datasets.length > 0) {
+															var resultCells = $scope.response.datasets[0].cells;
+															for (var cellIndex = 0; cellIndex < resultCells.length; cellIndex++) {
+																hot
+																		.setDataAtCell(
+																				getLineFromName(resultCells[cellIndex].line),
+																				getColFromName(resultCells[cellIndex].column),
+																				resultCells[cellIndex].value);
+															}
+														} else {
+															alert('Dataset not found!');
+														}
 
-										hot.setDataAtCell(1, 1,
-												$scope.response.value);
-
-									}
-								}, function(response) {
-									console.log('Error to call openDataset');
-								});
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call openDataset');
+												});
 
 							}
 
 							function callSaveDataset() {
 
 								console.log("--> Called saveDataset!");
-								var promise = iDatasetService.execute(
-										$scope.data, 'saveDataset');
+								var promise = iDatasetController.execute(
+										$scope.data, $scope.datasetName,
+										'saveDataset');
 
 								promise.then(function(response) {
 
 									if (response.data != null) {
 
-										$scope.response = response.data;
-										console.log($scope.response);
-
-										hot.setDataAtCell(1, 1,
-												$scope.response.value);
+										alert('Dataset Saved!');
 
 									}
 								}, function(response) {

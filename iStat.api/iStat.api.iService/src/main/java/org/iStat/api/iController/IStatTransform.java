@@ -323,6 +323,7 @@ public class IStatTransform {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformInterpolationLine", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatTransform> transformInterpolationLine(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 
@@ -376,6 +377,7 @@ public class IStatTransform {
      *            - List of floats separated with ;
      * @return JSON of status and result
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformInterpolationColumn", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<ResponseiStatTransform> transformInterpolationColumn(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 

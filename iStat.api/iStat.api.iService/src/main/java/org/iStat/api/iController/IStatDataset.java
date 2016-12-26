@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -58,7 +59,7 @@ public class IStatDataset {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/saveDataset", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatSave> saveDataset(@RequestBody RequestiStatSave request) {
+    public ResponseEntity<ResponseiStatSave> saveDataset(@RequestBody RequestiStatSave request,@RequestParam(required = true) String documentName) {
 
         ResponseiStatSave response = new ResponseiStatSave();
 
@@ -67,6 +68,7 @@ public class IStatDataset {
             try {
                 DocumentiStat documentiStat = converterRequestiStatSave
                     .convert(request);
+                documentiStat.setId(documentName);
 
                 LOGGER.info("'operation=saveDataset', 'documentiStat={}'", documentiStat);
 
@@ -120,7 +122,7 @@ public class IStatDataset {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/openDataset", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatOpen> openDataset(@RequestBody RequestiStatOpen request) {
+    public ResponseEntity<ResponseiStatOpen> openDataset(@RequestBody RequestiStatOpen request,@RequestParam(required = true) String documentName) {
 
         ResponseiStatOpen response = new ResponseiStatOpen();
 
@@ -130,6 +132,7 @@ public class IStatDataset {
 
                 DocumentiStat documentiStat = converterRequestiStatOpen
                     .convert(request);
+                documentiStat.setId(documentName);
 
                 LOGGER.info("'operation=openDataset', 'documentiStat={}'", documentiStat);
 
