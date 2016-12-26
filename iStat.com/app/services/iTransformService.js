@@ -14,9 +14,14 @@ angular
 
 			return {
 
-				execute: function ($data, $nameOfMethod) {
-
-					var urlRequest = mainRoute + "/" + $nameOfMethod;
+				execute: function ($data,$scalar,$outputBeginLine,$outputBeginColumn, $nameOfMethod) {
+					var urlRequest = '';
+					console.log($scalar);
+					if($scalar){
+						urlRequest = mainRoute + "/" + $nameOfMethod+"?scale="+$scalar+"&finalLine="+$outputBeginLine+"&finalColumn="+$outputBeginColumn;
+					}else{
+						urlRequest = mainRoute + "/" + $nameOfMethod+"?finalLine="+$outputBeginLine+"&finalColumn="+$outputBeginColumn;
+					}
 
 					var request = {
 						method: "POST",
@@ -31,7 +36,7 @@ angular
 
 					$http(request).then(
 						function success(response, status) {
-							console.log(status);
+							console.log(response.data.status.code);
 							def.resolve(response);
 						},
 						function error(response, status) {

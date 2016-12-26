@@ -9,19 +9,11 @@ angular
 						'$http',
 						'iTransformService',
 						'ngDialog',
+						'DocumentiStat',
 
-						function($scope, $http, iTransformController, ngDialog) {
+						function($scope, $http, iTransformController, ngDialog,DocumentiStat) {
 
 							$scope.request = '';
-
-							// $scope.data = "{ \"datasets\": [ { \"name\":
-							// \"dataset_1\", \"cells\": [ { \"line\": \"1\",
-							// \"column\": \"A\", \"value\": 100 }, { \"line\":
-							// \"2\", \"column\": \"A\", \"value\": 200 } ] }, {
-							// \"name\": \"dataset_2\", \"cells\": [ { \"line\":
-							// \"1\", \"column\": \"A\", \"value\": 100 }, {
-							// \"line\": \"2\", \"column\": \"A\", \"value\":
-							// 200 } ] } ]}";
 
 							$scope.response = new Object();
 
@@ -104,7 +96,6 @@ angular
 										lineIndexInputBegin,
 										columnIndexInputEnd, lineIndexInputEnd);
 								console.log(datasetCells);
-								// TODO Output cell ?!
 								$scope.data = datasetCells.data;
 							}
 
@@ -120,8 +111,8 @@ angular
 								console.log(datasetCells);
 								var scalar = $data.scalar;
 								console.log(scalar);
-								// TODO Chamada com scalar?!
-								// $scope.data =
+								$scope.data = datasetCells.data;
+								$scope.scalar = scalar;
 							}
 
 							function convertInputIntoRequestDatasets($data) {
@@ -196,7 +187,7 @@ angular
 
 								console.log("--> Called transformTranspose!");
 								var promise = iTransformController.execute(
-										$scope.data, 'transformTranspose');
+										$scope.data,$scope.scalar,$scope.outputBeginLine,$scope.outputBeginColumn, 'transformTranspose');
 
 								promise
 										.then(
@@ -206,13 +197,17 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for(var cellIndex=0;cellIndex < resultCells.length;cellIndex++){
+															hot
+															.setDataAtCell(
+																	getLineFromName(resultCells[cellIndex].line),
+																	getColFromName(resultCells[cellIndex].column),
+																	resultCells[cellIndex].value);
+														}
 
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+														
 
 													}
 												},
@@ -227,7 +222,7 @@ angular
 
 								console.log("--> Called transformScale!");
 								var promise = iTransformController.execute(
-										$scope.data, 'transformScale');
+										$scope.data,$scope.scalar,$scope.outputBeginLine,$scope.outputBeginColumn, 'transformScale');
 
 								promise
 										.then(
@@ -258,7 +253,7 @@ angular
 
 								console.log("--> Called transformAddScalar!");
 								var promise = iTransformController.execute(
-										$scope.data, 'transformAddScalar');
+										$scope.data,$scope.scalar,$scope.outputBeginLine,$scope.outputBeginColumn, 'transformAddScalar');
 
 								promise
 										.then(
@@ -290,7 +285,7 @@ angular
 								console
 										.log("--> Called transformAddTwoDatasets!");
 								var promise = iTransformController.execute(
-										$scope.data, 'transformAddTwoDatasets');
+										$scope.data,$scope.scalar,$scope.outputBeginLine,$scope.outputBeginColumn, 'transformAddTwoDatasets');
 
 								promise
 										.then(
@@ -322,7 +317,7 @@ angular
 								console
 										.log("--> Called transformMultiplyTwoDatasets!");
 								var promise = iTransformController.execute(
-										$scope.data,
+										$scope.data,$scope.scalar,$scope.outputBeginLine,$scope.outputBeginColumn,
 										'transformMultiplyTwoDatasets');
 
 								promise
@@ -355,7 +350,7 @@ angular
 								console
 										.log("--> Called transformLinearInterpolation!");
 								var promise = iTransformController.execute(
-										$scope.data,
+										$scope.data,$scope.scalar,$scope.outputBeginLine,$scope.outputBeginColumn,
 										'transformLinearInterpolation');
 
 								promise
