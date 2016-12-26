@@ -29,7 +29,8 @@ public class TransformStatistical {
      * @param   documentiStat   List of datasets
      * @param 	finalLine		Cell of final line
      * @param 	finalColumn		Cell of final column
-     * @return  result          DocumentiStat with tranpose tranformation       
+     * @return  result          DocumentiStat with tranpose tranformation   
+     * @throws	DomainException    
      */
     public DocumentiStat transformTranspose(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
@@ -67,7 +68,7 @@ public class TransformStatistical {
      * (multiply all elements by a scalar – matrix algebra).
      * 
      * @param   documentiStat   List of datasets
-     * @param 	scalar			Numeric value
+     * @param 	scalar			Numeric (float)
      * @return  result          DocumentiStat with scale tranformation       
      */
     public DocumentiStat transformScale(DocumentiStat documentiStat, Float scalar) {
@@ -164,7 +165,8 @@ public class TransformStatistical {
      * @param   documentiStat   List of datasets
      * @param 	finalLine		Cell of final line
      * @param 	finalColumn		Cell of final column
-     * @return  result          DocumentiStat with sum transformation     
+     * @return  result          DocumentiStat with sum transformation  
+     * @throws	DomainException   
      */
     public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException, TransformException {
 
@@ -221,7 +223,8 @@ public class TransformStatistical {
      * @param   documentiStat   List of datasets
      * @param 	finalLine		Cell of final line
      * @param 	finalColumn		Cell of final column
-     * @return  result          DocumentiStat with multiply transformation     
+     * @return  result          DocumentiStat with multiply transformation 
+     * @throws	DomainException    
      */
     public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException, TransformException {
         DocumentiStat result = null;
@@ -281,6 +284,7 @@ public class TransformStatistical {
      * @param 	finalColumn		Cell of final column
      * @return  transformationInterpolationLine
      * @return  transformationInterpolationColumn
+     * @throws  Exception
      */
     public DocumentiStat transformInterpolation(DocumentiStat documentiStat, TransformType type, int finalLine, String finalColumn) throws Exception {
         switch (type) {
@@ -299,7 +303,8 @@ public class TransformStatistical {
      * @param   documentiStat   List of datasets
      * @param 	finalLine		Cell of final line
      * @param 	finalColumn		Cell of final column
-     * @return  result          DocumentiStat with linear interpolation on rows     
+     * @return  result          DocumentiStat with linear interpolation on rows  
+     * @throws	DomainException   
      */
     private DocumentiStat transformInterpolationLine(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
@@ -357,7 +362,8 @@ public class TransformStatistical {
      * @param   documentiStat   List of datasets
      * @param 	finalLine		Cell of final line
      * @param 	finalColumn		Cell of final column
-     * @return  result          DocumentiStat with linear interpolation on columns     
+     * @return  result          DocumentiStat with linear interpolation on columns  
+     * @throws	DomainException   
      */
     private DocumentiStat transformInterpolationColumn(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;

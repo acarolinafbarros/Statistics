@@ -77,7 +77,7 @@ public class Dataset {
     /**
      * Method to get all the columns of the cells that make part of dataset.
      * 
-     * @return Set<String>
+     * @return columns    Set<String>
      */
     public Set<String> getAllColumnsOfCells() {
         Set<String> columns = new HashSet<>();
@@ -90,7 +90,7 @@ public class Dataset {
     /**
      * Method to get all the lines of the cells that make part of dataset.
      * 
-     * @return Set<Integer>
+     * @return lines  Set<Integer>
      */
     public Set<Integer> getAllLinesOfCells() {
         Set<Integer> lines = new HashSet<>();
@@ -103,10 +103,10 @@ public class Dataset {
     /**
      * Method to get the value of a cell with a specific column and line.
      * 
-     * @param columnPosition
-     * @param linePosition
-     * @return Float
-     * @throws DomainException
+     * @param	columnPosition		Column cell
+     * @param	linePosition		Line cell
+     * @return	value				Numeric (float)
+     * @throws 	DomainException
      */
     public Float getValueOfColumnLine(Integer columnPosition, Integer linePosition) throws DomainException {
 
@@ -137,6 +137,11 @@ public class Dataset {
         return value;
     }
 
+    /**
+     * Method to verify if exists more then one line in dataset
+     * 
+     * @return	boolean	         
+     */
     public boolean hasMoreThenOneLine() {
 
         if (CollectionUtils.isNotEmpty(this.cells)) {
@@ -148,6 +153,11 @@ public class Dataset {
 
     }
 
+    /**
+     * Method to verify if exists more then one column in dataset
+     * 
+     * @return	boolean	         
+     */
     public boolean hasMoreThenOneColumn() {
 
         if (CollectionUtils.isNotEmpty(this.cells)) {
@@ -159,6 +169,12 @@ public class Dataset {
 
     }
 
+    /**
+     * Method to get line
+     * 
+     * @param	searchLine	Line cell
+     * @return	line	    List of cells      
+     */
     public List<Cell<Integer, String>> getLine(int searchLine) {
 
         List<Cell<Integer, String>> line = newArrayList();
@@ -175,6 +191,12 @@ public class Dataset {
 
     }
 
+    /**
+     * Method to get column
+     * 
+     * @param	searchColumn	Column cell
+     * @return	column			List of cells      
+     */
     public List<Cell<Integer, String>> getColumn(String searchColumn) {
 
         List<Cell<Integer, String>> column = newArrayList();
@@ -186,16 +208,13 @@ public class Dataset {
                 }
             });
         }
-
         return column;
-
     }
 
     /**
      * Method to convert the list of cells from a dataset to a matrix.
      * 
-     * @param dataset
-     * @return Float[][]
+     * @return Float[][]        Matrix with values from input list
      * @throws DomainException
      */
     public Float[][] convertToMatrix() throws DomainException {
@@ -220,10 +239,10 @@ public class Dataset {
     /**
      * Method to convert a matrix into a list of cells.
      * 
-     * @param input
-     * @param startColumn
-     * @param startLine
-     * @return List<Cell<Integer,String>>
+     * @param	newMatrix                   input matrix
+     * @param	startColumn				    Cell of initial column
+     * @param	startLine				    Cell of initial line
+     * @return	List<Cell<Integer,String>>  List of cells(line,column)
      */
     public List<Cell<Integer, String>> convertMatrixtToList(Float[][] newMatrix, String startColumn, Integer startLine) {
 
