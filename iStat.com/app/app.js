@@ -1,6 +1,6 @@
 'use strict';
 
-var iStat = angular.module("iStat", [ 'ngRoute', 'iStatControllers','iStatServices','ngDialog' ]);
+var iStat = angular.module("iStat", [ 'ngRoute', 'iStatControllers','iStatServices','ngDialog', 'ngFileUpload']);
 
 // Active the controllers available
 var iStatControllers = angular.module('iStatControllers', []);
