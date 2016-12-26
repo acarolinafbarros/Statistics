@@ -27,6 +27,17 @@ angular
 									scope : newScope
 								});
 							};
+							
+							$scope.clickToOpenInterpolation = function($name) {
+
+								var newScope = $scope;
+								newScope.transformName = $name;
+								ngDialog.open({
+									template : 'popUps/popUpTransformInterpolation.html',
+									className : 'ngdialog-theme-default',
+									scope : newScope
+								});
+							};
 
 							$scope.clickToOpenDatasets = function($name) {
 
@@ -79,6 +90,9 @@ angular
 									break;
 								case 'Linear Interpolation':
 									convertInputIntoRequest($data);
+									$scope.inputType = $data.inputType;
+									$scope.outputBeginColumn = $data.inputBeginColumn;
+									$scope.outputBeginLine = $data.inputBeginLine;
 									callTransformLinearInterpolation();
 									break;
 								default:
@@ -377,9 +391,17 @@ angular
 
 								console
 										.log("--> Called transformLinearInterpolation!");
+								var typeOfInterpolation = '';
+								if($scope.inputType){
+									if($scope.inputType == 'row'){
+										typeOfInterpolation='transformInterpolationLine';
+									}else{
+										typeOfInterpolation='transformInterpolationColumn';
+									}
+								}
 								var promise = iTransformController.execute(
 										$scope.data,$scope.scalar,$scope.outputBeginLine,$scope.outputBeginColumn,
-										'transformLinearInterpolation');
+										typeOfInterpolation);
 
 								promise
 										.then(
@@ -389,13 +411,15 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for(var cellIndex=0;cellIndex < resultCells.length;cellIndex++){
+															hot
+															.setDataAtCell(
+																	getLineFromName(resultCells[cellIndex].line),
+																	getColFromName(resultCells[cellIndex].column),
+																	resultCells[cellIndex].value);
+														}
 
 													}
 												},

@@ -8,9 +8,9 @@ angular
 						'$scope',
 						'$http',
 						'iDatasetService',
-						'ngDialog',
+						'ngDialog','DocumentiStat',
 
-						function($scope, $http, iDatasetController, ngDialog) {
+						function($scope, $http, iDatasetController, ngDialog,DocumentiStat) {
 
 							$scope.request = '';
 
@@ -19,7 +19,7 @@ angular
 							$scope.clickToOpen = function($name) {
 
 								var newScope = $scope;
-								newScope.datasetName = $name;
+								newScope.name = $name;
 								ngDialog.open({
 									template : 'popUps/popUpDataset.html',
 									className : 'ngdialog-theme-default',
@@ -30,7 +30,8 @@ angular
 							$scope.confirm = function($data) {
 								convertInputIntoRequest($data);
 								$scope.closeThisDialog();
-								switch ($scope.datasetName) {
+								console.log($scope.name);
+								switch ($scope.name) {
 								case 'Open Dataset':
 									callOpenDataset();
 									break;
@@ -47,6 +48,7 @@ angular
 								var datasetName = $data.datasetName;
 								var datasetCells = getValuesDataset(datasetName);
 								console.log(datasetCells);
+								$scope.datasetName = datasetName;
 								$scope.data = datasetCells.data;
 							}
 
@@ -95,18 +97,24 @@ angular
 							function callOpenDataset() {
 
 								console.log("--> Called openDataset!");
-								var promise = iDatasetService.execute(
-										$scope.data, 'openDataset');
+								var promise = iDatasetController.execute(
+										$scope.data,$scope.datasetName, 'openDataset');
 
 								promise.then(function(response) {
 
 									if (response.data != null) {
 
 										$scope.response = response.data;
-										console.log($scope.response);
-
-										hot.setDataAtCell(1, 1,
-												$scope.response.value);
+										console
+												.log($scope.response.datasets[0].cells);
+										var resultCells = $scope.response.datasets[0].cells;
+										for(var cellIndex=0;cellIndex < resultCells.length;cellIndex++){
+											hot
+											.setDataAtCell(
+													getLineFromName(resultCells[cellIndex].line),
+													getColFromName(resultCells[cellIndex].column),
+													resultCells[cellIndex].value);
+										}
 
 									}
 								}, function(response) {
@@ -118,18 +126,14 @@ angular
 							function callSaveDataset() {
 
 								console.log("--> Called saveDataset!");
-								var promise = iDatasetService.execute(
-										$scope.data, 'saveDataset');
+								var promise = iDatasetController.execute(
+										$scope.data,$scope.datasetName, 'saveDataset');
 
 								promise.then(function(response) {
 
 									if (response.data != null) {
 
-										$scope.response = response.data;
-										console.log($scope.response);
-
-										hot.setDataAtCell(1, 1,
-												$scope.response.value);
+										alert('Dataset Saved!');
 
 									}
 								}, function(response) {

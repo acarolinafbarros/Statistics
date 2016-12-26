@@ -1,0 +1,59 @@
+<div ng-controller="iTransformController">
+	<div class="modal-header">
+		<h3 class="modal-title">Transform - {{transformName}}</h3>
+	</div>
+
+	<div class="form modal-body">
+		<form class="form">
+			<div class="modal-body">
+				<div class="row">
+					<label for="singleSelect"> Input Type: </label><br> <select
+						class="form-control" name="singleSelect" ng-model="data.inputType">
+						<option value="row">Row</option>
+						<option value="column">Column</option>
+					</select><br>
+				</div>
+				<div class="row">
+					<label for="inputBegin">Input Begin Cell:</label>
+
+					<div class="input-group" id="inputBegin">
+						<input type="number" class="form-control" placeholder="Line"
+							id="inputBeginLine" ng-model="data.inputBeginLine"
+							style="width: 23%" min="1" /> <input type="text"
+							placeholder="Column" class="form-control" id="inputBeginColumn"
+							ng-model="data.inputBeginColumn" style="width: 23%" />
+
+					</div>
+					<label for="inputEnd">Input End Cell:</label>
+					<div class="input-group" id="inputEnd">
+						<input type="number" class="form-control" placeholder="Line"
+							id="inputEndLine" ng-model="data.inputEndLine" style="width: 23%"
+							min="1" /> <input type="text" class="form-control"
+							placeholder="Column" id="inputEndColumn"
+							ng-model="data.inputEndColumn" style="width: 23%" />
+					</div>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="alert alert-warning" role="alert">
+						<span class="glyphicon glyphicon-alert" aria-hidden="true"> The
+							output will be generated starting on the input begin cell, so the
+							data from some cells can be replaced!</span>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="ngdialog-buttons">
+						<button type="button"
+							class="ngdialog-button ngdialog-button-secondary"
+							ng-click="closeThisDialog()">Cancel</button>
+						<button type="button"
+							class="ngdialog-button ngdialog-button-primary"
+							ng-click="confirm(data,transformName)">Transform</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

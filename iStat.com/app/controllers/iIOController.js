@@ -22,14 +22,14 @@ angular
 								doc2.addCell('dataset_100', 1, "C", 100000);
 								doc2.printDocumentiStat();
 
-								/*
+								
 								var newScope = $scope;
 								newScope.ioName = $name;
 								ngDialog.open({
 									template : 'popUps/popUpIO.html',
 									className : 'ngdialog-theme-default',
 									scope : newScope
-								});*/
+								});
 							};
 							$scope.confirm = function($data,$name) {
 								$scope.closeThisDialog();
