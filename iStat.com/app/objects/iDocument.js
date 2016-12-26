@@ -18,7 +18,8 @@ iStat.factory('DocumentiStat', function () {
 
         for (var i = 0; i < size; i++) {
             if (documentiStat.datasets[i].name == datasetName) {
-                var newCell = '{"line":"' + line + '","column":"' + column + '","value":' + value + '}';
+                var valueAux = value == "" ? null: value;
+                var newCell = '{"line":"' + line + '","column":"' + column + '","value":' + valueAux + '}';
                 documentiStat.datasets[i].cells.push(JSON.parse(newCell));
                 inserted = true;
             } else {
@@ -27,7 +28,8 @@ iStat.factory('DocumentiStat', function () {
         }
 
         if (newDataset == true && inserted == false) {
-            var newDataset = '{"name":"' + datasetName + '","cells":[{"line":"' + line + '","column":"' + column + '","value":' + value + '}]}';
+            var valueAux = value == "" ? null: value;
+            var newDataset = '{"name":"' + datasetName + '","cells":[{"line":"' + line + '","column":"' + column + '","value":' + valueAux + '}]}';
             //Create new dataset
             documentiStat.datasets.push(JSON.parse(newDataset));
             
