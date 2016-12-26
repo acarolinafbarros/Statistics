@@ -120,24 +120,20 @@ angular
 								var matrix1LineIndexInputBegin = getLineFromName($data.matrix1.inputBeginLine);
 								var matrix1ColumnIndexInputEnd = getColFromName($data.matrix1.inputEndColumn);
 								var matrix1LineIndexInputEnd = getLineFromName($data.matrix1.inputEndLine);
-								var matrix1DatasetCells = getValuesDataset(
-										matrix1ColumnIndexInputBegin,
-										matrix1LineIndexInputBegin,
-										matrix1ColumnIndexInputEnd,
-										matrix1LineIndexInputEnd);
-								console.log(matrix1DatasetCells);
 								var matrix2ColumnIndexInputBegin = getColFromName($data.matrix2.inputBeginColumn);
 								var matrix2LineIndexInputBegin = getLineFromName($data.matrix2.inputBeginLine);
 								var matrix2ColumnIndexInputEnd = getColFromName($data.matrix2.inputEndColumn);
 								var matrix2LineIndexInputEnd = getLineFromName($data.matrix2.inputEndLine);
-								var matrix2DatasetCells = getValuesDataset(
-										matrix2ColumnIndexInputBegin,
+								var matrixDatasetCells = getValuesDatasetMatrixs(
+										matrix1ColumnIndexInputBegin,
+										matrix1LineIndexInputBegin,
+										matrix1ColumnIndexInputEnd,
+										matrix1LineIndexInputEnd,matrix2ColumnIndexInputBegin,
 										matrix2LineIndexInputBegin,
 										matrix2ColumnIndexInputEnd,
 										matrix1LineIndexInputEnd);
-								console.log(matrix2DatasetCells);
-								// TODO Chamada com 2 datasets?!
-								// $scope.data =
+								console.log(matrixDatasetCells);
+								$scope.data = matrixDatasetCells.data;
 							}
 
 							function getValuesDataset(columnIndexInputBegin,
@@ -147,6 +143,31 @@ angular
 								for (var line = lineIndexInputBegin; line <= lineIndexInputEnd; line++) {
 									for (var column = columnIndexInputBegin; column <= columnIndexInputEnd; column++) {
 										dataset.addCell('dataset_100', hot
+												.getRowHeader(line), hot
+												.getColHeader(column), hot
+												.getDataAtCell(line, column));
+									}
+								}
+								return dataset;
+							}
+							
+							function getValuesDatasetMatrixs(matrix1ColumnIndexInputBegin,
+									matrix1LineIndexInputBegin, matrix1ColumnIndexInputEnd,
+									matrix1LineIndexInputEnd,matrix2ColumnIndexInputBegin,
+									matrix2LineIndexInputBegin, matrix2ColumnIndexInputEnd,
+									matrix2LineIndexInputEnd) {
+								var dataset = DocumentiStat.createNew();
+								for (var line = matrix1LineIndexInputBegin; line <= matrix1LineIndexInputEnd; line++) {
+									for (var column = matrix1ColumnIndexInputBegin; column <= matrix1ColumnIndexInputEnd; column++) {
+										dataset.addCell('dataset_1', hot
+												.getRowHeader(line), hot
+												.getColHeader(column), hot
+												.getDataAtCell(line, column));
+									}
+								}
+								for (var line = matrix2LineIndexInputBegin; line <= matrix2LineIndexInputEnd; line++) {
+									for (var column = matrix2ColumnIndexInputBegin; column <= matrix2ColumnIndexInputEnd; column++) {
+										dataset.addCell('dataset_2', hot
 												.getRowHeader(line), hot
 												.getColHeader(column), hot
 												.getDataAtCell(line, column));
@@ -298,13 +319,15 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for(var cellIndex=0;cellIndex < resultCells.length;cellIndex++){
+															hot
+															.setDataAtCell(
+																	getLineFromName(resultCells[cellIndex].line),
+																	getColFromName(resultCells[cellIndex].column),
+																	resultCells[cellIndex].value);
+														}
 
 													}
 												},
@@ -331,13 +354,15 @@ angular
 
 														$scope.response = response.data;
 														console
-																.log($scope.response);
-
-														hot
-																.setDataAtCell(
-																		1,
-																		1,
-																		$scope.response.value);
+																.log($scope.response.datasets[0].cells);
+														var resultCells = $scope.response.datasets[0].cells;
+														for(var cellIndex=0;cellIndex < resultCells.length;cellIndex++){
+															hot
+															.setDataAtCell(
+																	getLineFromName(resultCells[cellIndex].line),
+																	getColFromName(resultCells[cellIndex].column),
+																	resultCells[cellIndex].value);
+														}
 
 													}
 												},
