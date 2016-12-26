@@ -32,6 +32,45 @@ angular
 							};
 
 							$scope.confirm = function($data) {
+								var validInput = validateInput($data);
+								if (validInput) {
+									outputBeginLine = $data.outputBeginLine;
+									outputBeginColumn = $data.outputBeginColumn;
+									convertInputIntoRequest($data);
+									$scope.closeThisDialog();
+									switch ($scope.calculateName) {
+									case 'Column\'s Total':
+										callCalculateRowColumnTotal();
+										break;
+									case 'Row\'s Total':
+										callCalculateRowColumnTotal();
+										break;
+									case 'Median':
+										callCalculateMedian();
+										break;
+									case 'Mode':
+										callCalculateMode();
+										break;
+									case 'Midrange':
+										callCalculateMidrange();
+										break;
+									case 'Variance':
+										callCalculateVariance();
+										break;
+									case 'Standard Deviation':
+										callCalculateStandardDeviation();
+										break;
+									case 'Geometric Mean':
+										callCalculateGeometricMean();
+										break;
+									default:
+										break;
+									}
+								}
+
+							};
+
+							function validateInput($data) {
 								if ($data) {
 									if ($data.outputBeginLine
 											&& $data.outputBeginColumn
@@ -39,45 +78,34 @@ angular
 											&& $data.inputEndColumn
 											&& $data.inputBeginLine
 											&& $data.inputEndLine) {
-										outputBeginLine = $data.outputBeginLine;
-										outputBeginColumn = $data.outputBeginColumn;
-										convertInputIntoRequest($data);
-										$scope.closeThisDialog();
-										switch ($scope.calculateName) {
-										case 'Column\'s Total':
-											callCalculateRowColumnTotal();
-											break;
-										case 'Row\'s Total':
-											callCalculateRowColumnTotal();
-											break;
-										case 'Median':
-											callCalculateMedian();
-											break;
-										case 'Mode':
-											callCalculateMode();
-											break;
-										case 'Midrange':
-											callCalculateMidrange();
-											break;
-										case 'Variance':
-											callCalculateVariance();
-											break;
-										case 'Standard Deviation':
-											callCalculateStandardDeviation();
-											break;
-										case 'Geometric Mean':
-											callCalculateGeometricMean();
-											break;
-										default:
-											break;
+										var matchedPosition = $data.outputBeginColumn
+												.search(/[a-zA-Z]/i);
+										if (matchedPosition == -1) {
+											alert("Invalid output begin column! Must be a letter from A to Z!");
+											return false;
 										}
+										var matchedPosition = $data.inputBeginColumn
+												.search(/[a-zA-Z]/i);
+										if (matchedPosition == -1) {
+											alert("Invalid input begin column! Must be a letter from A to Z!");
+											return false;
+										}
+										var matchedPosition = $data.inputEndColumn
+												.search(/[a-zA-Z]/i);
+										if (matchedPosition == -1) {
+											alert("Invalid input end column! Must be a letter from A to Z!");
+											return false;
+										}
+										return true;
 									} else {
 										alert("Invalid input! All the fields must be fill!");
+										return false;
 									}
 								} else {
 									alert("Invalid input! All the fields must be fill!");
+									return false;
 								}
-							};
+							}
 
 							function convertInputIntoRequest($data) {
 								console.log('convertInputIntoRequest');
@@ -199,6 +227,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateStandardDeviation');
+													alert(response);
 												});
 
 							}
@@ -230,6 +259,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateVariance');
+													alert(response);
 												});
 
 							}
@@ -261,6 +291,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateMidrange');
+													alert(response);
 												});
 
 							}
@@ -292,6 +323,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateMode');
+													alert(response);
 												});
 
 							}
@@ -324,6 +356,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateGeometricMean');
+													alert(response);
 												});
 
 							}
@@ -355,6 +388,7 @@ angular
 												function(response) {
 													console
 															.log('Error to call calculateMedian');
+													alert(response);
 												});
 
 							}
