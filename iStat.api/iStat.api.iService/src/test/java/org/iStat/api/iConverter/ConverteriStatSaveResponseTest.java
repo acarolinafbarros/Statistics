@@ -18,7 +18,7 @@ public class ConverteriStatSaveResponseTest {
         ResponseiStatSave response = converter.convert(true);
 
         assertNotNull(response);
-        assertEquals(true, response.getName());
+        assertEquals(true, response.isSuccess());
 
     }
 

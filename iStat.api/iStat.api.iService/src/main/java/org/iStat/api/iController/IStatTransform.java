@@ -50,7 +50,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformTranspose", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformTranspose(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformTranspose(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
         ResponseiStatTransform response = new ResponseiStatTransform();
 
         if (Objects.nonNull(request)) {
@@ -59,12 +59,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
-
+                LOGGER.info("'operation=transformTranspose', 'documentiStat={}'", documentiStat);
+                
                 DocumentiStat result = transformService
-                    .transformTranspose(documentiStat);
+                    .transformTranspose(documentiStat, finalColumn, finalLine);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformTranspose', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -73,9 +73,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformTranspose:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -87,7 +84,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformTranspose', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -106,7 +103,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformScale", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformScale(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformScale(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Float scale, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -116,13 +113,15 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformScale', 'documentiStat={}'", documentiStat);
 
+                Objects.requireNonNull(scale, "scale must be not null!");
+                
                 DocumentiStat result = transformService
                     .transformScale(documentiStat,
-                            request.getScalar());
+                            scale);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformScale', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -131,8 +130,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at transformScale:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -144,7 +141,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformScale', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -163,7 +160,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformAddScalar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformAddScalar(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformAddScalar(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Float scale, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -173,13 +170,15 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformAddScalar', 'documentiStat={}'", documentiStat);
 
+                Objects.requireNonNull(scale, "scale must be not null!");
+                
                 DocumentiStat result = transformService
                     .transformAddScalar(documentiStat,
-                            request.getScalar());
+                            scale);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformAddScalar', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -188,8 +187,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error("Unexpected error at transformScale:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -201,7 +198,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformAddScalar', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -220,7 +217,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformAddTwoDatasets", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformAddTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformAddTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -230,12 +227,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformAddTwoDatasets', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
-                    .transformAddTwoDatasets(documentiStat);
+                    .transformAddTwoDatasets(documentiStat, finalColumn, finalLine);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformAddTwoDatasets', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -244,9 +241,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformAddTwoDatasets:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -258,7 +252,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformAddTwoDatasets', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -277,7 +271,7 @@ public class IStatTransform {
      */
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/transformMultiplyTwoDatasets", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformMultiplyTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformMultiplyTwoDatasets(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -287,12 +281,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformMultiplyTwoDatasets', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
-                    .transformMultiplyTwoDatasets(documentiStat);
+                    .transformMultiplyTwoDatasets(documentiStat, finalColumn, finalLine);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformMultiplyTwoDatasets', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -301,9 +295,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformMultiplyTwoDatasets:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -315,7 +306,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformMultiplyTwoDatasets', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -333,7 +324,7 @@ public class IStatTransform {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/transformInterpolationLine", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformInterpolationLine(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformInterpolationLine(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -343,12 +334,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformInterpolationLine', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
-                    .transformInterpolationLine(documentiStat);
+                    .transformInterpolationLine(documentiStat, finalColumn, finalLine);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformInterpolationLine', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -357,9 +348,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformInterpolationLine:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -371,7 +359,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformInterpolationLine', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -389,7 +377,7 @@ public class IStatTransform {
      * @return JSON of status and result
      */
     @RequestMapping(value = "/transformInterpolationColumn", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseiStatTransform> transformInterpolationColumn(@RequestBody RequestiStatTransform request, @RequestParam(required = false) Integer finalLine, @RequestParam(required = false) String finalColumn) {
+    public ResponseEntity<ResponseiStatTransform> transformInterpolationColumn(@RequestBody RequestiStatTransform request, @RequestParam(required = true) Integer finalLine, @RequestParam(required = true) String finalColumn) {
 
         ResponseiStatTransform response = new ResponseiStatTransform();
 
@@ -399,12 +387,12 @@ public class IStatTransform {
                 DocumentiStat documentiStat = converterRequestiStatTransform
                     .convert(request);
 
-                LOGGER.info("DocumentiStat: {}", documentiStat);
+                LOGGER.info("'operation=transformInterpolationColumn', 'documentiStat={}'", documentiStat);
 
                 DocumentiStat result = transformService
-                    .transformInterpolationColumn(documentiStat);
+                    .transformInterpolationColumn(documentiStat, finalColumn, finalLine);
 
-                LOGGER.info("Final result: {}", result);
+                LOGGER.info("'operation=transformInterpolationColumn', 'result={}'", result);
 
                 response = converterResponseiStatTransform
                     .convert(result);
@@ -413,9 +401,6 @@ public class IStatTransform {
 
                 return ResponseEntity.ok(response);
             } catch (Exception ex) {
-                LOGGER.error(
-                        "Unexpected error at transformInterpolationLine:",
-                        ex);
                 response.setStatus(ResponseUtils.buildResponseStatus(
                         StatusEnum.UNEXPECTED, "Error message: %s",
                         ex));
@@ -427,7 +412,7 @@ public class IStatTransform {
             response.setStatus(ResponseUtils.buildResponseStatus(
                     StatusEnum.UNSUCCESS, "Request object: %s",
                     request));
-            LOGGER.info("Response {}", response);
+            LOGGER.info("'operation=transformInterpolationColumn', 'response={}'", response);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST).body(response);
         }

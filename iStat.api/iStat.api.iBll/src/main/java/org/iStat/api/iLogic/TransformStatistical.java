@@ -1,168 +1,53 @@
 package org.iStat.api.iLogic;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.iStat.api.iCommon.utils.MatrixUtils;
 import org.iStat.api.iDomain.Cell;
 import org.iStat.api.iDomain.Cell.CellBuilder;
 import org.iStat.api.iDomain.Dataset;
 import org.iStat.api.iDomain.Dataset.DatasetBuilder;
 import org.iStat.api.iDomain.DocumentiStat;
 import org.iStat.api.iDomain.DocumentiStat.DocumentiStatBuilder;
+import org.iStat.api.iExceptions.DomainException;
 import org.iStat.api.iExceptions.TransformException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TransformStatistical {
 
-    private final Logger LOGGER = LoggerFactory
-        .getLogger(TransformStatistical.class);
-
-    /**
-     * Method to fill the null values of matrix with the value given on the
-     * input.
-     * 
-     * @param valueToFill
-     * @param matrixToChange
-     * @return Float[][]
-     */
-    public Float[][] fillMatrixEmptyValues(Integer valueToFill, Float[][] matrixToChange) {
-        for (int i = 0; i < matrixToChange.length; i++) {
-            for (int j = 1; j < matrixToChange[i].length; j++) {
-                if (matrixToChange[i][j] == null) {
-                    matrixToChange[i][j] = new Float(valueToFill);
-                }
-            }
-        }
-
-        return matrixToChange;
+    public enum TransformType {
+        LINE, COLUMN;
     }
 
-    /**
-     * Method to convert the list of cells from a dataset to a matrix.
-     * 
-     * @param dataset
-     * @return Float[][]
-     */
-    public Float[][] convertListToMatrix(Dataset dataset) {
-        List<String> orderedColumns = new ArrayList<>(
-                dataset.getAllColumnsOfCells());
-        List<Integer> orderedLines = new ArrayList<>(
-                dataset.getAllLinesOfCells());
-
-        Float[][] matrix = new Float[orderedLines
-            .size()][orderedColumns.size()];
-
-        for (int row = 0; row < orderedLines.size(); row++) {
-            for (int column = 0; column < orderedColumns
-                .size(); column++) {
-                matrix[row][column] = dataset
-                    .getValueOfColumnLine(column, row);
-            }
-        }
-
-        return fillMatrixEmptyValues(0, matrix);
-
-    }
-
-    /**
-     * Method to convert a matrix into a list of cells.
-     * 
-     * @param input
-     * @param startColumn
-     * @param startLine
-     * @return List<Cell<Integer,String>>
-     */
-    public List<Cell<Integer, String>> convertMatrixtToList(Float[][] input, String startColumn, Integer startLine) {
-        List<Cell<Integer, String>> output = new ArrayList<>();
-
-        // A - Z columns
-        char[] columnArray = IntStream
-            .rangeClosed('A', 'Z').mapToObj(c -> "" + (char) c)
-            .collect(Collectors.joining()).toCharArray();
-        List<String> columns = new ArrayList<>();
-        for (int i = 0; i < columnArray.length; i++) {
-            columns.add(columnArray[i] + "");
-        }
-
-        // 1 - 200 lines
-        List<Integer> lines = new ArrayList<>();
-        for (int i = 1; i < 200; i++) {
-            lines.add(i);
-        }
-
-        Integer columnPosition = null;
-        for (int i = 0; i < columns.size(); i++) {
-            if (columns.get(i).equals(startColumn)) {
-                columnPosition = i;
-                break;
-            }
-        }
-
-        Integer linePosition = null;
-        for (int i = 0; i < lines.size(); i++) {
-            if (lines.get(i).equals(startLine)) {
-                linePosition = i;
-                break;
-            }
-        }
-
-        CellBuilder<Integer, String> builder = new CellBuilder<>();
-        Integer columnPositionIterate = null;
-        for (int row = 0; row < input.length; row++) {
-            columnPositionIterate = columnPosition;
-            for (int column = 0; column < input[row].length; column++) {
-                builder
-                    .withColumn(columns.get(columnPositionIterate));
-                builder.withLine(lines.get(linePosition));
-                builder.withValue(input[row][column]);
-                Cell<Integer, String> cell = builder.build();
-                output.add(cell);
-
-                columnPositionIterate++;
-            }
-            linePosition++;
-        }
-        return output;
-    }
-
-    public DocumentiStat transformTranspose(DocumentiStat documentiStat) {
+    public DocumentiStat transformTranspose(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                Dataset input = documentiStat.getDatasets().get(0);
-                Float[][] matrix = convertListToMatrix(input);
+                Dataset dataset = documentiStat.getDatasets().get(0);
+                Float[][] matrix = dataset.convertToMatrix();
 
-                int line_size = matrix.length;
-                int column_size = matrix[0].length;
-                Float[][] matrix_final = new Float[column_size][line_size];
+                int lineSize = matrix.length;
+                int columnSize = matrix[0].length;
+                Float[][] matrixFinal = new Float[columnSize][lineSize];
 
-                for (int line = 0; line < line_size; ++line) {
-                    for (int column = 0; column < column_size; ++column) {
-                        matrix_final[column][line] = input
-                            .getValueOfColumnLine(column, line);
+                for (int line = 0; line < lineSize; ++line) {
+                    for (int column = 0; column < columnSize; ++column) {
+                        matrixFinal[column][line] = matrix[line][column];
                     }
                 }
 
-                List<Cell<Integer, String>> output = convertMatrixtToList(
-                        matrix_final, "A", 1);
+                List<Cell<Integer, String>> output = dataset.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
 
-                DatasetBuilder builderDataset = new DatasetBuilder();
-                builderDataset.withCells(output);
-                Dataset dataset = builderDataset.build();
-                List<Dataset> datasets = new ArrayList<Dataset>();
-                datasets.add(dataset);
-                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
-                builderDocument.withDatasets(datasets);
+                result = new DocumentiStatBuilder()
+                    .withId("document")
+                    .withDatasets(newArrayList(new DatasetBuilder().withCells(output).withName("dataset").build())).build();
 
-                result = builderDocument.build();
             }
         }
 
@@ -175,11 +60,9 @@ public class TransformStatistical {
         Float sum = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                List<Cell<Integer, String>> input = documentiStat
-                    .getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
                 List<Cell<Integer, String>> dataset_final = new ArrayList<>();
 
                 if (!CollectionUtils.isEmpty(input)) {
@@ -190,13 +73,10 @@ public class TransformStatistical {
                             sum = input.get(i).getValue() * scalar;
 
                             CellBuilder<Integer, String> builderCell = new CellBuilder<Integer, String>();
-                            builderCell
-                                .withLine(input.get(i).getLine());
-                            builderCell
-                                .withColumn(input.get(i).getColumn());
+                            builderCell.withLine(input.get(i).getLine());
+                            builderCell.withColumn(input.get(i).getColumn());
                             builderCell.withValue(sum);
-                            Cell<Integer, String> cell = builderCell
-                                .build();
+                            Cell<Integer, String> cell = builderCell.build();
                             dataset_final.add(cell);
                         }
                     }
@@ -220,11 +100,9 @@ public class TransformStatistical {
         Float sum = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                List<Cell<Integer, String>> input = documentiStat
-                    .getDatasets().get(0).getCells();
+                List<Cell<Integer, String>> input = documentiStat.getDatasets().get(0).getCells();
                 List<Cell<Integer, String>> dataset_final = new ArrayList<>();
 
                 if (!CollectionUtils.isEmpty(input)) {
@@ -235,13 +113,10 @@ public class TransformStatistical {
                             sum = input.get(i).getValue() + scalar;
 
                             CellBuilder<Integer, String> builderCell = new CellBuilder<Integer, String>();
-                            builderCell
-                                .withLine(input.get(i).getLine());
-                            builderCell
-                                .withColumn(input.get(i).getColumn());
+                            builderCell.withLine(input.get(i).getLine());
+                            builderCell.withColumn(input.get(i).getColumn());
                             builderCell.withValue(sum);
-                            Cell<Integer, String> cell = builderCell
-                                .build();
+                            Cell<Integer, String> cell = builderCell.build();
                             dataset_final.add(cell);
                         }
                     }
@@ -260,119 +135,97 @@ public class TransformStatistical {
         return result;
     }
 
-    public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat) throws TransformException {
+    public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException, TransformException {
+
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                Dataset input1 = documentiStat.getDatasets().get(0);
-                Float[][] matrix1 = convertListToMatrix(input1);
+                Dataset dataset1 = documentiStat.getDatasets().get(0);
+                Float[][] matrixDataset1 = dataset1.convertToMatrix();
 
-                Dataset input2 = documentiStat.getDatasets().get(1);
-                Float[][] matrix2 = convertListToMatrix(input2);
+                Dataset dataset2 = documentiStat.getDatasets().get(1);
+                Float[][] matrixDataset2 = dataset2.convertToMatrix();
 
-                int line_size = matrix1.length;
-                LOGGER.info("----- LINHA == {}", line_size);
+                int matrixDataset1SizeLine = matrixDataset1.length;
+                int matrixDataset1SizeColumn = matrixDataset1[0].length;
 
-                int column_size = matrix1[0].length;
-                LOGGER.info("----- COLUNA == {}", column_size);
+                int matrixDataset2SizeLine = matrixDataset2.length;
+                int matrixDataset2SizeColumn = matrixDataset2[0].length;
 
-                if(line_size != matrix2.length || column_size != matrix2[0].length){
-                    throw new TransformException();
-                }
-                
-                Float[][] matrix_final = new Float[line_size][column_size];
-
-                for (int line = 0; line < line_size; ++line) {
-                    for (int column = 0; column < column_size; ++column) {
-                        matrix_final[line][column] = input1
-                            .getValueOfColumnLine(column, line)
-                                + input2.getValueOfColumnLine(column,
-                                        line);
-
-                        LOGGER.info(
-                                "----- MATRIX == {} || 1 - {} || 2 - ",
-                                matrix_final[line][column],
-                                input1.getValueOfColumnLine(column,
-                                        line),
-                                input2.getValueOfColumnLine(column,
-                                        line));
-                    }
-                }
-
-                List<Cell<Integer, String>> output = convertMatrixtToList(
-                        matrix_final, "A", 1);
-
-                DatasetBuilder builderDataset = new DatasetBuilder();
-                builderDataset.withCells(output);
-                Dataset dataset = builderDataset.build();
-                List<Dataset> datasets = new ArrayList<Dataset>();
-                datasets.add(dataset);
-                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
-                builderDocument.withDatasets(datasets);
-
-                result = builderDocument.build();
-            }
-        }
-
-        return result;
-    }
-
-    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat documentiStat) throws TransformException {
-        DocumentiStat result = null;
-
-        if (ObjectUtils.allNotNull(documentiStat)) {
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
-
-                Dataset input1 = documentiStat.getDatasets().get(0);
-                Float[][] matrix1 = convertListToMatrix(input1);
-                int line_size1 = matrix1.length;
-                int column_size1 = matrix1[0].length;
-
-                Dataset input2 = documentiStat.getDatasets().get(1);
-                Float[][] matrix2 = convertListToMatrix(input2);
-                int line_size2 = matrix2.length;
-                int column_size2 = matrix2[0].length;
-
-                if (column_size1 != line_size2) {
-                    LOGGER.info(
-                            "The number of columns in 1 does not equal the number of rows in 2!");
-                    throw new TransformException();
+                if (matrixDataset1SizeLine != matrixDataset2SizeLine || matrixDataset1SizeColumn != matrixDataset2SizeColumn) {
+                    throw new TransformException("The size of input datasets must be the same!");
                 } else {
 
-                    Float[][] matrix_final = new Float[line_size1][column_size2];
-                    float sum = 0;
+                    Float[][] matrixFinal = new Float[matrixDataset1SizeLine][matrixDataset1SizeColumn];
 
-                    for (int i = 0; i < line_size1; ++i) {
-                        for (int j = 0; j < column_size2; ++j) {
-                            for (int k = 0; k < line_size2; ++k) {
-                                sum += input1.getValueOfColumnLine(k,
-                                        j)
-                                        * input2.getValueOfColumnLine(
-                                                i, k);
+                    for (int line = 0; line < matrixDataset1SizeLine; ++line) {
+                        for (int column = 0; column < matrixDataset1SizeColumn; ++column) {
+
+                            Float valueDataset1 = matrixDataset1[line][column];
+                            Float valueDataset2 = matrixDataset2[line][column];
+
+                            matrixFinal[line][column] = valueDataset1 + valueDataset2;
+
+                        }
+                    }
+
+                    List<Cell<Integer, String>> output = dataset1.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
+
+                    result = new DocumentiStatBuilder()
+                        .withId("document")
+                        .withDatasets(newArrayList(new DatasetBuilder().withCells(output).withName("dataset").build())).build();
+
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException, TransformException {
+        DocumentiStat result = null;
+
+        if (ObjectUtils.allNotNull(documentiStat)) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
+
+                Dataset dataset1 = documentiStat.getDatasets().get(0);
+                Float[][] matrixDataset1 = dataset1.convertToMatrix();
+                int matrixDataset1LineSize = matrixDataset1.length;
+                int matrixDataset1ColumnSize = matrixDataset1[0].length;
+
+                Dataset dataset2 = documentiStat.getDatasets().get(1);
+                Float[][] matrixDataset2 = dataset2.convertToMatrix();
+                int matrixDataset2LineSize = matrixDataset2.length;
+                int matrixDataset2ColumnSize = matrixDataset2[0].length;
+
+                if (matrixDataset1ColumnSize != matrixDataset2LineSize) {
+                    throw new TransformException("The number of columns in 1 does not equal the number of rows in 2!");
+                } else {
+
+                    Float[][] matrixFinal = new Float[matrixDataset1LineSize][matrixDataset2ColumnSize];
+
+                    for (int lineDataset1 = 0; lineDataset1 < matrixDataset1LineSize; ++lineDataset1) {
+                        for (int columnDataset2 = 0; columnDataset2 < matrixDataset2ColumnSize; ++columnDataset2) {
+                            float sum = 0;
+                            for (int columnDataset1 = 0; columnDataset1 < matrixDataset1ColumnSize; ++columnDataset1) {
+
+                                Float value1 = matrixDataset1[lineDataset1][columnDataset1];
+                                Float value2 = matrixDataset2[columnDataset1][columnDataset2];
+
+                                sum += value1 * value2;
                             }
-                            matrix_final[i][j] = sum;
-                            sum = 0;
-                            LOGGER.info("---- MATRIX == {}",
-                                    matrix_final[i][j]);
+                            matrixFinal[lineDataset1][columnDataset2] = sum;
                         }
                     }
 
-                    List<Cell<Integer, String>> output = convertMatrixtToList(
-                            matrix_final, "A", 1);
+                    List<Cell<Integer, String>> output = dataset1.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
 
-                    DatasetBuilder builderDataset = new DatasetBuilder();
-                    builderDataset.withCells(output);
-                    Dataset dataset = builderDataset.build();
-                    List<Dataset> datasets = new ArrayList<Dataset>();
-                    datasets.add(dataset);
-                    DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
-                    builderDocument.withDatasets(datasets);
+                    result = new DocumentiStatBuilder()
+                        .withId("document")
+                        .withDatasets(newArrayList(new DatasetBuilder().withCells(output).withName("dataset").build())).build();
 
-                    result = builderDocument.build();
                 }
             }
         }
@@ -380,142 +233,113 @@ public class TransformStatistical {
         return result;
     }
 
-    public DocumentiStat transformInterpolationColumn(DocumentiStat documentiStat) {
+    public DocumentiStat transformInterpolation(DocumentiStat documentiStat, TransformType type, int finalLine, String finalColumn) throws Exception {
+        switch (type) {
+            case LINE:
+                return transformInterpolationLine(documentiStat, finalLine, finalColumn);
+            case COLUMN:
+                return transformInterpolationColumn(documentiStat, finalLine, finalColumn);
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    private DocumentiStat transformInterpolationLine(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
                 Dataset input = documentiStat.getDatasets().get(0);
-                Float[][] matrix = convertListToMatrix(input);
-                int line_size = matrix.length;
-                int column_size = matrix[0].length;
+                Float[][] matrix = input.convertToMatrix();
+                int matrixLineSize = matrix.length;
+                int matrixColumnSize = matrix[0].length;
 
-                Float[][] matrix_final = new Float[(line_size * 2)
-                        - 1][column_size];
-                float sum = 0;
+                Float[][] matrixFinal = new Float[(matrixLineSize * 2) - 1][matrixColumnSize];
 
-                // PT : Preencher matrix final com linhas de intervalo com zeros
-                int linhasT = (line_size * 2) - 1;
-                int colT = column_size;
-                float value = 0;
+                int linhasT = (matrixLineSize * 2) - 1;
+                int colT = matrixColumnSize;
 
-                for (int i = 0; i < line_size; i++) {
-                    int aux = i * 2;
-                    for (int j = 0; j < colT; ++j) {
-                        if (i == 0) {
-                            matrix_final[i][j] = input
-                                .getValueOfColumnLine(j, i);
-                            matrix_final[i + 1][j] = value;
-                        } else if (i == (line_size - 1)) {
-                            matrix_final[aux][j] = input
-                                .getValueOfColumnLine(j, i);
+                for (int line = 0; line < matrixLineSize; line++) {
+                    int aux = line * 2;
+                    for (int column = 0; column < colT; ++column) {
+                        if (line == 0) {
+                            matrixFinal[line][column] = matrix[line][column];
                         } else {
-                            matrix_final[aux][j] = input
-                                .getValueOfColumnLine(j, i);
-                            matrix_final[aux + 1][j] = value;
+                            matrixFinal[aux][column] = matrix[line][column];
                         }
                     }
                 }
 
-                // PT : Interpolação linear nas linhas
-                float result_interpol = 0;
+                matrixFinal = MatrixUtils.fillMatrixEmptyValues(0, matrixFinal);
 
-                for (int i = 0; i < linhasT; i++) {
-                    for (int j = 0; j < colT; ++j) {
-                        if (i % 2 == 0 && i != linhasT - 1) {
-                            sum = matrix_final[i][j]
-                                    + matrix_final[i + 2][j];
-                            result_interpol = sum / 2;
-                            matrix_final[i + 1][j] = result_interpol;
-                            result_interpol = 0;
-                            sum = 0;
+                for (int line = 0; line < linhasT; line++) {
+                    for (int column = 0; column < colT; ++column) {
+                        if (line % 2 == 0 && line != linhasT - 1) {
+                            float sum = matrixFinal[line][column] + matrixFinal[line + 2][column];
+                            float total = sum / 2;
+                            matrixFinal[line + 1][column] = total;
                         }
                     }
                 }
 
-                List<Cell<Integer, String>> output = convertMatrixtToList(
-                        matrix_final, "A", 1);
-                DatasetBuilder builderDataset = new DatasetBuilder();
-                builderDataset.withCells(output);
-                Dataset dataset = builderDataset.build();
-                List<Dataset> datasets = new ArrayList<Dataset>();
-                datasets.add(dataset);
-                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
-                builderDocument.withDatasets(datasets);
-                result = builderDocument.build();
+                List<Cell<Integer, String>> output = input.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
+
+                result = new DocumentiStatBuilder()
+                    .withId("document")
+                    .withDatasets(newArrayList(new DatasetBuilder().withCells(output).withName("dataset").build())).build();
+
             }
         }
         return result;
     }
 
-    public DocumentiStat transformInterpolationLine(DocumentiStat documentiStat) {
+    private DocumentiStat transformInterpolationColumn(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
 
         if (ObjectUtils.allNotNull(documentiStat)) {
-            if (CollectionUtils
-                .isNotEmpty(documentiStat.getDatasets())) {
+            if (CollectionUtils.isNotEmpty(documentiStat.getDatasets())) {
 
-                Dataset input = documentiStat.getDatasets().get(0);
-                Float[][] matrix = convertListToMatrix(input);
-                int line_size = matrix.length;
-                int column_size = matrix[0].length;
+                Dataset dataset1 = documentiStat.getDatasets().get(0);
+                Float[][] matrixDataset1 = dataset1.convertToMatrix();
 
-                Float[][] matrix_final = new Float[line_size][(column_size
-                        * 2) - 1];
-                float sum = 0;
+                int matrixDataset1LineSize = matrixDataset1.length;
+                int matrixDataset1ColumnSize = matrixDataset1[0].length;
 
-                // PT : Preencher matrix final com colunas de intervalo com
-                // zeros
-                int linhasT = line_size;
-                int colT = (column_size * 2) - 1;
-                float value = 0;
+                Float[][] matrixFinal = new Float[matrixDataset1LineSize][(matrixDataset1ColumnSize * 2) - 1];
 
-                for (int j = 0; j < column_size; j++) {
-                    int aux = j * 2;
-                    for (int i = 0; i < linhasT; ++i) {
-                        if (j == 0) {
-                            matrix_final[i][j] = input
-                                .getValueOfColumnLine(j, i);
-                            matrix_final[i][j + 1] = value;
-                        } else if (j == (column_size - 1)) {
-                            matrix_final[i][aux] = input
-                                .getValueOfColumnLine(j, i);
+                int linhas = matrixDataset1LineSize;
+                int columns = (matrixDataset1ColumnSize * 2) - 1;
+
+                for (int column = 0; column < matrixDataset1ColumnSize; column++) {
+                    int aux = column * 2;
+                    for (int line = 0; line < linhas; ++line) {
+                        if (column == 0) {
+                            matrixFinal[line][column] = matrixDataset1[line][column];
                         } else {
-                            matrix_final[i][aux] = input
-                                .getValueOfColumnLine(j, i);
-                            matrix_final[i][aux + 1] = value;
+                            matrixFinal[line][aux] = matrixDataset1[line][column];
                         }
                     }
                 }
 
-                // PT : Interpolação linear nas colunas
-                float result_interpol = 0;
+                matrixFinal = MatrixUtils.fillMatrixEmptyValues(0, matrixFinal);
 
-                for (int j = 0; j < colT; j++) {
-                    for (int i = 0; i < linhasT; ++i) {
-                        if (j % 2 == 0 && j != colT - 1) {
-                            sum = matrix_final[i][j]
-                                    + matrix_final[i][j + 2];
-                            result_interpol = sum / 2;
-                            matrix_final[i][j + 1] = result_interpol;
-                            result_interpol = 0;
-                            sum = 0;
+                for (int column = 0; column < columns; column++) {
+                    for (int line = 0; line < linhas; ++line) {
+                        if (column % 2 == 0 && column != columns - 1) {
+                            float sum = matrixFinal[line][column] + matrixFinal[line][column + 2];
+                            float total = sum / 2;
+                            matrixFinal[line][column + 1] = total;
                         }
                     }
                 }
 
-                List<Cell<Integer, String>> output = convertMatrixtToList(
-                        matrix_final, "A", 1);
-                DatasetBuilder builderDataset = new DatasetBuilder();
-                builderDataset.withCells(output);
-                Dataset dataset = builderDataset.build();
-                List<Dataset> datasets = new ArrayList<Dataset>();
-                datasets.add(dataset);
-                DocumentiStatBuilder builderDocument = new DocumentiStatBuilder();
-                builderDocument.withDatasets(datasets);
-                result = builderDocument.build();
+                List<Cell<Integer, String>> output = dataset1.convertMatrixtToList(matrixFinal, finalColumn, finalLine);
+
+                result = new DocumentiStatBuilder()
+                    .withId("document")
+                    .withDatasets(newArrayList(new DatasetBuilder().withCells(output).withName("dataset").build())).build();
+
             }
         }
         return result;

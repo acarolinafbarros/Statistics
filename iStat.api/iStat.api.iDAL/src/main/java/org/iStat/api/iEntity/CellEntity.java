@@ -1,65 +1,67 @@
 package org.iStat.api.iEntity;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class CellEntity {
 
-    private String parentDatasetName;
-    
-    @Id
-    private String cellId;
+	private String parentDatasetName;
 
-    private Integer line;
+	@Id
+	private String cellId;
 
-    private String column;
+	private Integer line;
 
-    private Float value;
+	private String column;
 
-    public CellEntity(String parentDatasetName, Integer line, String column, Float value) {
-        super();
-        this.cellId = line.toString()+column;
-        this.parentDatasetName = parentDatasetName;
-        this.line = line;
-        this.column = column;
-        this.value = value;
-    }
+	private Float value;
 
-    public String getParentDatasetName() {
-        return parentDatasetName;
-    }
+	public CellEntity(String parentDatasetName, Integer line, String column, Float value) {
+		super();
+		this.cellId = line.toString() + column;
+		this.parentDatasetName = parentDatasetName;
+		this.line = line;
+		this.column = column;
+		this.value = value;
+	}
 
-    public void setParentDatasetName(String parentDatasetName) {
-        this.parentDatasetName = parentDatasetName;
-    }
+	public String getParentDatasetName() {
+		return parentDatasetName;
+	}
 
-    public Integer getLine() {
-        return line;
-    }
+	public void setParentDatasetName(String parentDatasetName) {
+		this.parentDatasetName = parentDatasetName;
+	}
 
-    public void setLine(Integer line) {
-        this.line = line;
-    }
+	public Integer getLine() {
+		return line;
+	}
 
-    public String getColumn() {
-        return column;
-    }
+	public void setLine(Integer line) {
+		this.line = line;
+	}
 
-    public void setColumn(String column) {
-        this.column = column;
-    }
+	public String getColumn() {
+		return column;
+	}
 
-    public Float getValue() {
-        return value;
-    }
+	public void setColumn(String column) {
+		this.column = column;
+	}
 
-    public void setValue(Float value) {
-        this.value = value;
-    }
+	public Float getValue() {
+		return value;
+	}
 
-    @Override
-    public String toString() {
-        return "CellModel [parentDatasetName=" + parentDatasetName + ", line=" + line + ", column=" + column + ", value=" + value + "]";
-    }
+	public void setValue(Float value) {
+		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this).append("parentDatasetName", parentDatasetName).append("cellId", cellId)
+				.append("line", line).append("column", column).append("value", value).build();
+	}
 }

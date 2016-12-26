@@ -1,0 +1,35 @@
+<div ng-controller="iIOController">
+	<div class="modal-header">
+		<h3 class="modal-title">{{ioName}}</h3>
+	</div>
+
+	<div class="form modal-body">
+		<form class="form">
+			<div class="modal-body">
+				<div class="row">
+					<label for="singleSelect"> File Type: </label><br> <select
+						class="form-control" name="singleSelect" ng-model="data.fileType">
+						<option value="xml">XML</option>
+						<option value="csv">CSV</option>
+						<option value="JSON">JSON</option>
+					</select><br>
+				</div>
+				<div class="row" ng-if="ioName == 'Import Dataset'">
+					<label for="singleSelect"> File: </label><br> 
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="ngdialog-buttons">
+						<button type="button"
+							class="ngdialog-button ngdialog-button-secondary"
+							ng-click="closeThisDialog()">Cancel</button>
+						<button type="button"
+							class="ngdialog-button ngdialog-button-primary"
+							ng-click=confirm(data,ioName)>{{ioName}}</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

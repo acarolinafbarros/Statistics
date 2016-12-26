@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ResponseiStatSave extends ResponseiStat {
 
-    @JsonProperty(value = "success")
+    @JsonProperty(value = "success", required=false)
     private Boolean success;
 
     public ResponseiStatSave() {}
@@ -16,7 +16,7 @@ public class ResponseiStatSave extends ResponseiStat {
         this.success = success;
     }
 
-    public Boolean getName() {
+    public Boolean isSuccess() {
         return success;
     }
 

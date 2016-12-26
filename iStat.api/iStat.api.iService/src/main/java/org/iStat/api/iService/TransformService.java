@@ -1,51 +1,47 @@
 package org.iStat.api.iService;
 
 import org.iStat.api.iDomain.DocumentiStat;
+import org.iStat.api.iExceptions.DomainException;
 import org.iStat.api.iExceptions.TransformException;
-import org.iStat.api.iLogic.CalcStatistical;
 import org.iStat.api.iLogic.TransformStatistical;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.iStat.api.iLogic.TransformStatistical.TransformType;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TransformService {
 
-	private final Logger LOG = LoggerFactory.getLogger(TransformService.class);
-	
-	 public DocumentiStat transformTranspose(DocumentiStat input) {
-        TransformStatistical transformStatistical = new TransformStatistical();
-        return transformStatistical.transformTranspose(input);
-	 }
-		 	
-	 public DocumentiStat transformScale(DocumentiStat input, Float scalar) {
-        TransformStatistical transformStatistical = new TransformStatistical();
-        return transformStatistical.transformScale(input,scalar);
-	 }
-	 
-	 public DocumentiStat transformAddScalar(DocumentiStat input, Float scalar) {
-        TransformStatistical transformStatistical = new TransformStatistical();
-        return transformStatistical.transformAddScalar(input,scalar);
-	 }
-	 
-	 public DocumentiStat transformAddTwoDatasets(DocumentiStat input) throws TransformException {
-        TransformStatistical transformStatistical = new TransformStatistical();
-        return transformStatistical.transformAddTwoDatasets(input);
-	 }
-	 
-	 public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat input) throws TransformException {
-        TransformStatistical transformStatistical = new TransformStatistical();
-        return transformStatistical.transformMultiplyTwoDatasets(input);
-	 }
-	 
-	 public DocumentiStat transformInterpolationLine(DocumentiStat input) {
-	        TransformStatistical transformStatistical = new TransformStatistical();
-	        return transformStatistical.transformInterpolationLine(input);
-		 }
-	 
-	 public DocumentiStat transformInterpolationColumn(DocumentiStat input) {
-	        TransformStatistical transformStatistical = new TransformStatistical();
-	        return transformStatistical.transformInterpolationColumn(input);
-		 }
-  
+    private TransformStatistical transformStatistical;
+
+    public TransformService() {
+        transformStatistical = new TransformStatistical();
+    }
+
+    public DocumentiStat transformTranspose(DocumentiStat input, String finalColumn, int finalLine) throws DomainException {
+        return transformStatistical.transformTranspose(input, finalLine, finalColumn);
+    }
+
+    public DocumentiStat transformScale(DocumentiStat input, Float scalar) {
+        return transformStatistical.transformScale(input, scalar);
+    }
+
+    public DocumentiStat transformAddScalar(DocumentiStat input, Float scalar) {
+        return transformStatistical.transformAddScalar(input, scalar);
+    }
+
+    public DocumentiStat transformAddTwoDatasets(DocumentiStat input, String finalColumn, int finalLine) throws TransformException, DomainException {
+        return transformStatistical.transformAddTwoDatasets(input, finalLine, finalColumn);
+    }
+
+    public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat input, String finalColumn, int finalLine) throws TransformException, DomainException {
+        return transformStatistical.transformMultiplyTwoDatasets(input, finalLine, finalColumn);
+    }
+
+    public DocumentiStat transformInterpolationLine(DocumentiStat input, String finalColumn, int finalLine) throws Exception {
+        return transformStatistical.transformInterpolation(input, TransformType.LINE, finalLine, finalColumn);
+    }
+
+    public DocumentiStat transformInterpolationColumn(DocumentiStat input, String finalColumn, int finalLine) throws Exception {
+        return transformStatistical.transformInterpolation(input, TransformType.COLUMN, finalLine, finalColumn);
+    }
+
 }

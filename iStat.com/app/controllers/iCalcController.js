@@ -1,172 +1,351 @@
 'use strict';
 
-angular.module('iStatControllers').controller('iCalcController',
-    ['$scope', '$http', 'iCalcService',
+angular
+		.module('iStatControllers')
+		.controller(
+				'iCalcController',
+				[
+						'$scope',
+						'$http',
+						'iCalcService',
+						'ngDialog',
+						'DocumentiStat',
 
-        function($scope, $http, iCalcService) {
+						function($scope, $http, iCalcService, ngDialog,
+								DocumentiStat) {
 
-            $scope.request = '';
+							$scope.request = '';
+							var outputBeginLine = '';
+							var outputBeginColumn = '';
 
-            $scope.data = "{    \"datasets\": [        {            \"name\": \"dataset_1\",            \"cells\": [                {                    \"line\": \"1\",                    \"column\": \"A\",                    \"value\": 100                },                {                    \"line\": \"2\",                    \"column\": \"A\",                    \"value\": 200                }            ]        },        {            \"name\": \"dataset_2\",            \"cells\": [                {                    \"line\": \"1\",                    \"column\": \"A\",                    \"value\": 100                },                {                    \"line\": \"2\",                    \"column\": \"A\",                    \"value\": 200                }            ]        }    ]}";
+							// $scope.data = "{ \"datasets\": [ { \"name\":
+							// \"dataset_1\", \"cells\": [ { \"line\": \"1\",
+							// \"column\": \"A\", \"value\": 100 }, { \"line\":
+							// \"2\", \"column\": \"A\", \"value\": 200 } ] }, {
+							// \"name\": \"dataset_2\", \"cells\": [ { \"line\":
+							// \"1\", \"column\": \"A\", \"value\": 100 }, {
+							// \"line\": \"2\", \"column\": \"A\", \"value\":
+							// 200 } ] } ]}";
 
-            $scope.response = new Object();
+							$scope.response = new Object();
 
-            $scope.calculateRowColumnTotal = function($data) {
+							$scope.clickToOpen = function($name) {
 
-				console.log("--> Called calculateRowColumnTotal!");
-                console.log($data);
-                $scope.data = $data;
-                callCalculateRowTotal();
-            }
+								var newScope = $scope;
+								newScope.calculateName = $name;
+								ngDialog.open({
+									template : 'popUps/popUpCalculate.html',
+									className : 'ngdialog-theme-default',
+									scope : newScope
+								});
+							};
 
-            $scope.calculateStandardDeviation = function($data) {
+							$scope.confirm = function($data) {
+								outputBeginLine = $data.outputBeginLine;
+								outputBeginColumn = $data.outputBeginColumn;
+								convertInputIntoRequest($data);
+								$scope.closeThisDialog();
+								switch ($scope.calculateName) {
+								case 'Column\'s total':
+									callCalculateRowTotal();
+									break;
+								case 'Row\'s Total':
+									callCalculateRowTotal();
+									break;
+								case 'Median':
+									callCalculateMedian();
+									break;
+								case 'Mode':
+									callCalculateMode();
+									break;
+								case 'Midrange':
+									callCalculateMidrange();
+									break;
+								case 'Variance':
+									callCalculateVariance();
+									break;
+								case 'Standard Deviation':
+									callCalculateStandardDeviation();
+									break;
+								case 'Geometric Mean':
+									callCalculateGeometricMean();
+									break;
+								default:
+									break;
+								}
+							};
 
-				console.log("--> Called calculateStandardDeviation!");
-                var promise = iCalcService.execute($scope.data, 'calculateStandardDeviation');
+							function convertInputIntoRequest($data) {
+								console.log('convertInputIntoRequest');
+								var columnIndexInputBegin = getColFromName($data.inputBeginColumn);
+								var lineIndexInputBegin = getLineFromName($data.inputBeginLine);
+								var columnIndexInputEnd = getColFromName($data.inputEndColumn);
+								var lineIndexInputEnd = getLineFromName($data.inputEndLine);
+								var datasetCells = getValuesDataset(
+										columnIndexInputBegin,
+										lineIndexInputBegin,
+										columnIndexInputEnd, lineIndexInputEnd);
+								console.log(datasetCells);
+								$scope.data = datasetCells;
+							}
 
-                promise.then(function(response) {
+							function getValuesDataset(columnIndexInputBegin,
+									lineIndexInputBegin, columnIndexInputEnd,
+									lineIndexInputEnd) {
+								var dataset = DocumentiStat.createNew();
 
-                    if (response.data != null) {
+								for (var line = lineIndexInputBegin; line <= lineIndexInputEnd; line++) {
+									for (var column = columnIndexInputBegin; column <= columnIndexInputEnd; column++) {
+										dataset.addCell('dataset_100', hot
+												.getRowHeader(line), hot
+												.getColHeader(column), hot
+												.getDataAtCell(line, column));
+									}
+								}
+								return dataset;
+							}
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							function getColFromName(name) {
+								var n_cols = hot.countCols();
+								console.log(n_cols);
+								var i = 1;
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+								for (i = 0; i <= n_cols; i++) {
+									if (name.toLowerCase() == hot.getColHeader(
+											i).toLowerCase()) {
+										return i;
+									}
+								}
+								return -1; // return -1 if nothing can be found
+							}
 
-                    }
-                }, function(response) {
-                    console.log('Error to call calculateStandardDeviation');
-                });
+							function getLineFromName(name) {
+								var n_rows = hot.countRows();
+								console.log(n_rows);
+								var i = 1;
+								name = name.toString();
+								for (i = 0; i <= n_rows; i++) {
+									if (name.toLowerCase() == hot.getRowHeader(
+											i).toString().toLowerCase()) {
+										return i;
+									}
+								}
+								return -1; // return -1 if nothing can be found
+							}
 
-            }
+							// Internal function
+							function callCalculateRowTotal() {
+								console
+										.log("--> Called calculateRowColumnTotal!");
+								console.log($scope.data);
+								var promise = iCalcService.execute($scope.data,
+										'calculateRowColumnTotal');
 
-            $scope.calculateVariance = function($data) {
+								promise
+										.then(
+												function(response) {
 
-				console.log("--> Called calculateVariance!");
-                var promise = iCalcService.execute($scope.data, 'calculateVariance');
+													if (response.data != null) {
 
-                promise.then(function(response) {
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                    if (response.data != null) {
+														hot
+																.setDataAtCell(
+																		outputBeginLine,
+																		outputBeginColumn,
+																		$scope.response.value);
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateRowColumnTotal');
+													console.log(response);
+													alert(response);
+												});
+							}
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+							function callCalculateStandardDeviation() {
 
-                    }
-                }, function(response) {
-                    console.log('Error to call calculateVariance');
-                });
+								console
+										.log("--> Called calculateStandardDeviation!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateStandardDeviation');
 
-            }
+								promise
+										.then(
+												function(response) {
 
-            $scope.calculateMidrange = function($data) {
+													if (response.data != null) {
 
-				console.log("--> Called calculateMidrange!");
-                var promise = iCalcService.execute($scope.data, 'calculateMidrange');
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                promise.then(function(response) {
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
 
-                    if (response.data != null) {
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateStandardDeviation');
+												});
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							}
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+							function callCalculateVariance() {
 
-                    }
-                }, function(response) {
-                    console.log('Error to call calculateMidrange');
-                });
+								console.log("--> Called calculateVariance!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateVariance');
 
-            }
+								promise
+										.then(
+												function(response) {
 
-            $scope.calculateMode = function($data) {
+													if (response.data != null) {
 
-				console.log("--> Called calculateMode!");
-                var promise = iCalcService.execute($scope.data, 'calculateMode');
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                promise.then(function(response) {
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
 
-                    if (response.data != null) {
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateVariance');
+												});
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							}
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+							function callCalculateMidrange() {
 
-                    }
-                }, function(response) {
-                    console.log('Error to call calculateMode');
-                });
+								console.log("--> Called calculateMidrange!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateMidrange');
 
-            }
+								promise
+										.then(
+												function(response) {
 
-            $scope.calculateGeometricMean = function($data) {
+													if (response.data != null) {
 
-				console.log("--> Called calculateGeometricMean!");
-                var promise = iCalcService.execute($scope.data, 'calculateGeometricMean');
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                promise.then(function(response) {
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
 
-                    if (response.data != null) {
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateMidrange');
+												});
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							}
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+							function callCalculateMode() {
 
-                    }
-                }, function(response) {
-                    console.log('Error to call calculateGeometricMean');
-                });
+								console.log("--> Called calculateMode!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateMode');
 
-            }
+								promise.then(function(response) {
 
-            $scope.calculateMedian = function($data) {
+									if (response.data != null) {
 
-				console.log("--> Called calculateMedian!");
-                var promise = iCalcService.execute($scope.data, 'calculateMedian');
+										$scope.response = response.data;
+										console.log($scope.response);
 
-                promise.then(function(response) {
+										hot.setDataAtCell(1, 1,
+												$scope.response.value);
 
-                    if (response.data != null) {
+									}
+								}, function(response) {
+									console.log('Error to call calculateMode');
+								});
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							}
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+							function callCalculateGeometricMean() {
 
-                    }
-                }, function(response) {
-                    console.log('Error to call calculateMedian');
-                });
+								console
+										.log("--> Called calculateGeometricMean!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateGeometricMean');
 
-            }
+								promise
+										.then(
+												function(response) {
 
-			/****************************
-			 * 		INTERNAL METHOD		*
-			 ****************************/
+													if (response.data != null) {
 
-            function callCalculateRowTotal() {
+														$scope.response = response.data;
+														console
+																.log($scope.response);
 
-                var promise = iCalcService.execute($scope.data, 'calculateRowColumnTotal');
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
 
-                promise.then(function(response) {
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateGeometricMean');
+												});
 
-                    if (response.data != null) {
+							}
 
-                        $scope.response = response.data;
-                        console.log($scope.response);
+							function callCalculateMedian() {
 
-                        hot.setDataAtCell(1, 1, $scope.response.value);
+								console.log("--> Called calculateMedian!");
+								var promise = iCalcService.execute($scope.data,
+										'calculateMedian');
 
-                    }
-                }, function(response) {
-                    console.log('Error to call callCalculateRowTotal');
-                });
-            }
-        }
+								promise
+										.then(
+												function(response) {
 
-    ]);
+													if (response.data != null) {
+
+														$scope.response = response.data;
+														console
+																.log($scope.response);
+
+														hot
+																.setDataAtCell(
+																		1,
+																		1,
+																		$scope.response.value);
+
+													}
+												},
+												function(response) {
+													console
+															.log('Error to call calculateMedian');
+												});
+
+							}
+						}
+
+				]);

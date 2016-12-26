@@ -2,8 +2,11 @@ package org.iStat.api.iResponse;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(value = Include.NON_NULL)
 public class ResponseiStat {
 
     @JsonProperty(value = "status")
