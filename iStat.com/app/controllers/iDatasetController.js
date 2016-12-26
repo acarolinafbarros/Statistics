@@ -21,7 +21,7 @@ angular
 							$scope.clickToOpen = function($name) {
 
 								var newScope = $scope;
-								newScope.name = $name;
+								newScope.dtName = $name;
 								ngDialog.open({
 									template : 'popUps/popUpDataset.html',
 									className : 'ngdialog-theme-default',
@@ -30,20 +30,37 @@ angular
 							};
 
 							$scope.confirm = function($data) {
-								convertInputIntoRequest($data);
-								$scope.closeThisDialog();
-								console.log($scope.name);
-								switch ($scope.name) {
-								case 'Open Dataset':
-									callOpenDataset();
-									break;
-								case 'Save Dataset':
-									callSaveDataset();
-									break;
-								default:
-									break;
+								var validInput = validateInput($data);
+								if (validInput) {
+									convertInputIntoRequest($data);
+									$scope.closeThisDialog();
+									console.log($scope.dtName);
+									switch ($scope.dtName) {
+									case 'Open Dataset':
+										callOpenDataset();
+										break;
+									case 'Save Dataset':
+										callSaveDataset();
+										break;
+									default:
+										break;
+									}
 								}
 							};
+
+							function validateInput($data) {
+								if ($data) {
+									if ($data.datasetName) {
+										return true;
+									} else {
+										alert("Invalid input! All the fields must be fill!");
+										return false;
+									}
+								} else {
+									alert("Invalid input! All the fields must be fill!");
+									return false;
+								}
+							}
 
 							function convertInputIntoRequest($data) {
 								console.log('convertInputIntoRequest');
