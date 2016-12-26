@@ -27,7 +27,13 @@ public class CalcStatistical {
             return cell.getValue() == null ? 0.0f : cell.getValue();
         }
     };
-
+    
+    /**
+     * Method responsible for calculate the median from list of datasets (documentiStat).
+     * 
+     * @param   documentiStat   List of datasets		
+     * @return  result          Median of documentiStat       
+     */
     public Float calculateMedian(DocumentiStat documentiStat) {
         Float result = null;
 
@@ -52,7 +58,13 @@ public class CalcStatistical {
 
         return roundResult(result);
     }
-
+    
+    /**
+     * Method responsible for calculate the geometric median from list of datasets (documentiStat).
+     * 
+     * @param   documentiStat   List of datasets		
+     * @return  result          Geometric mean of documentiStat       
+     */
     public Float calculateGeometricMean(DocumentiStat documentiStat)
             throws CalcException {
         Float result = null;
@@ -85,6 +97,12 @@ public class CalcStatistical {
         return roundResult(result);
     }
 
+    /**
+     * Method responsible for calculate the mode from list of datasets (documentiStat).
+     * 
+     * @param   documentiStat   List of datasets		
+     * @return  result          Mode of documentiStat       
+     */
     public Float calculateMode(DocumentiStat documentiStat) {
 
         Float result = null;
@@ -132,6 +150,12 @@ public class CalcStatistical {
         return result;
     }
 
+    /**
+     * Method responsible for calculate the midrange from list of datasets (documentiStat).
+     * 
+     * @param   documentiStat   List of datasets		
+     * @return  result          Midrange of documentiStat       
+     */
     public Float calculateMidrange(DocumentiStat documentiStat) {
         Float result = null;
         if (ObjectUtils.allNotNull(documentiStat)) {
@@ -164,7 +188,13 @@ public class CalcStatistical {
 
         return roundResult(result);
     }
-
+    
+    /**
+     * Method responsible for calculate the variance from list of datasets (documentiStat).
+     * 
+     * @param   documentiStat   List of datasets		
+     * @return  result          Variance of documentiStat       
+     */
     public Float calculateVariance(DocumentiStat documentiStat) {
         Float result = null;
 
@@ -191,6 +221,12 @@ public class CalcStatistical {
         return roundResult(result);
     }
 
+    /**
+     * Method responsible for calculate the standardDeviation from list of datasets (documentiStat).
+     * 
+     * @param   documentiStat   List of datasets		
+     * @return  result          StandardDeviation of documentiStat       
+     */
     public Float calculateStandardDeviation(DocumentiStat documentiStat) {
         Float result = null;
         if (ObjectUtils.allNotNull(documentiStat)) {
@@ -213,7 +249,13 @@ public class CalcStatistical {
         }
         return roundResult(result);
     }
-
+    
+    /**
+     * Method responsible for calculate row's or column's total from list of datasets (documentiStat).
+     * 
+     * @param   documentiStat   List of datasets		
+     * @return  result          Row's/Column's total      
+     */
     public Float calculateRowColumnTotal(DocumentiStat documentiStat) {
         Float result = null;
         if (ObjectUtils.allNotNull(documentiStat)) {

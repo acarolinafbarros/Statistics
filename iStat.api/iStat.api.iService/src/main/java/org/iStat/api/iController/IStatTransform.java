@@ -42,7 +42,7 @@ public class IStatTransform {
      * WebService responsible for transpose the dataset.
      * 
      * URL example:
-     * http://localhost:8080/iStatTransform/transformScale
+     * http://localhost:8080/iStatTransform/transformTranpose
      * 
      * @param valuesToCalc
      *            - List of floats separated with ;

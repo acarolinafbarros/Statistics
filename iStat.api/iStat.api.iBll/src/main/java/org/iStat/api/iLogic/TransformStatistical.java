@@ -22,7 +22,15 @@ public class TransformStatistical {
     public enum TransformType {
         LINE, COLUMN;
     }
-
+    
+    /**
+     * Method responsible for transpose the documentiStat.
+     * 
+     * @param   documentiStat   List of datasets
+     * @param 	finalLine		Cell of final line
+     * @param 	finalColumn		Cell of final column
+     * @return  result          DocumentiStat with tranpose tranformation       
+     */
     public DocumentiStat transformTranspose(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
 
@@ -54,6 +62,14 @@ public class TransformStatistical {
         return result;
     }
 
+    /**
+     * Method responsible for scale the documentiStat
+     * (multiply all elements by a scalar – matrix algebra).
+     * 
+     * @param   documentiStat   List of datasets
+     * @param 	scalar			Numeric value
+     * @return  result          DocumentiStat with scale tranformation       
+     */
     public DocumentiStat transformScale(DocumentiStat documentiStat, Float scalar) {
 
         DocumentiStat result = null;
@@ -94,7 +110,14 @@ public class TransformStatistical {
         }
         return result;
     }
-
+    
+    /**
+     * Method responsible for add a scalar to every element from documentiStat.
+     *
+     * @param   documentiStat   List of datasets
+     * @param 	scalar			Numeric value
+     * @return  result          DocumentiStat with scalar tranformation       
+     */
     public DocumentiStat transformAddScalar(DocumentiStat documentiStat, Float scalar) {
         DocumentiStat result = null;
         Float sum = null;
@@ -134,7 +157,15 @@ public class TransformStatistical {
         }
         return result;
     }
-
+    
+    /**
+     * Method responsible for add two datasets from documentiStat (matrix algebra).
+     *
+     * @param   documentiStat   List of datasets
+     * @param 	finalLine		Cell of final line
+     * @param 	finalColumn		Cell of final column
+     * @return  result          DocumentiStat with sum transformation     
+     */
     public DocumentiStat transformAddTwoDatasets(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException, TransformException {
 
         DocumentiStat result = null;
@@ -184,6 +215,14 @@ public class TransformStatistical {
         return result;
     }
 
+    /**
+     * Method responsible for multiply two datasets from documentiStat (matrix algebra).
+     *
+     * @param   documentiStat   List of datasets
+     * @param 	finalLine		Cell of final line
+     * @param 	finalColumn		Cell of final column
+     * @return  result          DocumentiStat with multiply transformation     
+     */
     public DocumentiStat transformMultiplyTwoDatasets(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException, TransformException {
         DocumentiStat result = null;
 
@@ -233,6 +272,16 @@ public class TransformStatistical {
         return result;
     }
 
+    /**
+     * Help method to linear interpolation
+     *
+     * @param   documentiStat   List of datasets
+     * @param	type			Transform type: line/columns
+     * @param 	finalLine		Cell of final line
+     * @param 	finalColumn		Cell of final column
+     * @return  transformationInterpolationLine
+     * @return  transformationInterpolationColumn
+     */
     public DocumentiStat transformInterpolation(DocumentiStat documentiStat, TransformType type, int finalLine, String finalColumn) throws Exception {
         switch (type) {
             case LINE:
@@ -244,6 +293,14 @@ public class TransformStatistical {
         }
     }
 
+    /**
+     * Method responsible for augment the documentiStat using linear interpolation on rows
+     *
+     * @param   documentiStat   List of datasets
+     * @param 	finalLine		Cell of final line
+     * @param 	finalColumn		Cell of final column
+     * @return  result          DocumentiStat with linear interpolation on rows     
+     */
     private DocumentiStat transformInterpolationLine(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
 
@@ -294,6 +351,14 @@ public class TransformStatistical {
         return result;
     }
 
+    /**
+     * Method responsible for augment the documentiStat using linear interpolation on columns
+     *
+     * @param   documentiStat   List of datasets
+     * @param 	finalLine		Cell of final line
+     * @param 	finalColumn		Cell of final column
+     * @return  result          DocumentiStat with linear interpolation on columns     
+     */
     private DocumentiStat transformInterpolationColumn(DocumentiStat documentiStat, int finalLine, String finalColumn) throws DomainException {
         DocumentiStat result = null;
 
