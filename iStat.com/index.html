@@ -79,20 +79,20 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li class="dropdown"><a
-							href="#" class="dropdown-toggle" data-toggle="dropdown"
-							role="button" aria-haspopup="true" aria-expanded="false">File
-								<span class="caret"></span>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">File <span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu">
-								<li ng-controller="iDatasetController"><a href="#" ng-click="clickToOpen('Open Dataset')">Open
-										Dataset</a></li>
-								<li ng-controller="iDatasetController"><a href="#" ng-click="clickToOpen('Save Dataset')">Save
-										Dataset</a></li>
+								<li ng-controller="iDatasetController"><a href="#"
+									ng-click="clickToOpen('Open Dataset')">Open Dataset</a></li>
+								<li ng-controller="iDatasetController"><a href="#"
+									ng-click="clickToOpen('Save Dataset')">Save Dataset</a></li>
 								<li role="separator" class="divider"></li>
-								<li ng-controller="iIOController"><a href="#" ng-click="clickToExport('Export Dataset')">Export
-										Dataset</a></li>
-								<li ng-controller="iIOController"><a href="#" ngf-select="clickToImport($file, $invalidFiles)">Import
+								<li ng-controller="iIOController"><a href="#"
+									ng-click="clickToExport('Export Dataset')">Export Dataset</a></li>
+								<li ng-controller="iIOController"><a href="#"
+									ngf-select="clickToImport($file, $invalidFiles)">Import
 										Dataset</a></li>
 							</ul></li>
 						<li class="dropdown" ng-controller="iCalcController"><a
@@ -160,11 +160,14 @@
 		</nav>
 	</div>
 	<div id="hot"></div>
+	<div class="panel panel-default">
+		<div class="panel-footer">
+			Number of elements:<span id="resultElements">0</span>
+		</div>
+	</div>
+
 
 	<script>
-		$(window).resize(function() {
-			location.reload();
-		});
 		$('.dropdown-toggle').dropdown();
 		var dataObject = [ {
 			A : ''
@@ -339,7 +342,7 @@
 			stretchH : 'all',
 			width : $(document).width(),
 			autoWrapRow : true,
-			height : $(document).height(),
+			height : $(document).height() - 140,
 			maxRows : 200,
 			rowHeaders : true,
 			colHeaders : [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -355,7 +358,56 @@
 			manualColumnResize : true,
 			manualRowMove : true,
 			manualColumnMove : true,
-			contextMenu : true
+			contextMenu : true,
+			beforeKeyDown : function(e) {
+				var result = 0;
+				// BACKSPACE or DELETE
+				if (e.keyCode === 8 || e.keyCode === 46 || e.keyCode === 13
+						|| e.keyCode === 40 || e.keyCode === 38
+						|| e.keyCode === 37 || e.keyCode === 39) {
+					for (var row = 0; row <= hot.countRows(); row++) {
+						for (var column = 0; column <= hot.countCols(); column++) {
+							var value = hot.getDataAtCell(row, column);
+							if (value != null && value != '') {
+								result++;
+							}
+						}
+					}
+					$('#resultElements').text(result);
+				}
+			},
+			afterSelection : function(r, c, r2, c2) {
+				var result = 0;
+				if (c == c2 && r != r2) {
+					for (var row = 0; row <= hot.countRows(); row++) {
+						var value = hot.getDataAtCell(row, c);
+						if (value != null && value != '') {
+							result++;
+						}
+
+					}
+					$('#resultElements').text(result);
+
+				} else if (r == r2 && c != c2) {
+					for (var column = 0; column <= hot.countCols(); column++) {
+						var value = hot.getDataAtCell(r, column);
+						if (value != null && value != '') {
+							result++;
+						}
+					}
+					$('#resultElements').text(result);
+				} else {
+					for (var row = 0; row <= hot.countRows(); row++) {
+						for (var column = 0; column <= hot.countCols(); column++) {
+							var value = hot.getDataAtCell(row, column);
+							if (value != null && value != '') {
+								result++;
+							}
+						}
+					}
+					$('#resultElements').text(result);
+				}
+			}
 		};
 		var hot = new Handsontable(hotElement, hotSettings);
 	</script>
