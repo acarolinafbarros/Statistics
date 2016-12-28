@@ -21,25 +21,25 @@
 		- Diagrama de classes Backend           (Atualizado)
 
 	4.3	Use Case 3: Save dataset
-		- Diagrama de sequência Cliente-Backend (Não atualizado)
-		- Diagrama de sequência Cliente         (Não atualizado)
+		- Diagrama de sequência Cliente-Backend (Atualizado)
+		- Diagrama de sequência Cliente         (Atualizado)
 		- Diagrama de sequência Backend         (Atualizado)
-		- Diagrama de classes Cliente           (Não atualizado)
+		- Diagrama de classes Cliente           (Atualizado)
 		- Diagrama de classes Backend           (Atualizado)
 
 	4.4	Use Case 4: Export data
-		- Diagrama de sequência Cliente-Backend (Não atualizado)
-		- Diagrama de sequência Cliente         (Não atualizado)
-		- Diagrama de sequência Backend         (Não atualizado)
-		- Diagrama de classes Cliente           (Não atualizado)
-		- Diagrama de classes Backend           (Não atualizado)
+		- Diagrama de sequência Cliente-Backend (Atualizado)
+		- Diagrama de sequência Cliente         (Atualizado)
+		- Diagrama de sequência Backend         (Atualizado)
+		- Diagrama de classes Cliente           (Atualizado)
+		- Diagrama de classes Backend           (Atualizado)
 
 	4.4	Use Case 5: Import data
-		- Diagrama de sequência Cliente-Backend (Não atualizado)
-		- Diagrama de sequência Cliente         (Não atualizado)
-		- Diagrama de sequência Backend         (Não atualizado)
-		- Diagrama de classes Cliente           (Não atualizado)
-		- Diagrama de classes Backend           (Não atualizado)
+		- Diagrama de sequência Cliente-Backend (Atualizado)
+		- Diagrama de sequência Cliente         (Atualizado)
+		- Diagrama de sequência Backend         (Atualizado)
+		- Diagrama de classes Cliente           (Atualizado)
+		- Diagrama de classes Backend           (Atualizado)
 
 
 -- Autor : Carolina Barros --
@@ -173,7 +173,7 @@
 4 - No context diagram, as bibliotecas não se representam (FEITO)
 5 - É preciso definir API porque é diferente a das bibliotecas e a do backend (FEITO)
 6 - No deployment falta identificar se a nossa API não vai correr num Tomcat ou assim (FEITO)
-7 - O layer diagram tem de ser mais detalhado porque ele quer ver o que contém cada componente (METADE FEITO)
+7 - O layer diagram tem de ser mais detalhado porque ele quer ver o que contém cada componente (FEITO)
 8 - No Calculate, temos de explicar melhor a parte da chamada do método que depois recebe um json e a cell (FEITO)
-9 - Temos de explicar porque estamos a fazer um export para o server (Em falta)
+9 - Temos de explicar porque estamos a fazer um export para o server (FEITO)
 
